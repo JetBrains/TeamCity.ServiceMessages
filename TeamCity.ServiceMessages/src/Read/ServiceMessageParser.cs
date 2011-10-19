@@ -51,13 +51,23 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
           while ((symbol = reader.Read()) >= 0)
           {
             var ch = (char) symbol;
-            if (ch == '\'') break;
-            buffer.Append(ch);
+            if (ch == '|')
+            {
+              buffer.Append(ch);
+              symbol = reader.Read();
+              if (symbol < 0) yield break;
+              buffer.Append((char)symbol);
+            }
+            else
+            {
+              if (ch == '\'') break;
+              buffer.Append(ch);
+            }
           }
 
           while ((symbol = reader.Read()) >= 0 && char.IsWhiteSpace((char) symbol)) ;
           if (symbol == ']')
-            yield return new ServiceMessage(messageName.ToString(), buffer.ToString());
+            yield return new ServiceMessage(messageName.ToString(), ServiceMessageReplacements.Decode(buffer.ToString()));
         } else
         {
           var paramz = new Dictionary<string, string>();
@@ -68,10 +78,11 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
             name.Append((char)symbol);
             while ((symbol = reader.Read()) >= 0 && symbol != '=')
               name.Append((char) symbol);
-
+            
+            if (symbol < 0) yield break;
+            while ((symbol = reader.Read()) >= 0 && char.IsWhiteSpace((char)symbol)) ;
             if (symbol < 0) yield break;
 
-            symbol = reader.Read();
             if (symbol != '\'')
               break;
             
@@ -79,15 +90,28 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
             while ((symbol = reader.Read()) >= 0)
             {
               var ch = (char) symbol;
-              if (ch == '\'') break;
-              buffer.Append(ch);
+              if (ch == '|')
+              {
+                buffer.Append(ch);
+                symbol = reader.Read();
+                if (symbol < 0) yield break;
+                buffer.Append((char)symbol);
+              }
+              else
+              {
+                if (ch == '\'') break;
+                buffer.Append(ch);
+              }
             }
 
-            paramz[name.ToString().Trim()] = buffer.ToString();
+            paramz[name.ToString().Trim()] = ServiceMessageReplacements.Decode(buffer.ToString());
 
             while ((symbol = reader.Read()) >= 0 && char.IsWhiteSpace((char)symbol)) ;
             if (symbol == ']')
+            {
               yield return new ServiceMessage(messageName.ToString(), null, paramz);
+              break;
+            }
 
             if (symbol < 0) yield break;
           }
