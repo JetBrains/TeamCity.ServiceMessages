@@ -24,11 +24,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
 {
   public class ServiceMessageFormatter
   {
-    private const string SERVICE_MESSAGE_HEADER = "##teamcity[";
-
     public static bool ContainsServiceMessage(string text)
     {
-      return text.Contains(SERVICE_MESSAGE_HEADER);
+      return text.Contains(ServiceMessageConstants.SERVICE_MESSAGE_OPEN);
     }
 
     /// <summary>
@@ -64,7 +62,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
       if (Escape(messageName) != messageName)
         throw new ArgumentException("The message name contains illegal characters.", "messageName");
 
-      return string.Format("{2}{0} '{1}']", messageName, Escape(singleValue), SERVICE_MESSAGE_HEADER);
+      return string.Format("{2}{0} '{1}'{3}", messageName, Escape(singleValue), ServiceMessageConstants.SERVICE_MESSAGE_OPEN, ServiceMessageConstants.SERVICE_MESSAGE_CLOSE);
     }
 
     /// <summary>
@@ -117,7 +115,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         throw new ArgumentException("Message name contains illegal characters", "messageName");
 
       var sb = new StringBuilder();
-      sb.Append(SERVICE_MESSAGE_HEADER);
+      sb.Append(ServiceMessageConstants.SERVICE_MESSAGE_OPEN);
       sb.Append(messageName);
 
       foreach (ServiceMessageProperty property in properties)
@@ -127,7 +125,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
 
         sb.AppendFormat(" {0}='{1}'", property.Key, Escape(property.Value));
       }
-      sb.Append(']');
+      sb.Append(ServiceMessageConstants.SERVICE_MESSAGE_CLOSE);
 
       return sb.ToString();
     }
