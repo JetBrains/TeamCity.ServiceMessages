@@ -34,7 +34,6 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <summary>
     /// Performs TeamCity-format escaping of a string.
     /// </summary>
-    /// <returns></returns>
     private static string Escape([NotNull] string value)
     {
       return value
@@ -49,6 +48,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         ;     
     }
 
+    /// <summary>
+    /// Serializes single value service message
+    /// </summary>
+    /// <param name="messageName">message name</param>
+    /// <param name="singleValue">value</param>
+    /// <returns>service message string</returns>
     public static string FormatMessage([NotNull] string messageName, [NotNull] string singleValue)
     {
       if (string.IsNullOrEmpty(messageName))
@@ -62,6 +67,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
       return string.Format("{2}{0} '{1}']", messageName, Escape(singleValue), SERVICE_MESSAGE_HEADER);
     }
 
+    /// <summary>
+    /// Serializes single value service message
+    /// </summary>
+    /// <param name="messageName">message name</param>
+    /// <param name="anonymousProperties">anonymous object containing all service message parameters</param>
+    /// <returns>service message string</returns>
     public static string FormatMessage([NotNull] string messageName, [NotNull] object anonymousProperties)
     {
       if (string.IsNullOrEmpty(messageName))
@@ -75,11 +86,23 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         properties.Select(x => new ServiceMessageProperty(x.Name, x.GetValue(anonymousProperties, null).ToString())));
     }
 
+    /// <summary>
+    /// Serializes single value service message
+    /// </summary>
+    /// <param name="messageName">message name</param>
+    /// <param name="properties">params array of service message properties</param>
+    /// <returns>service message string</returns>
     public static string FormatMessage([NotNull] string messageName, [NotNull] params ServiceMessageProperty[] properties)
     {
       return FormatMessage(messageName, properties.ToList());
     }
 
+    /// <summary>
+    /// Serializes single value service message
+    /// </summary>
+    /// <param name="messageName">message name</param>
+    /// <param name="properties">params of service message properties</param>
+    /// <returns>service message string</returns>
     public static string FormatMessage([NotNull] string messageName, [NotNull] IEnumerable<ServiceMessageProperty> properties)
     {
       if (string.IsNullOrEmpty(messageName))
@@ -101,6 +124,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
       {
         if (Escape(property.Key) != property.Key)
           throw new InvalidOperationException(string.Format("The property name “{0}” contains illegal characters.", property.Key));
+
         sb.AppendFormat(" {0}='{1}'", property.Key, Escape(property.Value));
       }
       sb.Append(']');
