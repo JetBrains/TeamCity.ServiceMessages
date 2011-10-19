@@ -9,7 +9,6 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
   [TestFixture]
   public class ServiceMessageParserTest
   {
-
     [Test]
     public void SouldParseService_simpleMessage()
     {
@@ -21,6 +20,21 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       Assert.AreEqual("name", msg.Name);
       Assert.AreEqual(0, msg.Keys.Count());
       Assert.AreEqual("a", msg.DefaultValue);
+    }
+
+    [Test]
+    public void SouldParseService_simpleMessages()
+    {
+      var sr = new StringReader("##teamcity[name 'a'] ##teamcity[name 'a'] ##teamcity[name 'a']  ##teamcity[name 'a']");
+      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      Assert.AreEqual(4, result.Length);
+
+      foreach (var msg in result)
+      {
+        Assert.AreEqual("name", msg.Name);
+        Assert.AreEqual(0, msg.Keys.Count());
+        Assert.AreEqual("a", msg.DefaultValue);
+      }
     }
 
     [Test]
@@ -36,6 +50,21 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       Assert.AreEqual("\"'\n\r\u0085\u2028\u2029|[]", msg.DefaultValue);
     }
 
+    [Test]
+    public void SouldParseService_complexMessage1()
+    {
+      var sr = new StringReader("##teamcity[name a='a']");
+      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      Assert.AreEqual(1, result.Length);
+
+      var msg = result[0];
+      Assert.AreEqual("name", msg.Name);
+      Assert.AreEqual(1, msg.Keys.Count());
+      Assert.AreEqual(new HashSet<string>{"a"}, new HashSet<string>(msg.Keys));
+      Assert.AreEqual(null, msg.DefaultValue);
+      Assert.AreEqual("a", msg["a"]);
+    }
+    
     [Test]
     public void SouldParseService_complexMessage()
     {

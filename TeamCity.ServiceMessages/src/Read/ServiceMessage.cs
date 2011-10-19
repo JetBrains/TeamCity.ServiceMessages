@@ -13,11 +13,11 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
     [CanBeNull]
     public string DefaultValue { get; private set; }
 
-    public ServiceMessage([NotNull] string name, [CanBeNull] string defaultValue, [NotNull] Dictionary<string, string> properties)
+    public ServiceMessage([NotNull] string name, [CanBeNull] string defaultValue = null, [NotNull] Dictionary<string, string> properties = null)
     {
       Name = name;
-      DefaultValue = defaultValue;
-      myProperties = properties;
+      DefaultValue = properties != null ? null : defaultValue;
+      myProperties = properties ?? new Dictionary<string, string>();
     }
 
     [CanBeNull]
