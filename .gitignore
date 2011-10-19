@@ -6,5 +6,5 @@ bin*
 *.user
 *.dotCover
 *.cache
-**/_ReSharper*
-*/packages/**/*
+_ReSharper*
+packages/**/*
