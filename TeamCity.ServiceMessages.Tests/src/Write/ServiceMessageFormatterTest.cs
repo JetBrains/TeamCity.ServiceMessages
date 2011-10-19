@@ -64,11 +64,27 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
     }
 
     [Test]
+    public void SupportArray2()
+    {
+      Assert.AreEqual(
+        "##teamcity[rulez qqq='ppp' www='xxx']",
+        ServiceMessageFormatter.FormatMessage("rulez", new ServiceMessageProperty("qqq", "ppp"), new ServiceMessageProperty("www", "xxx")));
+    }
+
+    [Test]
     public void SupportEnumerable()
     {
       Assert.AreEqual(
         "##teamcity[rulez qqq='ppp']",
         ServiceMessageFormatter.FormatMessage("rulez", new [] {new ServiceMessageProperty("qqq", "ppp")}));
+    }
+
+    [Test]
+    public void SupportEnumerable2()
+    {
+      Assert.AreEqual(
+        "##teamcity[rulez qqq='ppp' rrr='wqe']",
+        ServiceMessageFormatter.FormatMessage("rulez", new [] {new ServiceMessageProperty("qqq", "ppp"), new ServiceMessageProperty("rrr", "wqe")}));
     }
   }
 }
