@@ -45,6 +45,7 @@
     <Compile Include="src\ServiceMessageConstants.cs" />
     <Compile Include="src\Read\ServiceMessage.cs" />
     <Compile Include="src\Read\ServiceMessageParser.cs" />
+    <Compile Include="src\ServiceMessageReplacements.cs" />
     <Compile Include="src\Write\ServiceMessageFormatter.cs" />
     <Compile Include="src\Write\ServiceMessageProperty.cs" />
   </ItemGroup>

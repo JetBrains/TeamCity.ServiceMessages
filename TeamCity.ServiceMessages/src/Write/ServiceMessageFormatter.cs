@@ -22,30 +22,8 @@ using System.Linq;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write
 {
-  public class ServiceMessageFormatter
+  public static class ServiceMessageFormatter
   {
-    public static bool ContainsServiceMessage(string text)
-    {
-      return text.Contains(ServiceMessageConstants.SERVICE_MESSAGE_OPEN);
-    }
-
-    /// <summary>
-    /// Performs TeamCity-format escaping of a string.
-    /// </summary>
-    private static string Escape([NotNull] string value)
-    {
-      return value
-        .Replace("|", "||")
-        .Replace("\'", "|'")
-        .Replace("\n", "|n")
-        .Replace("\r", "|r")
-        .Replace("]", "|]")
-        .Replace("\u0085", "|x") // \u0085 (next line)	 |x
-        .Replace("\u2028", "|l") //  \u2028 (line separator)	 |l
-        .Replace("\u2029", "|p") //  \u2028 (line separator)	 |l
-        ;     
-    }
-
     /// <summary>
     /// Serializes single value service message
     /// </summary>
@@ -59,10 +37,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
       if (singleValue == null)
         throw new ArgumentNullException("singleValue");
 
-      if (Escape(messageName) != messageName)
+      if (ServiceMessageReplacements.Encode(messageName) != messageName)
         throw new ArgumentException("The message name contains illegal characters.", "messageName");
 
-      return string.Format("{2}{0} '{1}'{3}", messageName, Escape(singleValue), ServiceMessageConstants.SERVICE_MESSAGE_OPEN, ServiceMessageConstants.SERVICE_MESSAGE_CLOSE);
+      return string.Format("{2}{0} '{1}'{3}", messageName, ServiceMessageReplacements.Encode(singleValue), ServiceMessageConstants.SERVICE_MESSAGE_OPEN, ServiceMessageConstants.SERVICE_MESSAGE_CLOSE);
     }
 
     /// <summary>
@@ -108,10 +86,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
       if (properties == null)
         throw new ArgumentNullException("properties");
 
-      if (Escape(messageName) != messageName)
+      if (ServiceMessageReplacements.Encode(messageName) != messageName)
         throw new ArgumentException("The message name contains illegal characters.", "messageName");
 
-      if (Escape(messageName) != messageName)
+      if (ServiceMessageReplacements.Encode(messageName) != messageName)
         throw new ArgumentException("Message name contains illegal characters", "messageName");
 
       var sb = new StringBuilder();
@@ -120,10 +98,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
 
       foreach (ServiceMessageProperty property in properties)
       {
-        if (Escape(property.Key) != property.Key)
+        if (ServiceMessageReplacements.Encode(property.Key) != property.Key)
           throw new InvalidOperationException(string.Format("The property name “{0}” contains illegal characters.", property.Key));
 
-        sb.AppendFormat(" {0}='{1}'", property.Key, Escape(property.Value));
+        sb.AppendFormat(" {0}='{1}'", property.Key, ServiceMessageReplacements.Encode(property.Value));
       }
       sb.Append(ServiceMessageConstants.SERVICE_MESSAGE_CLOSE);
 
