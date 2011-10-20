@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Annotations.cs" />
+    <Compile Include="src\Read\IServiceMessage.cs" />
     <Compile Include="src\ServiceMessageConstants.cs" />
     <Compile Include="src\Read\ServiceMessage.cs" />
     <Compile Include="src\Read\ServiceMessageParser.cs" />

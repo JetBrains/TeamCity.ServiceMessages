@@ -1,5 +1,5 @@
-using JetBrains.Annotations;
 using System.Linq;
+using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages
 {

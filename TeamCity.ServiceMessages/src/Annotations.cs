@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace JetBrains.Annotations
+namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   /// <summary>
   /// Indicates that marked element should be localized or not.

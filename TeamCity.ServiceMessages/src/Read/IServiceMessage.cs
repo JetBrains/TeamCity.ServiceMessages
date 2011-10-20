@@ -19,30 +19,17 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Read
 {
-  public class ServiceMessage : IServiceMessage
+  public interface IServiceMessage
   {
-    private readonly Dictionary<string, string> myProperties;
+    [NotNull]
+    string Name { get; }
 
-    public string Name { get; private set; }
+    [CanBeNull]
+    string DefaultValue { get; }
 
-    public string DefaultValue { get; private set; }
+    IEnumerable<string> Keys { get; }
 
-    public ServiceMessage([NotNull] string name, [CanBeNull] string defaultValue = null, [NotNull] Dictionary<string, string> properties = null)
-    {
-      Name = name;
-      DefaultValue = properties != null ? null : defaultValue;
-      myProperties = properties ?? new Dictionary<string, string>();
-    }
-
-    public string GetValue(string key)
-    {
-      string s;
-      return myProperties.TryGetValue(key, out s) ? s : null;
-    }
-
-    public IEnumerable<string> Keys
-    {
-      get { return myProperties.Keys; }
-    }
+    [CanBeNull]
+    string GetValue([NotNull] string key);
   }
 }

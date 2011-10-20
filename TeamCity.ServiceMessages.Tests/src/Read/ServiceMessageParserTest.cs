@@ -17,7 +17,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       for (int c = char.MinValue; c < char.MaxValue; sb.Append((char)c++)) ;
       for (int c = char.MinValue; c < char.MaxValue; sb.Append((char)c++)) ;
 
-      //Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -205,8 +205,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       Assert.AreEqual(2, msg.Keys.Count());
       Assert.AreEqual(new HashSet<string>{"a", "b"}, new HashSet<string>(msg.Keys));
       Assert.AreEqual(null, msg.DefaultValue);
-      Assert.AreEqual("a", msg["a"]);
-      Assert.AreEqual("z", msg["b"]);
+      Assert.AreEqual("a", msg.GetValue("a"));
+      Assert.AreEqual("z", msg.GetValue("b"));
     }
 
     [Test]
@@ -221,7 +221,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       Assert.AreEqual(1, msg.Keys.Count());
       Assert.AreEqual(new HashSet<string>{"a"}, new HashSet<string>(msg.Keys));
       Assert.AreEqual(null, msg.DefaultValue);
-      Assert.AreEqual("a", msg["a"]);
+      Assert.AreEqual("a", msg.GetValue("a"));
     }
     
 
@@ -237,8 +237,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       Assert.AreEqual(2, msg.Keys.Count());
       Assert.AreEqual(new HashSet<string>{"a", "b"}, new HashSet<string>(msg.Keys));
       Assert.AreEqual(null, msg.DefaultValue);
-      Assert.AreEqual("a", msg["a"]);
-      Assert.AreEqual("z", msg["b"]);
+      Assert.AreEqual("a", msg.GetValue("a"));
+      Assert.AreEqual("z", msg.GetValue("b"));
     }
 
     [Test]
@@ -253,7 +253,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       Assert.AreEqual(1, msg.Keys.Count());
       Assert.AreEqual(new HashSet<string> { "a" }, new HashSet<string>(msg.Keys));
       Assert.AreEqual(null, msg.DefaultValue);
-      Assert.AreEqual("a", msg["a"]);
+      Assert.AreEqual("a", msg.GetValue("a"));
     }
 
     [Test]
@@ -269,7 +269,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
         Assert.AreEqual(1, msg.Keys.Count());
         Assert.AreEqual(new HashSet<string> { "a" }, new HashSet<string>(msg.Keys));
         Assert.AreEqual(null, msg.DefaultValue);
-        Assert.AreEqual("z", msg["a"]);  
+        Assert.AreEqual("z", msg.GetValue("a"));  
       }
     }
 
@@ -286,7 +286,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
         Assert.AreEqual(1, msg.Keys.Count());
         Assert.AreEqual(new HashSet<string> { "a" }, new HashSet<string>(msg.Keys));
         Assert.AreEqual(null, msg.DefaultValue);
-        Assert.AreEqual("z", msg["a"]);  
+        Assert.AreEqual("z", msg.GetValue("a"));  
       }
     }
 
@@ -302,7 +302,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       Assert.AreEqual(1, msg.Keys.Count());
       Assert.AreEqual(new HashSet<string> { "a" }, new HashSet<string>(msg.Keys));
       Assert.AreEqual(null, msg.DefaultValue);
-      Assert.AreEqual("z", msg["a"]);  
+      Assert.AreEqual("z", msg.GetValue("a"));  
 
       msg = result[1];
       Assert.AreEqual("zzz", msg.Name);
@@ -314,7 +314,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       Assert.AreEqual(1, msg.Keys.Count());
       Assert.AreEqual(new HashSet<string> { "a" }, new HashSet<string>(msg.Keys));
       Assert.AreEqual(null, msg.DefaultValue);
-      Assert.AreEqual("z", msg["a"]);  
+      Assert.AreEqual("z", msg.GetValue("a"));  
     }
 
     [Test]
@@ -329,8 +329,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       Assert.AreEqual(2, msg.Keys.Count());
       Assert.AreEqual(new HashSet<string>{"a", "b"}, new HashSet<string>(msg.Keys));
       Assert.AreEqual(null, msg.DefaultValue);
-      Assert.AreEqual("1\"'\n\r\u0085\u2028\u2029|[]", msg["a"]);
-      Assert.AreEqual("2\"'\n\r\u0085\u2028\u2029|[]", msg["b"]);
+      Assert.AreEqual("1\"'\n\r\u0085\u2028\u2029|[]", msg.GetValue("a"));
+      Assert.AreEqual("2\"'\n\r\u0085\u2028\u2029|[]", msg.GetValue("b"));
     }
   }
 }
