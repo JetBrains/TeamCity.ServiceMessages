@@ -33,7 +33,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
     /// <returns>enumerable of service messages</returns>
     public static IEnumerable<IServiceMessage> ParseServiceMessages([NotNull] string text)
     {
-      return ParseServiceMessages(new StreamReader(text));
+      return ParseServiceMessages(new StringReader(text));
     }
 
     /// <summary>
