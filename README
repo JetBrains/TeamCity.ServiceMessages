@@ -13,3 +13,9 @@ Most use cases are covered in tests.
 
 To create service message use: JetBrains.TeamCity.ServiceMessages.Write.ServiceMessageFormatter.FormatMessage
 To parse service messages use: JetBrains.TeamCity.ServiceMessages.Read.ServiceMessageParser.ParseServiceMessages
+
+Misc:
+=====
+
+I use TeamCity to compile and publish my package:
+http://teamcity.codebetter.com/project.html?projectId=project155&tab=projectOverview
