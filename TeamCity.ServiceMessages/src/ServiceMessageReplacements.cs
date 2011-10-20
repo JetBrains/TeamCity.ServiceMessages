@@ -3,7 +3,7 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages
 {
-  public static class ServiceMessageReplacements
+  internal static class ServiceMessageReplacements
   {
     /// <summary>
     /// Performs TeamCity-format escaping of a string.

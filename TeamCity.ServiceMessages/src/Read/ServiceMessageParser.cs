@@ -21,6 +21,9 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Read
 {
+  /// <summary>
+  /// Provides service messages parsing from stream
+  /// </summary>
   public static class ServiceMessageParser
   {
     /// <summary>

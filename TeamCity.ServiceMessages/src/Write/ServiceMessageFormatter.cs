@@ -22,6 +22,9 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write
 {
+  /// <summary>
+  /// Provides service messages serialization for most cases
+  /// </summary>
   public static class ServiceMessageFormatter
   {
     /// <summary>

@@ -14,14 +14,31 @@
  * limitations under the License.
  */
 
+using JetBrains.TeamCity.ServiceMessages.Annotations;
+
 namespace JetBrains.TeamCity.ServiceMessages.Write
 {
+  /// <summary>
+  /// Object to represent service message attributes
+  /// </summary>
   public struct ServiceMessageProperty
   {
+    /// <summary>
+    /// Key
+    /// </summary>
     public readonly string Key;
+
+    /// <summary>
+    /// Value
+    /// </summary>
     public readonly string Value;
 
-    public ServiceMessageProperty(string key, string value)
+    /// <summary>
+    /// Constructor of service message attribute
+    /// </summary>
+    /// <param name="key">service message key, must not contain escapable symbols, not null</param>
+    /// <param name="value">value, notnull</param>
+    public ServiceMessageProperty([NotNull] string key, [NotNull] string value)
     {
       Key = key;
       Value = value;

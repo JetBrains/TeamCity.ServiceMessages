@@ -19,7 +19,7 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Read
 {
-  public class ServiceMessage : IServiceMessage
+  internal class ServiceMessage : IServiceMessage
   {
     private readonly Dictionary<string, string> myProperties;
 
