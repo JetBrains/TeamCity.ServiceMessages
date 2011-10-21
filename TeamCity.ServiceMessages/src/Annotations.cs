@@ -404,7 +404,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   [AttributeUsage(AttributeTargets.Method, Inherited = true)]
   public sealed class PureAttribute : Attribute {}
 }
-namespace JetBrains.Annotations
+namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter)]
   public class PathReferenceAttribute : System.Attribute
@@ -419,12 +419,12 @@ namespace JetBrains.Annotations
     public string BasePath { get; private set; }
   }
 }
-namespace JetBrains.Annotations
+namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter)]
   public sealed class AspMvcModelTypeAttribute : System.Attribute { }
 }
-namespace JetBrains.Annotations
+namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter | System.AttributeTargets.Method)]
   public sealed class AspMvcControllerAttribute : System.Attribute
@@ -439,21 +439,21 @@ namespace JetBrains.Annotations
     }
   }
 }
-namespace JetBrains.Annotations
+namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter)]
   public sealed class AspMvcMasterAttribute : System.Attribute
   {
   }
 }
-namespace JetBrains.Annotations
+namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter | System.AttributeTargets.Method)]
   public sealed class AspMvcViewAttribute : PathReferenceAttribute
   {
   }
 }
-namespace JetBrains.Annotations
+namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter)]
   public sealed class AspMvcAreaAttribute : PathReferenceAttribute
@@ -468,7 +468,7 @@ namespace JetBrains.Annotations
     }
   }
 }
-namespace JetBrains.Annotations
+namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter | System.AttributeTargets.Method)]
   public sealed class AspMvcActionAttribute : System.Attribute
@@ -483,7 +483,7 @@ namespace JetBrains.Annotations
     }
   }
 }
-namespace JetBrains.Annotations
+namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter)]
   public sealed class AspMvcTemplateAttribute : System.Attribute
