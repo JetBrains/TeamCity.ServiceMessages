@@ -24,14 +24,14 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
   /// <summary>
   /// Provides service messages parsing from stream
   /// </summary>
-  public static class ServiceMessageParser
+  public class ServiceMessageParser : IServiceMessageParser
   {
     /// <summary>
     /// Lazy parses service messages from string
     /// </summary>
     /// <param name="text">text to parse</param>
     /// <returns>enumerable of service messages</returns>
-    public static IEnumerable<IServiceMessage> ParseServiceMessages([NotNull] string text)
+    public IEnumerable<IServiceMessage> ParseServiceMessages([NotNull] string text)
     {
       return ParseServiceMessages(new StringReader(text));
     }
@@ -41,7 +41,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
     /// </summary>
     /// <param name="reader">stream to parse. Stream will not be closed</param>
     /// <returns>Iterator of service messages</returns>
-    public static IEnumerable<IServiceMessage> ParseServiceMessages([NotNull] TextReader reader)
+    public IEnumerable<IServiceMessage> ParseServiceMessages([NotNull] TextReader reader)
     {
       while (true)
       {

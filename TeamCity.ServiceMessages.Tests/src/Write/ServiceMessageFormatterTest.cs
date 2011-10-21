@@ -27,7 +27,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
     {
       Assert.AreEqual(
         "##teamcity[rulez Version='ver' Vika='678' Int='42']",
-        ServiceMessageFormatter.FormatMessage("rulez", new
+        new ServiceMessageFormatter().FormatMessage("rulez", new
                                                          {
                                                            Version = "ver",
                                                            Vika = "678",
@@ -40,7 +40,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
     {
       Assert.AreEqual(
         "##teamcity[rulez Attribute='\" |' |n |r |x |l |p || [ |]']",
-        ServiceMessageFormatter.FormatMessage("rulez", new
+        new ServiceMessageFormatter().FormatMessage("rulez", new
                                                          {
                                                            Attribute = "\" ' \n \r \u0085 \u2028 \u2029 | [ ]",
                                                          }));
@@ -52,7 +52,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
     {
       Assert.AreEqual(
         "##teamcity[rulez 'qqq']",
-        ServiceMessageFormatter.FormatMessage("rulez", "qqq"));
+        new ServiceMessageFormatter().FormatMessage("rulez", "qqq"));
     }
 
     [Test]
@@ -60,7 +60,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
     {
       Assert.AreEqual(
         "##teamcity[rulez qqq='ppp']",
-        ServiceMessageFormatter.FormatMessage("rulez", new ServiceMessageProperty("qqq", "ppp")));
+        new ServiceMessageFormatter().FormatMessage("rulez", new ServiceMessageProperty("qqq", "ppp")));
     }
 
     [Test]
@@ -68,7 +68,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
     {
       Assert.AreEqual(
         "##teamcity[rulez qqq='ppp' www='xxx']",
-        ServiceMessageFormatter.FormatMessage("rulez", new ServiceMessageProperty("qqq", "ppp"), new ServiceMessageProperty("www", "xxx")));
+        new ServiceMessageFormatter().FormatMessage("rulez", new ServiceMessageProperty("qqq", "ppp"), new ServiceMessageProperty("www", "xxx")));
     }
 
     [Test]
@@ -76,7 +76,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
     {
       Assert.AreEqual(
         "##teamcity[rulez qqq='ppp']",
-        ServiceMessageFormatter.FormatMessage("rulez", new [] {new ServiceMessageProperty("qqq", "ppp")}));
+        new ServiceMessageFormatter().FormatMessage("rulez", new[] { new ServiceMessageProperty("qqq", "ppp") }));
     }
 
     [Test]
@@ -84,7 +84,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
     {
       Assert.AreEqual(
         "##teamcity[rulez qqq='ppp' rrr='wqe']",
-        ServiceMessageFormatter.FormatMessage("rulez", new [] {new ServiceMessageProperty("qqq", "ppp"), new ServiceMessageProperty("rrr", "wqe")}));
+        new ServiceMessageFormatter().FormatMessage("rulez", new[] { new ServiceMessageProperty("qqq", "ppp"), new ServiceMessageProperty("rrr", "wqe") }));
     }
   }
 }

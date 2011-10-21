@@ -25,7 +25,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
   /// <summary>
   /// Provides service messages serialization for most cases
   /// </summary>
-  public static class ServiceMessageFormatter
+  public class ServiceMessageFormatter : IServiceMessageFormatter
   {
     /// <summary>
     /// Serializes single value service message
@@ -33,7 +33,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="messageName">message name</param>
     /// <param name="singleValue">value</param>
     /// <returns>service message string</returns>
-    public static string FormatMessage([NotNull] string messageName, [NotNull] string singleValue)
+    public string FormatMessage([NotNull] string messageName, [NotNull] string singleValue)
     {
       if (string.IsNullOrEmpty(messageName))
         throw new ArgumentNullException("messageName");
@@ -52,7 +52,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="messageName">message name</param>
     /// <param name="anonymousProperties">anonymous object containing all service message parameters</param>
     /// <returns>service message string</returns>
-    public static string FormatMessage([NotNull] string messageName, [NotNull] object anonymousProperties)
+    public string FormatMessage([NotNull] string messageName, [NotNull] object anonymousProperties)
     {
       if (string.IsNullOrEmpty(messageName))
         throw new ArgumentNullException("messageName");
@@ -71,7 +71,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="messageName">message name</param>
     /// <param name="properties">params array of service message properties</param>
     /// <returns>service message string</returns>
-    public static string FormatMessage([NotNull] string messageName, [NotNull] params ServiceMessageProperty[] properties)
+    public string FormatMessage([NotNull] string messageName, [NotNull] params ServiceMessageProperty[] properties)
     {
       return FormatMessage(messageName, properties.ToList());
     }
@@ -82,7 +82,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="messageName">message name</param>
     /// <param name="properties">params of service message properties</param>
     /// <returns>service message string</returns>
-    public static string FormatMessage([NotNull] string messageName, [NotNull] IEnumerable<ServiceMessageProperty> properties)
+    public string FormatMessage([NotNull] string messageName, [NotNull] IEnumerable<ServiceMessageProperty> properties)
     {
       if (string.IsNullOrEmpty(messageName))
         throw new ArgumentNullException("messageName");

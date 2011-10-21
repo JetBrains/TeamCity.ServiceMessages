@@ -17,7 +17,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       for (int c = char.MinValue; c < char.MaxValue; sb.Append((char)c++)) ;
       for (int c = char.MinValue; c < char.MaxValue; sb.Append((char)c++)) ;
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -26,7 +26,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##te");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -35,7 +35,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##teamcity");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -44,7 +44,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##teamcity[]");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -53,7 +53,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##teamcity[ ]");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -62,7 +62,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##teamcity[aa ]");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -71,7 +71,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##teamcity[aa '");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -80,7 +80,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##teamcity[aa ");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -89,7 +89,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##teamcity[aa");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -98,7 +98,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##teamcity[aa Z");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -107,7 +107,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##teamcity[aa Z =");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -116,7 +116,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##teamcity[aa Z = '");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -125,7 +125,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder();
       sb.Append("##teamcity[aa Z = 'fddd");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
@@ -134,14 +134,14 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var sb = new StringBuilder(); 
       sb.Append("##teamcity[aa Z = 'fddd '   ");
 
-      Assert.IsFalse(ServiceMessageParser.ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
+      Assert.IsFalse(new ServiceMessageParser().ParseServiceMessages(new StringReader(sb.ToString())).ToArray().Any());
     }
 
     [Test]
     public void ShouldParseService_simpleMessage()
     {
       var sr = new StringReader("##teamcity[name 'a']");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(1, result.Length);
 
       var msg = result[0];
@@ -154,7 +154,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     public void ShouldParseService_simpleMessages_multi()
     {
       var sr = new StringReader("##teamcity[name 'a'] ##teamcity[name 'a'] ##teamcity[name 'a']  ##teamcity[name 'a']");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(4, result.Length);
 
       foreach (var msg in result)
@@ -169,7 +169,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     public void ShouldParseService_simpleMessages_multi2()
     {
       var sr = new StringReader("##teamcity[name 'a']\r ##teamcity[name 'a']\n ##teamcity[name 'a'] \r\n ##teamcity[name 'a']");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(4, result.Length);
 
       foreach (var msg in result)
@@ -184,7 +184,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     public void ShouldParseService_simpleMessage_decode()
     {
       var sr = new StringReader("##teamcity[name '\"|'|n|r|x|l|p||[|]']");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(1, result.Length);
 
       var msg = result[0];
@@ -197,7 +197,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     public void ShouldParseService_complexMessage0()
     {
       var sr = new StringReader("##teamcity[name a='a' b='z']");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(1, result.Length);
 
       var msg = result[0];
@@ -213,7 +213,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     public void ShouldParseService_complexMessage1()
     {
       var sr = new StringReader("##teamcity[name a='a']");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(1, result.Length);
 
       var msg = result[0];
@@ -229,7 +229,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     public void ShouldParseService_complexMessage2()
     {
       var sr = new StringReader("##teamcity[name    a='a'     b='z'   ]");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(1, result.Length);
 
       var msg = result[0];
@@ -245,7 +245,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     public void ShouldParseService_complexMessage3()
     {
       var sr = new StringReader("  ##teamcity[name a  =  'a'   ]  ");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(1, result.Length);
 
       var msg = result[0];
@@ -260,7 +260,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     public void ShouldParseService_complexMessage_multi()
     {
       var sr = new StringReader("  ##teamcity[name a='z']##teamcity[name a='z']##teamcity[name a='z']  ");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(3, result.Length);
 
       foreach (var msg in result)
@@ -277,7 +277,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     public void ShouldParseService_complexMessage_multi2()
     {
       var sr = new StringReader("  ##teamcity[name a='z']\r  ##teamcity[name a='z']\n##teamcity[name a='z']  ");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(3, result.Length);
 
       foreach (var msg in result)
@@ -294,7 +294,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     public void ShouldParseService_multi()
     {
       var sr = new StringReader("  ##teamcity[name a='z']\r##teamcity[zzz 'z']\n##teamcity[name a='z']  ");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(3, result.Length);
 
       var msg = result[0];
@@ -321,7 +321,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     public void ShouldParseService_complexMessage_escaping()
     {
       var sr = new StringReader("##teamcity[name    a='1\"|'|n|r|x|l|p||[|]'     b='2\"|'|n|r|x|l|p||[|]'   ]");
-      var result = ServiceMessageParser.ParseServiceMessages(sr).ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(1, result.Length);
 
       var msg = result[0];
@@ -336,7 +336,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     [Test]
     public void ShouldParseString()
     {
-      var result = ServiceMessageParser.ParseServiceMessages("##teamcity[name    a='1\"|'|n|r|x|l|p||[|]'     b='2\"|'|n|r|x|l|p||[|]'   ]").ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages("##teamcity[name    a='1\"|'|n|r|x|l|p||[|]'     b='2\"|'|n|r|x|l|p||[|]'   ]").ToArray();
       Assert.AreEqual(1, result.Length);
 
       var msg = result[0];
