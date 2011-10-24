@@ -43,11 +43,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
     /// <returns>Iterator of service messages</returns>
     public IEnumerable<IServiceMessage> ParseServiceMessages([NotNull] TextReader reader)
     {
+      var startWith = ServiceMessageConstants.SERVICE_MESSAGE_OPEN.ToCharArray();
       while (true)
       {
         int currentSymbol = 0;
-        var startWith = ServiceMessageConstants.SERVICE_MESSAGE_OPEN.ToCharArray();
-
         int symbol;
         while ((symbol = reader.Read()) >= 0)
         {
@@ -63,12 +62,15 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
             if (currentSymbol >= startWith.Length) break;
           }
         }
+        if (symbol < 0) yield break;
+
         //there was ##teamcity[ parsed
         if (currentSymbol != startWith.Length) yield break;
 
         var messageName = new StringBuilder();
         while ((symbol = reader.Read()) >= 0 && !char.IsWhiteSpace((char) symbol))
           messageName.Append((char) symbol);
+        if (symbol < 0) yield break;
 
         while ((symbol = reader.Read()) >= 0 && char.IsWhiteSpace((char) symbol)) ;
         if (symbol < 0) yield break;
@@ -92,8 +94,11 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
               buffer.Append(ch);
             }
           }
+          if (symbol < 0) yield break;
 
           while ((symbol = reader.Read()) >= 0 && char.IsWhiteSpace((char) symbol)) ;
+          if (symbol < 0) yield break;
+
           if (symbol == ']')
             yield return new ServiceMessage(messageName.ToString(), ServiceMessageReplacements.Decode(buffer.ToString()));
         } else
@@ -104,10 +109,11 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
           {
             var name = new StringBuilder();
             name.Append((char)symbol);
+
             while ((symbol = reader.Read()) >= 0 && symbol != '=')
               name.Append((char) symbol);
-            
             if (symbol < 0) yield break;
+
             while ((symbol = reader.Read()) >= 0 && char.IsWhiteSpace((char)symbol)) ;
             if (symbol < 0) yield break;
 
@@ -131,19 +137,17 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
                 buffer.Append(ch);
               }
             }
-
+            if (symbol < 0) yield break;
             paramz[name.ToString().Trim()] = ServiceMessageReplacements.Decode(buffer.ToString());
 
             while ((symbol = reader.Read()) >= 0 && char.IsWhiteSpace((char)symbol)) ;
+            if (symbol < 0) yield break;
             if (symbol == ']')
             {
               yield return new ServiceMessage(messageName.ToString(), null, paramz);
               break;
             }
-
-            if (symbol < 0) yield break;
           }
-
         }
       }
     }
