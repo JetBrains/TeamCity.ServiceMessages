@@ -67,9 +67,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
         //there was ##teamcity[ parsed
         if (currentSymbol != startWith.Length) yield break;
 
-        var messageName = new StringBuilder();
+        var messageName = new List<char>(127);
         while ((symbol = reader.Read()) >= 0 && !char.IsWhiteSpace((char) symbol))
-          messageName.Append((char) symbol);
+          messageName.Add((char) symbol);
         if (symbol < 0) yield break;
 
         while ((symbol = reader.Read()) >= 0 && char.IsWhiteSpace((char) symbol)) ;
@@ -77,21 +77,21 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
 
         if (symbol == '\'')
         {
-          var buffer = new StringBuilder();
+          var buffer = new List<char>(16383);
           while ((symbol = reader.Read()) >= 0)
           {
             var ch = (char) symbol;
             if (ch == '|')
             {
-              buffer.Append(ch);
+              buffer.Add(ch);
               symbol = reader.Read();
               if (symbol < 0) yield break;
-              buffer.Append((char)symbol);
+              buffer.Add((char)symbol);
             }
             else
             {
               if (ch == '\'') break;
-              buffer.Append(ch);
+              buffer.Add(ch);
             }
           }
           if (symbol < 0) yield break;
@@ -100,18 +100,18 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
           if (symbol < 0) yield break;
 
           if (symbol == ']')
-            yield return new ServiceMessage(messageName.ToString(), ServiceMessageReplacements.Decode(buffer.ToString()));
+            yield return new ServiceMessage(new string(messageName.ToArray()), ServiceMessageReplacements.Decode(buffer));
         } else
         {
           var paramz = new Dictionary<string, string>();
 
           while (true)
           {
-            var name = new StringBuilder();
-            name.Append((char)symbol);
+            var name = new List<char>(124);
+            name.Add((char)symbol);
 
             while ((symbol = reader.Read()) >= 0 && symbol != '=')
-              name.Append((char) symbol);
+              name.Add((char) symbol);
             if (symbol < 0) yield break;
 
             while ((symbol = reader.Read()) >= 0 && char.IsWhiteSpace((char)symbol)) ;
@@ -120,25 +120,25 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
             if (symbol != '\'')
               break;
             
-            var buffer = new StringBuilder();
+            var buffer = new List<char>(16384);
             while ((symbol = reader.Read()) >= 0)
             {
               var ch = (char) symbol;
               if (ch == '|')
               {
-                buffer.Append(ch);
+                buffer.Add(ch);
                 symbol = reader.Read();
                 if (symbol < 0) yield break;
-                buffer.Append((char)symbol);
+                buffer.Add((char)symbol);
               }
               else
               {
                 if (ch == '\'') break;
-                buffer.Append(ch);
+                buffer.Add(ch);
               }
             }
             if (symbol < 0) yield break;
-            paramz[name.ToString().Trim()] = ServiceMessageReplacements.Decode(buffer.ToString());
+            paramz[new string(name.ToArray()).Trim()] = ServiceMessageReplacements.Decode(buffer);
 
             while ((symbol = reader.Read()) >= 0 && char.IsWhiteSpace((char)symbol)) ;
             if (symbol < 0) yield break;

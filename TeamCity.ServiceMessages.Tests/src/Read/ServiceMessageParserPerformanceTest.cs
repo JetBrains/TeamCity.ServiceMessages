@@ -27,7 +27,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
       var ps = new ServiceMessageParser();
       var text = GenerateTestData(10000);
       var trash = new ArrayList();
-      MeasureTime(TimeSpan.FromMilliseconds(1000), 10, () => trash.Add(ps.ParseServiceMessages(text).ToArray()));
+      MeasureTime(TimeSpan.FromMilliseconds(800), 10, () => trash.Add(ps.ParseServiceMessages(text).ToArray()));
       Console.Out.WriteLine(trash);
     }
 
