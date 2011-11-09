@@ -35,31 +35,37 @@ namespace JetBrains.TeamCity.ServiceMessages
     /// </summary>
     public static string Decode([NotNull] string value)
     {
-      var sb = new StringBuilder(value.Length);
-
+      return Decode(value.ToCharArray());
+    }
+    
+    public static string Decode([NotNull] char[] value)
+    {
+      int i = 0;
+      var sb = value;
       var escape = false;
       foreach (var ch in value)
       {
         if (!escape)
         {
-          if (ch == '|') escape = true; else sb.Append(ch);
+          if (ch == '|') escape = true; else sb[i++] = (ch);
         } else
         {
           switch (ch)
           {
-            case '|': sb.Append('|'); break;   //
-            case '\'': sb.Append('\''); break;  //
-            case 'n': sb.Append('\n'); break;  //
-            case 'r': sb.Append('\r'); break;  //
-            case ']': sb.Append(']'); break;  //
-            case 'x': sb.Append('\u0085'); break; //\u0085 (next line)=>|x
-            case 'l': sb.Append('\u2028'); break;//\u2028 (line separator)=>|l
-            case 'p': sb.Append('\u2029'); break; //
-            default: sb.Append('?'); break; // do not thow any exception to make it faster //TODO: no exception on illegal format
+            case '|': sb[i++] = ('|'); break;   //
+            case '\'': sb[i++] = ('\''); break;  //
+            case 'n': sb[i++] = ('\n'); break;  //
+            case 'r': sb[i++] = ('\r'); break;  //
+            case ']': sb[i++] = (']'); break;  //
+            case 'x': sb[i++] = ('\u0085'); break; //\u0085 (next line)=>|x
+            case 'l': sb[i++] = ('\u2028'); break;//\u2028 (line separator)=>|l
+            case 'p': sb[i++] = ('\u2029'); break; //
+            default: sb[i++] = ('?'); break; // do not thow any exception to make it faster //TODO: no exception on illegal format
           }
+          escape = false;
         }        
-      }      
-      return sb.ToString();
+      }
+      return new string(sb, 0, i);
     }
   }
 }
