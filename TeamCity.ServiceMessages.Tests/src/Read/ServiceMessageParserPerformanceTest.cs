@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
 {
-  [TestFixture]
+  [TestFixture, Explicit]
   public class ServiceMessageParserPerformanceTest
   {
     [Test]
