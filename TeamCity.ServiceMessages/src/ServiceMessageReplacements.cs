@@ -36,33 +36,29 @@ namespace JetBrains.TeamCity.ServiceMessages
     public static string Decode([NotNull] string value)
     {
       var sb = new StringBuilder(value.Length);
-      var buff = value.ToCharArray();
-      int i = 0;
-      for (; i < buff.Length-1; i++)
-      {
-        var ch = buff[i];
-        if (ch != '|')
-        {
-          sb.Append(ch);
-          continue;
-        }
 
-        ch = buff[++i];
-        switch (ch)
+      var escape = false;
+      foreach (var ch in value)
+      {
+        if (!escape)
         {
-          case '|': sb.Append('|'); break;   //
-          case '\'': sb.Append('\''); break;  //
-          case 'n': sb.Append('\n'); break;  //
-          case 'r': sb.Append('\r'); break;  //
-          case ']': sb.Append(']'); break;  //
-          case 'x': sb.Append('\u0085'); break; //\u0085 (next line)=>|x
-          case 'l': sb.Append('\u2028'); break;//\u2028 (line separator)=>|l
-          case 'p': sb.Append('\u2029'); break; //
-          default:
-            throw new ArgumentException("Unexpected escape sequence \"{0}\".", "|" + ch);
-        }
-      }
-      if (i < buff.Length) sb.Append(buff[i]);      
+          if (ch == '|') escape = true; else sb.Append(ch);
+        } else
+        {
+          switch (ch)
+          {
+            case '|': sb.Append('|'); break;   //
+            case '\'': sb.Append('\''); break;  //
+            case 'n': sb.Append('\n'); break;  //
+            case 'r': sb.Append('\r'); break;  //
+            case ']': sb.Append(']'); break;  //
+            case 'x': sb.Append('\u0085'); break; //\u0085 (next line)=>|x
+            case 'l': sb.Append('\u2028'); break;//\u2028 (line separator)=>|l
+            case 'p': sb.Append('\u2029'); break; //
+            default: sb.Append('?'); break; // do not thow any exception to make it faster //TODO: no exception on illegal format
+          }
+        }        
+      }      
       return sb.ToString();
     }
   }
