@@ -58,11 +58,21 @@
     <Compile Include="src\Write\Special\Impl\SpecializedServiceMessagesWriter.cs" />
     <Compile Include="src\Write\Special\Impl\Updater\FlowMessageUpdater.cs" />
     <Compile Include="src\Write\Special\Impl\Updater\TimestampUpdater.cs" />
+    <Compile Include="src\Write\Special\Impl\Writer\BaseDisposableWriter.cs" />
     <Compile Include="src\Write\Special\Impl\Writer\BaseWriter.cs" />
     <Compile Include="src\Write\Special\Impl\Writer\TeamCityBlockWriter.cs" />
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityCompilationBlockWriter.cs" />
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityMessageWriter.cs" />
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityTestsWriter.cs" />
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityTestWriter.cs" />
     <Compile Include="src\Write\Special\IServiceMessageProcessor.cs" />
     <Compile Include="src\Write\Special\IServiceMessageUpdater.cs" />
     <Compile Include="src\Write\Special\ITeamCityBlockWriter.cs" />
+    <Compile Include="src\Write\Special\ITeamCityCompilationBlockWriter.cs" />
+    <Compile Include="src\Write\Special\ITeamCityMessageWriter.cs" />
+    <Compile Include="src\Write\Special\ITeamCityTestSuiteWriter.cs" />
+    <Compile Include="src\Write\Special\ITeamCityTestsWriter.cs" />
+    <Compile Include="src\Write\Special\ITeamCityTestWriter.cs" />
     <Compile Include="src\Write\Special\ServiceMessages.cs" />
   </ItemGroup>
   <ItemGroup />
