@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using JetBrains.TeamCity.ServiceMessages.Annotations;
 
-namespace JetBrains.TeamCity.ServiceMessages.Read
+namespace JetBrains.TeamCity.ServiceMessages
 {
   /// <summary>
   /// Object representation of TeamCity service message

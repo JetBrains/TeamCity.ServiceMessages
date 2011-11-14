@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using JetBrains.TeamCity.ServiceMessages.Annotations;
+using JetBrains.TeamCity.ServiceMessages.Read;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write
 {
@@ -77,6 +78,31 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     }
 
     /// <summary>
+    /// Serializes service message
+    /// </summary>
+    /// <param name="serviceMessage">parser service message</param>
+    /// <returns></returns>
+    public string FormatMessage([NotNull] IServiceMessage serviceMessage)
+    {
+      if (serviceMessage.DefaultValue != null)
+      {
+        return FormatMessage(serviceMessage.Name, serviceMessage.DefaultValue);
+      }
+      return FormatMessage(serviceMessage.Name, serviceMessage.Keys.Select(key => new ServiceMessageProperty(key, serviceMessage.GetValue(key))));
+    }
+
+    /// <summary>
+    /// Serializes service message from IDictionary
+    /// </summary>
+    /// <param name="name">service message name</param>
+    /// <param name="arguments">arguments</param>
+    /// <returns></returns>
+    public string FormatMessage([NotNull] string name, [NotNull] IEnumerable<KeyValuePair<string, string>> arguments)
+    {
+      return FormatMessage(name, arguments.Select(key => new ServiceMessageProperty(key.Key, key.Value)));
+    }
+
+    /// <summary>
     /// Serializes single value service message
     /// </summary>
     /// <param name="messageName">message name</param>
@@ -84,13 +110,15 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <returns>service message string</returns>
     public string FormatMessage([NotNull] string messageName, [NotNull] IEnumerable<ServiceMessageProperty> properties)
     {
-      if (string.IsNullOrEmpty(messageName))
+      if (messageName == null)
         throw new ArgumentNullException("messageName");
+      if (string.IsNullOrEmpty(messageName))
+        throw new ArgumentException("The message name must not be empty", "messageName");
       if (properties == null)
         throw new ArgumentNullException("properties");
 
       if (ServiceMessageReplacements.Encode(messageName) != messageName)
-        throw new ArgumentException("The message name contains illegal characters.", "messageName");
+        throw new ArgumentException("The message name contains illegal characters", "messageName");
 
       if (ServiceMessageReplacements.Encode(messageName) != messageName)
         throw new ArgumentException("Message name contains illegal characters", "messageName");
@@ -101,8 +129,11 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
 
       foreach (ServiceMessageProperty property in properties)
       {
+        if (string.IsNullOrEmpty(property.Key))
+          throw new InvalidOperationException("The property name must not be empty");
+        
         if (ServiceMessageReplacements.Encode(property.Key) != property.Key)
-          throw new InvalidOperationException(string.Format("The property name “{0}” contains illegal characters.", property.Key));
+          throw new InvalidOperationException(string.Format("The property name “{0}” contains illegal characters", property.Key));
 
         sb.AppendFormat(" {0}='{1}'", property.Key, ServiceMessageReplacements.Encode(property.Value));
       }

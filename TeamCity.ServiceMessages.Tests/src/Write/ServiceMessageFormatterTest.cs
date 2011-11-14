@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using JetBrains.TeamCity.ServiceMessages.Read;
 using JetBrains.TeamCity.ServiceMessages.Write;
 using NUnit.Framework;
 
@@ -22,6 +26,30 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
   [TestFixture]
   public class ServiceMessageFormatterTest
   {
+    [Test, ExpectedException(typeof(ArgumentException))]
+    public void ErrorOnEmptyMessage()
+    {
+      new ServiceMessageFormatter().FormatMessage("", new Dictionary<string, string>());
+    }
+
+    [Test, ExpectedException(typeof(ArgumentException))]
+    public void ErrorOnEscapingMessage()
+    {
+      new ServiceMessageFormatter().FormatMessage("\r\n", new Dictionary<string, string>());
+    }
+
+    [Test, ExpectedException(typeof(InvalidOperationException))]
+    public void ErrorOnEmptyField()
+    {
+      new ServiceMessageFormatter().FormatMessage("aaa", new Dictionary<string, string>{{"", ""}});
+    }
+
+    [Test, ExpectedException(typeof(InvalidOperationException))]
+    public void ErrorOnEscapingField()
+    {
+      new ServiceMessageFormatter().FormatMessage("aaa", new Dictionary<string, string>{{"\r\n", ""}});
+    }
+
     [Test]
     public void SupportAnonymousType()
     {
@@ -85,6 +113,26 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
       Assert.AreEqual(
         "##teamcity[rulez qqq='ppp' rrr='wqe']",
         new ServiceMessageFormatter().FormatMessage("rulez", new[] { new ServiceMessageProperty("qqq", "ppp"), new ServiceMessageProperty("rrr", "wqe") }));
+    }
+
+    [Test]
+    public void TestIServiceMessage()
+    {
+      DoTestParsePresent("##teamcity[rulez qqq='ppp' rrr='wqe']");
+    }
+
+    [Test]
+    public void TestIServiceMessage2()
+    {
+      DoTestParsePresent("##teamcity[rulez 'wqe']");
+    }
+
+    private static void DoTestParsePresent(string msg)
+    {
+      Assert.AreEqual(
+        msg,
+        new ServiceMessageFormatter().FormatMessage(new ServiceMessageParser().ParseServiceMessages(msg).Single())
+        );
     }
   }
 }
