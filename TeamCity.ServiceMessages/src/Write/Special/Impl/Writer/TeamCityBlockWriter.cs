@@ -1,5 +1,6 @@
 using System;
 using JetBrains.TeamCity.ServiceMessages.Annotations;
+using JetBrains.TeamCity.ServiceMessages.Read;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
@@ -58,6 +59,108 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     public void WriteError(string text, string errorDetails)
     {
       Write(text, errorDetails, "ERROR");
+    }
+  }
+
+  public abstract class BaseDisposableWriter : BaseWriter, IDisposable
+  {
+    private bool myIsDisposed = false;
+
+    protected BaseDisposableWriter(IServiceMessageProcessor target) : base(target)
+    {
+    }
+
+    protected BaseDisposableWriter(BaseWriter writer) : base(writer)
+    {
+    }
+
+    public void Dispose()
+    {
+      if (myIsDisposed)
+        throw new ObjectDisposedException(GetType() + " was allready disaposed");
+      
+      myIsDisposed = true;
+      DisposeImpl();
+    }
+
+    protected abstract void DisposeImpl();
+  }
+
+  public class TeamCityTestsWriter : BaseDisposableWriter, ITeamCityTestsWriter
+  {
+    [CanBeNull]
+    private readonly string mySuiteName;
+
+    public TeamCityTestsWriter(BaseWriter target, string suiteName = null) : base(target)
+    {
+      mySuiteName = suiteName;
+      if (mySuiteName != null)
+        PostMessage(new SimpleServiceMessage("testSuiteStarted") {{"name", mySuiteName}});
+    }
+
+    protected override void DisposeImpl()
+    {
+      if (mySuiteName != null)
+        PostMessage(new SimpleServiceMessage("testSuiteFinished") { { "name", mySuiteName } });
+
+    }
+
+    public ITeamCityTestsWriter OpenTestSuite(string suiteName)
+    {
+      return new TeamCityTestsWriter(this, suiteName);
+    }
+
+    public ITeamCityTestWriter OpenTest(string testName)
+    {
+      return new TeamCityTestWriter(this, testName);
+    }
+
+    public void WriteTestIgnored(string testName, string ignoreReason)
+    {
+      using (var test = OpenTest(testName))
+        test.SetIgnored(ignoreReason);
+    }
+  }
+
+  public class TeamCityTestWriter : BaseDisposableWriter, ITeamCityTestWriter 
+  {
+    private readonly string myTestName;
+    private TimeSpan? myDuration;
+
+    public TeamCityTestWriter(BaseWriter target, string testName) : base(target)
+    {
+      myTestName = testName;
+      PostMessage(new SimpleServiceMessage("testStarted") { { "name", testName }, {"captureStandardOutput", "false"} });
+    }
+
+    protected override void DisposeImpl()
+    {
+      var msg = new SimpleServiceMessage("testStarted") { { "name", myTestName }};
+      if (myDuration != null)
+        msg.Add("duration", ((long) myDuration.Value.TotalMilliseconds).ToString());
+      PostMessage(msg);
+    }
+
+    public void WriteTestStdOutput(string text)
+    {
+      //##teamcity[testStdOut name='testname' out='text']
+      PostMessage(new SimpleServiceMessage("testStdOut"){{"name", myTestName}, {"out", text}});
+    }
+
+    public void WriteTestErrOutput(string text)
+    {
+      //##teamcity[testStdErr name='testname' out='error text']
+      PostMessage(new SimpleServiceMessage("testStdErr") { { "name", myTestName }, { "out", text } });
+    }
+
+    public void SetIgnored(string message)
+    {
+      PostMessage(new SimpleServiceMessage("testIgnored") { { "name", myTestName }, { "message", message } });
+    }
+
+    public void SetDuration(TimeSpan span)
+    {
+      myDuration = span;
     }
   }
 }
