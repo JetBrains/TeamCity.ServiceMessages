@@ -56,6 +56,7 @@
     <Compile Include="src\Write\Special\Impl\PatchedServiceMessage.cs" />
     <Compile Include="src\Write\Special\Impl\SimpleServiceMessage.cs" />
     <Compile Include="src\Write\Special\Impl\SpecializedServiceMessagesWriter.cs" />
+    <Compile Include="src\Write\Special\Impl\TeamCityWriterImpl.cs" />
     <Compile Include="src\Write\Special\Impl\Updater\FlowMessageUpdater.cs" />
     <Compile Include="src\Write\Special\Impl\Updater\TimestampUpdater.cs" />
     <Compile Include="src\Write\Special\Impl\Writer\BaseDisposableWriter.cs" />
@@ -70,9 +71,11 @@
     <Compile Include="src\Write\Special\ITeamCityBlockWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityCompilationBlockWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityMessageWriter.cs" />
+    <Compile Include="src\Write\Special\ITeamCityServiceMessages.cs" />
     <Compile Include="src\Write\Special\ITeamCityTestSuiteWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityTestsWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityTestWriter.cs" />
+    <Compile Include="src\Write\Special\ITeamCityWriter.cs" />
     <Compile Include="src\Write\Special\ServiceMessages.cs" />
   </ItemGroup>
   <ItemGroup />
