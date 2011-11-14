@@ -40,13 +40,17 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
           {
             new FlowMessageUpdater(),
             new TimestampUpdater()
-          }, Console.Out.WriteLine);
+          }, 
+          destination);
 
       return new TeamCityWriterImpl(
+        processor,
         new TeamCityMessageWriter(processor),
         new TeamCityBlockWriter(processor),
         new TeamCityCompilationBlockWriter(processor),
         new TeamCityTestsWriter(processor),
+        new TeamCityArtifactsWriter(processor), 
+        new TeamCityBuildStatusWriter(processor), 
         new DisposableDelegate(() => { })
         );
     }

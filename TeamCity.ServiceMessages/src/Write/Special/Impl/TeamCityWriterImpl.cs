@@ -21,22 +21,31 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
 {
   public class TeamCityWriterImpl : ITeamCityWriter
   {
+    private readonly IServiceMessageProcessor myProcessor;
     private readonly ITeamCityMessageWriter myMessageWriter;
     private readonly ITeamCityBlockWriter myBlockWriter;
     private readonly ITeamCityCompilationBlockWriter myCompilationWriter;
     private readonly ITeamCityTestsWriter myTestsWriter;
+    private readonly ITeamCityArtifactsWriter myArtifactsWriter;
+    private readonly ITeamCityBuildStatusWriter myStatusWriter;
     private readonly IDisposable myDispose;
 
-    public TeamCityWriterImpl([NotNull] ITeamCityMessageWriter messageWriter,
+    public TeamCityWriterImpl([NotNull] IServiceMessageProcessor processor, 
+                              [NotNull] ITeamCityMessageWriter messageWriter,
                               [NotNull] ITeamCityBlockWriter blockWriter,
                               [NotNull] ITeamCityCompilationBlockWriter compilationWriter,
                               [NotNull] ITeamCityTestsWriter testsWriter, 
+                              [NotNull] ITeamCityArtifactsWriter artifactsWriter,
+                              [NotNull] ITeamCityBuildStatusWriter statusWriter,
                               [NotNull] IDisposable dispose)
     {
+      myProcessor = processor;
       myMessageWriter = messageWriter;
       myBlockWriter = blockWriter;
       myCompilationWriter = compilationWriter;
       myTestsWriter = testsWriter;
+      myArtifactsWriter = artifactsWriter;
+      myStatusWriter = statusWriter;
       myDispose = dispose;
     }
 
@@ -65,11 +74,6 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
       return myTestsWriter.OpenTestSuite(suiteName);
     }
 
-    public void Dispose()
-    {
-      myDispose.Dispose();
-    }
-
     public ITeamCityTestWriter OpenTest(string testName)
     {
       return myTestsWriter.OpenTest(testName);
@@ -78,6 +82,36 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
     public IDisposable OpenBlock(string blockName)
     {
       return myBlockWriter.OpenBlock(blockName);
+    }
+
+    public void PublishArtifact(string rules)
+    {
+      myArtifactsWriter.PublishArtifact(rules);
+    }
+
+    public void Dispose()
+    {
+      myDispose.Dispose();
+    }
+
+    public void WriteBuildNumber(string buildNumber)
+    {
+      myStatusWriter.WriteBuildNumber(buildNumber);
+    }
+
+    public void WriteBuildParameter(string parameterName, string parameterValue)
+    {
+      myStatusWriter.WriteBuildParameter(parameterName, parameterValue);
+    }
+
+    public void WriteBuildStatistics(string statisticsKey, string statisticsValue)
+    {
+      myStatusWriter.WriteBuildStatistics(statisticsKey, statisticsValue);
+    }
+
+    public void WriteRawMessage(IServiceMessage message)
+    {
+      myProcessor.AddServiceMessage(message);
     }
   }
 }

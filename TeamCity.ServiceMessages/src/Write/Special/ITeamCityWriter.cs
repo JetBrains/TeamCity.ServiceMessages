@@ -15,6 +15,7 @@
  */
 
 using System;
+using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 {
@@ -23,9 +24,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
   /// 
   /// Do not forget to dispose this interface after you finished using it. 
   /// </summary>
-  public interface ITeamCityWriter : ITeamCityBlockWriter, ITeamCityMessageWriter, ITeamCityTestsWriter, ITeamCityCompilationBlockWriter, IDisposable
+  public interface ITeamCityWriter : ITeamCityBlockWriter, ITeamCityMessageWriter, ITeamCityTestsWriter, ITeamCityCompilationBlockWriter, ITeamCityArtifactsWriter, ITeamCityBuildStatusWriter, IDisposable
   {
-    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="message"></param>
+    void WriteRawMessage([NotNull] IServiceMessage message);
   }
 
 }
