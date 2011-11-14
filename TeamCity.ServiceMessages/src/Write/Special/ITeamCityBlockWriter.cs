@@ -84,12 +84,29 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     ITeamCityTestsWriter OpenTestSuite([NotNull] string suiteName);
   }
 
+  /// <summary>
+  /// This interface provides writers for test messages. 
+  /// All, but test ignore messages are required to be reported from 
+  /// <pre>##teamcity[testStarted name='testname']</pre> and
+  /// <pre>##teamcity[testFinished name='testname' duration='&lt;test_duration_in_milliseconds>']</pre>
+  /// messages.
+  /// 
+  /// All tests reportings are done form this method.  
+  /// </summary>
   public interface ITeamCityTestsWriter : ITeamCityTestSuiteWriter, IDisposable
   {
+    /// <summary>
+    /// To start reporting a test, call OpenTest method. To stop reporing test call Dispose on the given object
+    /// </summary>
+    /// <param name="testName">test name to be reported</param>
+    /// <returns>test output/status reporting handle</returns>
+    [NotNull]
     ITeamCityTestWriter OpenTest([NotNull] string testName);
-    void WriteTestIgnored([NotNull] string testName, [NotNull] string ignoreReason);
   }
 
+  /// <summary>
+  /// Writer interface for generating test information service messages
+  /// </summary>
   public interface ITeamCityTestWriter : IDisposable
   {
     /// <summary>
@@ -97,6 +114,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     /// </summary>
     /// <param name="text">test output</param>
     void WriteTestStdOutput([NotNull] string text);
+
     /// <summary>
     /// Attaches test error output to the test
     /// </summary>
@@ -107,7 +125,17 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     /// Marks test as ignored
     /// </summary>
     /// <param name="ignoreReason">test ignore reason</param>
-    void SetIgnored([NotNull] string ignoreReason);
+    void WriteIgnored([NotNull] string ignoreReason);
+
+    /// <summary>
+    /// Marks test as failed.
+    /// </summary>
+    /// <param name="errorMessage">short error message</param>
+    /// <param name="errorDetails">detailed error information, i.e. stacktrace</param>
+    /// <remarks>
+    /// This method can be called only once.
+    /// </remarks>
+    void WriteTestFailed([NotNull] string errorMessage, [NotNull] string errorDetails);
 
     /// <summary>
     /// Specifies test duration
@@ -116,6 +144,6 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     /// TeamCity may compute test duration inself, to provide precise data, you may set the duration explicitly
     /// </remarks>
     /// <param name="duration">time of test</param>
-    void SetDuration(TimeSpan duration);
+    void WriteDuration(TimeSpan duration);
   }
 }

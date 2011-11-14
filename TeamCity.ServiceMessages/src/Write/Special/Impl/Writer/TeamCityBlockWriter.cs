@@ -114,12 +114,6 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     {
       return new TeamCityTestWriter(this, testName);
     }
-
-    public void WriteTestIgnored(string testName, string ignoreReason)
-    {
-      using (var test = OpenTest(testName))
-        test.SetIgnored(ignoreReason);
-    }
   }
 
   public class TeamCityTestWriter : BaseDisposableWriter, ITeamCityTestWriter 
@@ -153,12 +147,17 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
       PostMessage(new SimpleServiceMessage("testStdErr") { { "name", myTestName }, { "out", text } });
     }
 
-    public void SetIgnored(string message)
+    public void WriteIgnored(string message)
     {
       PostMessage(new SimpleServiceMessage("testIgnored") { { "name", myTestName }, { "message", message } });
     }
 
-    public void SetDuration(TimeSpan span)
+    public void WriteTestFailed(string errorMessage, string errorDetails)
+    {
+      PostMessage(new SimpleServiceMessage("testFailed"){{"name", myTestName}, {"message", errorMessage}, {"details", errorDetails}});
+    }
+
+    public void WriteDuration(TimeSpan span)
     {
       myDuration = span;
     }
