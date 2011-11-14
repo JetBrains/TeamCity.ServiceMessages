@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-using JetBrains.TeamCity.ServiceMessages.Annotations;
+using System;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 {
   /// <summary>
-  /// TeamCity tests loggin in done in test suites. 
-  /// To be able to logs tests you first need to open suite
+  /// Specialized service messages writer facade. Contains all methods for generating different service messages.
+  /// 
+  /// Do not forget to dispose this interface after you finished using it. 
   /// </summary>
-  public interface ITeamCityTestSuiteWriter
+  public interface ITeamCityWriter : ITeamCityBlockWriter, ITeamCityMessageWriter, ITeamCityTestsWriter, ITeamCityCompilationBlockWriter, IDisposable
   {
-    /// <summary>
-    /// Opens tests suite with give name
-    /// <pre>##teamcity[testSuiteStarted name='suite.name']</pre>
-    /// To close suite, call Dispose method of a returned logger.
-    /// </summary>
-    /// <param name="suiteName">suite name</param>
-    /// <returns>test logger.</returns>
-    ITeamCityTestsSubWriter OpenTestSuite([NotNull] string suiteName);
+    
   }
+
 }

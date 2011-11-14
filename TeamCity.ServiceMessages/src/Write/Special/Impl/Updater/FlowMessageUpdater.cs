@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+using System;
+
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 {
   /// <summary>
@@ -31,6 +33,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     public FlowMessageUpdater(string flowId)
     {
       myFlowId = flowId;
+    }
+
+    /// <summary>
+    /// Generates random flowId
+    /// </summary>
+    public FlowMessageUpdater() : this((DateTime.Now.Ticks % int.MaxValue).ToString())
+    {
     }
 
     public IServiceMessage UpdateServiceMessage(IServiceMessage message)

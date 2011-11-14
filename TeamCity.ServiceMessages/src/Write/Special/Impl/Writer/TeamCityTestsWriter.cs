@@ -18,26 +18,36 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
-  public class TeamCityTestsWriter : BaseDisposableWriter, ITeamCityTestsWriter
+  public class TeamCityTestsWriter : BaseDisposableWriter, ITeamCityTestsSubWriter
   {
     [CanBeNull]
     private readonly string mySuiteName;
 
+    public TeamCityTestsWriter(IServiceMessageProcessor target, string suiteName = null) : base(target)
+    {
+      mySuiteName = suiteName;
+      OpenSuite();
+    }
+
+    private void OpenSuite()
+    {
+      if (mySuiteName != null)
+        PostMessage(new SimpleServiceMessage("testSuiteStarted") {{"name", mySuiteName}});
+    }
+
     public TeamCityTestsWriter(BaseWriter target, string suiteName = null) : base(target)
     {
       mySuiteName = suiteName;
-      if (mySuiteName != null)
-        PostMessage(new SimpleServiceMessage("testSuiteStarted") {{"name", mySuiteName}});
+      OpenSuite();
     }
 
     protected override void DisposeImpl()
     {
       if (mySuiteName != null)
         PostMessage(new SimpleServiceMessage("testSuiteFinished") { { "name", mySuiteName } });
-
     }
 
-    public ITeamCityTestsWriter OpenTestSuite(string suiteName)
+    public ITeamCityTestsSubWriter OpenTestSuite(string suiteName)
     {
       return new TeamCityTestsWriter(this, suiteName);
     }

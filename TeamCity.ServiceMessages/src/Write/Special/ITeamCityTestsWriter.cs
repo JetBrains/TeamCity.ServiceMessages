@@ -28,7 +28,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
   /// 
   /// All tests reportings are done form this method.  
   /// </summary>
-  public interface ITeamCityTestsWriter : ITeamCityTestSuiteWriter, IDisposable
+  public interface ITeamCityTestsWriter : ITeamCityTestSuiteWriter
   {
     /// <summary>
     /// To start reporting a test, call OpenTest method. To stop reporing test call Dispose on the given object
@@ -37,5 +37,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     /// <returns>test output/status reporting handle</returns>
     [NotNull]
     ITeamCityTestWriter OpenTest([NotNull] string testName);
+  }
+
+  /// <summary>
+  /// Sub inteface for created tests writer for some parent test suite.
+  /// </summary>
+  public interface ITeamCityTestsSubWriter : ITeamCityTestsWriter, IDisposable
+  {
   }
 }
