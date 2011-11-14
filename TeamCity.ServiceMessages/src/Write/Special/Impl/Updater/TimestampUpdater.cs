@@ -26,6 +26,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
   {
     public IServiceMessage UpdateServiceMessage(IServiceMessage message)
     {
+      if (message.DefaultValue != null) return message;
       return new PatchedServiceMessage(message) { { "Timestamp", DateTime.Now.ToString("yyyy-MM-dd'T'HH:mm:ss.SSSZ") } };
     }
   }
