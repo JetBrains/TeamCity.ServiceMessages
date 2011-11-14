@@ -52,6 +52,17 @@
     <Compile Include="src\Write\IServiceMessageFormatter.cs" />
     <Compile Include="src\Write\ServiceMessageFormatter.cs" />
     <Compile Include="src\Write\ServiceMessageProperty.cs" />
+    <Compile Include="src\Write\Special\Impl\DisposableDelegate.cs" />
+    <Compile Include="src\Write\Special\Impl\PatchedServiceMessage.cs" />
+    <Compile Include="src\Write\Special\Impl\SimpleServiceMessage.cs" />
+    <Compile Include="src\Write\Special\Impl\SpecializedServiceMessagesWriter.cs" />
+    <Compile Include="src\Write\Special\Impl\Updater\FlowMessageUpdater.cs" />
+    <Compile Include="src\Write\Special\Impl\Updater\TimestampUpdater.cs" />
+    <Compile Include="src\Write\Special\Impl\Writer\BaseWriter.cs" />
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityBlockWriter.cs" />
+    <Compile Include="src\Write\Special\IServiceMessageProcessor.cs" />
+    <Compile Include="src\Write\Special\IServiceMessageUpdater.cs" />
+    <Compile Include="src\Write\Special\ITeamCityBlockWriter.cs" />
     <Compile Include="src\Write\Special\ServiceMessages.cs" />
   </ItemGroup>
   <ItemGroup />
