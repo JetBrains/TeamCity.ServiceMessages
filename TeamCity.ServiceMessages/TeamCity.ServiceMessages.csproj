@@ -56,6 +56,7 @@
     <Compile Include="src\Write\Special\Impl\PatchedServiceMessage.cs" />
     <Compile Include="src\Write\Special\Impl\SimpleServiceMessage.cs" />
     <Compile Include="src\Write\Special\Impl\SpecializedServiceMessagesWriter.cs" />
+    <Compile Include="src\Write\Special\Impl\TeamCityWriterFacade.cs" />
     <Compile Include="src\Write\Special\Impl\TeamCityWriterImpl.cs" />
     <Compile Include="src\Write\Special\Impl\Updater\FlowMessageUpdater.cs" />
     <Compile Include="src\Write\Special\Impl\Updater\TimestampUpdater.cs" />

@@ -21,35 +21,33 @@ using JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
 {
-  public class TeamCityWriterImpl : ITeamCityWriter, ISubWriter
+  public class TeamCityWriterImpl : TeamCityWriterFacade, ISubWriter
   {
-    private readonly IServiceMessageProcessor myProcessor;
-    
-    private readonly TeamCityBlockWriter<ITeamCityWriter> myBlockWriter;
-    private readonly TeamCityCompilationBlockWriter<ITeamCityWriter> myCompilationWriter;
-    private readonly TeamCityTestsWriter myTestsWriter;
-
-    
-    private readonly ITeamCityMessageWriter myMessageWriter;    
-    private readonly ITeamCityArtifactsWriter myArtifactsWriter;
-    private readonly ITeamCityBuildStatusWriter myStatusWriter;
-    private readonly IDisposable myDispose;
-
     private readonly IEnumerable<ISubWriter> myWriteCheck;
 
-    public TeamCityWriterImpl([NotNull] IServiceMessageProcessor processor, 
+    public TeamCityWriterImpl([NotNull] IServiceMessageProcessor processor,
                               [NotNull] IDisposable dispose)
+      : this(processor,
+             new TeamCityBlockWriter<ITeamCityWriter>(processor, d => new TeamCityWriterImpl (processor, d)),
+             new TeamCityCompilationBlockWriter<ITeamCityWriter>(processor, d => new TeamCityWriterImpl(processor, d)),
+             new TeamCityTestsWriter(processor),
+             new TeamCityMessageWriter(processor),
+             new TeamCityArtifactsWriter(processor),
+             new TeamCityBuildStatusWriter(processor),
+             dispose)
     {
-      myProcessor = processor;
-      myMessageWriter = new TeamCityMessageWriter(processor);
-      myBlockWriter = new TeamCityBlockWriter<ITeamCityWriter>(processor, d => new TeamCityWriterImpl(processor, d));
-      myCompilationWriter = new TeamCityCompilationBlockWriter<ITeamCityWriter>(processor, d => new TeamCityWriterImpl(processor, d));
-      myTestsWriter = new TeamCityTestsWriter(processor);
-      myArtifactsWriter = new TeamCityArtifactsWriter(processor);
-      myStatusWriter = new TeamCityBuildStatusWriter(processor);
-      myDispose = dispose;
+    }
 
-      myWriteCheck = new ISubWriter[] {myBlockWriter, myCompilationWriter, myTestsWriter};
+    private TeamCityWriterImpl([NotNull] IServiceMessageProcessor processor, 
+      [NotNull] TeamCityBlockWriter<ITeamCityWriter> blockWriter, 
+      [NotNull] TeamCityCompilationBlockWriter<ITeamCityWriter> compilationWriter, 
+      [NotNull] TeamCityTestsWriter testsWriter, 
+      [NotNull] ITeamCityMessageWriter messageWriter, 
+      [NotNull] ITeamCityArtifactsWriter artifactsWriter, 
+      [NotNull] ITeamCityBuildStatusWriter statusWriter, 
+      [NotNull] IDisposable dispose) : base(processor, blockWriter, compilationWriter, testsWriter, messageWriter, artifactsWriter, statusWriter, dispose)
+    {
+      myWriteCheck = new ISubWriter[] { blockWriter, compilationWriter, testsWriter };
     }
 
     public void AssertNoChildOpened()
@@ -58,84 +56,17 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
         subWriter.AssertNoChildOpened();
     }
 
-    public ITeamCityWriter OpenCompilationBlock(string compilerName)
+    protected override void CheckConsistency()
     {
       AssertNoChildOpened();
-      return myCompilationWriter.OpenCompilationBlock(compilerName);
     }
 
-    public void WriteMessage(string text)
-    {
-      AssertNoChildOpened();
-      myMessageWriter.WriteMessage(text);
-    }
-
-    public void WriteWarning(string text)
-    {
-      AssertNoChildOpened();
-      myMessageWriter.WriteWarning(text);
-    }
-
-    public void WriteError(string text, string errorDetails)
-    {
-      AssertNoChildOpened();
-      myMessageWriter.WriteError(text, errorDetails);
-    }
-
-    public ITeamCityTestsSubWriter OpenTestSuite(string suiteName)
-    {
-      AssertNoChildOpened();
-      return myTestsWriter.OpenTestSuite(suiteName);
-    }
-
-    public ITeamCityTestWriter OpenTest(string testName)
-    {
-      AssertNoChildOpened();
-      return myTestsWriter.OpenTest(testName);
-    }
-
-    public ITeamCityWriter OpenBlock(string blockName)
-    {
-      AssertNoChildOpened();
-      return myBlockWriter.OpenBlock(blockName);
-    }
-
-    public void PublishArtifact(string rules)
-    {
-      AssertNoChildOpened();
-      myArtifactsWriter.PublishArtifact(rules);
-    }
-
-    public void Dispose()
+    public override void Dispose()
     {
       foreach (var subWriter in myWriteCheck)
         subWriter.Dispose();
 
-      myDispose.Dispose();
-    }
-
-    public void WriteBuildNumber(string buildNumber)
-    {
-      AssertNoChildOpened();
-      myStatusWriter.WriteBuildNumber(buildNumber);
-    }
-
-    public void WriteBuildParameter(string parameterName, string parameterValue)
-    {
-      AssertNoChildOpened();
-      myStatusWriter.WriteBuildParameter(parameterName, parameterValue);
-    }
-
-    public void WriteBuildStatistics(string statisticsKey, string statisticsValue)
-    {
-      AssertNoChildOpened();
-      myStatusWriter.WriteBuildStatistics(statisticsKey, statisticsValue);
-    }
-
-    public void WriteRawMessage(IServiceMessage message)
-    {
-      AssertNoChildOpened();
-      myProcessor.AddServiceMessage(message);
+      base.Dispose();
     }
   }
 }

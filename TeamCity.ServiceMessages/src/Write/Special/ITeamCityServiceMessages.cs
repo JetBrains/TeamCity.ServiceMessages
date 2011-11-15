@@ -44,5 +44,11 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     /// <returns></returns>
     [NotNull]
     ITeamCityWriter CreateWriter(Action<string> destination);
+
+    /// <summary>
+    /// Adds user-specific service message updater to the list of service message updaters.
+    /// </summary>
+    /// <param name="updater">updater instance</param>
+    void AddServiceMessageUpdater([NotNull] IServiceMessageUpdater updater);
   }
 }
