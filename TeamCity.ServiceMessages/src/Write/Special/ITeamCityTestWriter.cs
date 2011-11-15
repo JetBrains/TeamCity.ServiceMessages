@@ -28,13 +28,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     /// Attaches test output to the test
     /// </summary>
     /// <param name="text">test output</param>
-    void WriteTestStdOutput([NotNull] string text);
+    void WriteStdOutput([NotNull] string text);
 
     /// <summary>
     /// Attaches test error output to the test
     /// </summary>
     /// <param name="text">error output</param>
-    void WriteTestErrOutput([NotNull] string text);
+    void WriteErrOutput([NotNull] string text);
 
     /// <summary>
     /// Marks test as ignored
@@ -55,7 +55,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     /// <remarks>
     /// This method can be called only once.
     /// </remarks>
-    void WriteTestFailed([NotNull] string errorMessage, [NotNull] string errorDetails);
+    void WriteFailed([NotNull] string errorMessage, [NotNull] string errorDetails);
 
     /// <summary>
     /// Specifies test duration

@@ -48,19 +48,19 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
     [Test]
     public void TestStdOut()
     {
-      DoTest(x => x.WriteTestStdOutput("outp4uz"), "##teamcity[testStdOut name='BadaBumBigBadaBum' out='outp4uz']");
+      DoTest(x => x.WriteStdOutput("outp4uz"), "##teamcity[testStdOut name='BadaBumBigBadaBum' out='outp4uz']");
     }
 
     [Test]
     public void TestStdErr()
     {
-      DoTest(x => x.WriteTestErrOutput("outp4ut"), "##teamcity[testStdErr name='BadaBumBigBadaBum' out='outp4ut']");
+      DoTest(x => x.WriteErrOutput("outp4ut"), "##teamcity[testStdErr name='BadaBumBigBadaBum' out='outp4ut']");
     }
 
     [Test]
     public void TestFailed()
     {
-      DoTest(x=>x.WriteTestFailed("aaa", "ooo"), "##teamcity[testFailed name='BadaBumBigBadaBum' message='aaa' details='ooo']");
+      DoTest(x=>x.WriteFailed("aaa", "ooo"), "##teamcity[testFailed name='BadaBumBigBadaBum' message='aaa' details='ooo']");
     }
 
     [Test]

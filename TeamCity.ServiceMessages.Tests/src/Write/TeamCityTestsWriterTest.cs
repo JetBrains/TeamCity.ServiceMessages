@@ -183,7 +183,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
                {
                  using (var test = x.OpenTest("test"))
                  {
-                   test.WriteTestStdOutput("outp4ut");
+                   test.WriteStdOutput("outp4ut");
                  }
                },
              "##teamcity[testStarted name='test' captureStandardOutput='false']",
@@ -199,7 +199,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
                {
                  using (var test = x.OpenTest("test"))
                  {
-                   test.WriteTestErrOutput("error3");
+                   test.WriteErrOutput("error3");
                  }
                },
              "##teamcity[testStarted name='test' captureStandardOutput='false']", 
@@ -244,7 +244,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
                {
                  using (var test = x.OpenTest("test5"))
                  {
-                   test.WriteTestFailed("some reason", "details");
+                   test.WriteFailed("some reason", "details");
                  }
                },
              "##teamcity[testStarted name='test5' captureStandardOutput='false']", 

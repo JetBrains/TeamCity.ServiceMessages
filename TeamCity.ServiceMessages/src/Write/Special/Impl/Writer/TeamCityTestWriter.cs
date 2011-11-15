@@ -42,13 +42,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
       PostMessage(msg);
     }
 
-    public void WriteTestStdOutput(string text)
+    public void WriteStdOutput(string text)
     {
       //##teamcity[testStdOut name='testname' out='text']
       PostMessage(new SimpleServiceMessage("testStdOut"){{"name", myTestName}, {"out", text}});
     }
 
-    public void WriteTestErrOutput(string text)
+    public void WriteErrOutput(string text)
     {
       //##teamcity[testStdErr name='testname' out='error text']
       PostMessage(new SimpleServiceMessage("testStdErr") { { "name", myTestName }, { "out", text } });
@@ -72,7 +72,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
       PostMessage(msg);
     }
 
-    public void WriteTestFailed(string errorMessage, string errorDetails)
+    public void WriteFailed(string errorMessage, string errorDetails)
     {
       PostMessage(new SimpleServiceMessage("testFailed"){{"name", myTestName}, {"message", errorMessage}, {"details", errorDetails}});
     }
