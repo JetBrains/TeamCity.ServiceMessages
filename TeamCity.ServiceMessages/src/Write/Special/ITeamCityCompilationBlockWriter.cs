@@ -29,13 +29,19 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
   /// <remarks>
   /// Implementation is not thread-safe. Create an instance for each thread instead.
   /// </remarks>
-  public interface ITeamCityCompilationBlockWriter
+  public interface ITeamCityCompilationBlockWriter<out CloseBlock>
+    where CloseBlock : IDisposable
   {
     /// <summary>
     /// Generates open compilation block. To close block call Dispose to the given handle
     /// </summary>
     /// <param name="compilerName"></param>
     /// <returns></returns>
-    IDisposable OpenCompilationBlock([NotNull] string compilerName);
+    CloseBlock OpenCompilationBlock([NotNull] string compilerName);
+  }
+
+  public interface ITeamCityCompilationBlockWriter : ITeamCityCompilationBlockWriter<IDisposable>
+  {
+    
   }
 }

@@ -18,16 +18,49 @@ using System;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
-  public class TeamCityCompilationBlockWriter : BaseWriter, ITeamCityCompilationBlockWriter
+  public class TeamCityCompilationBlockWriter<TCloseBlock> : BaseWriter, ITeamCityCompilationBlockWriter<TCloseBlock>, ISubWriter
+    where TCloseBlock : IDisposable
   {
-    public TeamCityCompilationBlockWriter(IServiceMessageProcessor target) : base(target)
+    private readonly Func<IDisposable, TCloseBlock> myCloseBlock;
+    private int myIsChildOpenned;
+
+    public TeamCityCompilationBlockWriter(IServiceMessageProcessor target, Func<IDisposable, TCloseBlock> closeBlock)
+      : base(target)
     {
+      myCloseBlock = closeBlock;
     }
 
-    public IDisposable OpenCompilationBlock(string compilerName)
+    public void AssertNoChildOpened()
     {
+      if (myIsChildOpenned != 0)
+        throw new InvalidOperationException("There is at least one compilation child block opened");
+    }
+
+    public void Dispose()
+    {
+      if (myIsChildOpenned != 0)
+        throw new InvalidOperationException("Some of compilation child block writers were not disposed");
+    }
+
+    public TCloseBlock OpenCompilationBlock(string compilerName)
+    {
+      AssertNoChildOpened();
       PostMessage(new SimpleServiceMessage("compilationStarted") { { "compiler", compilerName } });
-      return new DisposableDelegate(() => PostMessage(new SimpleServiceMessage("compilationFinished") { { "compiler", compilerName } }));
+      myIsChildOpenned++;
+      return myCloseBlock(new DisposableDelegate(() => this.CloseBlock(compilerName)));
+    }
+
+    private void CloseBlock(string compilerName)
+    {
+      myIsChildOpenned--;
+      PostMessage(new SimpleServiceMessage("compilationFinished") { { "compiler", compilerName } });
+    }
+  }
+
+  public class TeamCityCompilationBlockWriter : TeamCityCompilationBlockWriter<IDisposable>, ITeamCityCompilationBlockWriter
+  {
+    public TeamCityCompilationBlockWriter(IServiceMessageProcessor target) : base(target, x=>x)
+    {
     }
   }
 }

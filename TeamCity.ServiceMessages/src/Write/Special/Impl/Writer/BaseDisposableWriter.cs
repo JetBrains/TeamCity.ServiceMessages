@@ -35,7 +35,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
         throw new ObjectDisposedException(GetType() + " was allready disaposed");
       
       myIsDisposed = true;
-      Disposed(this, EventArgs.Empty);
+      if (Disposed != null)
+        Disposed(this, EventArgs.Empty);
+
       DisposeImpl();
     }
 

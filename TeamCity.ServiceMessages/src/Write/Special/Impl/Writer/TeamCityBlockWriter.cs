@@ -15,20 +15,51 @@
  */
 
 using System;
-using JetBrains.TeamCity.ServiceMessages.Read;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
-  public class TeamCityBlockWriter : BaseWriter, ITeamCityBlockWriter
+  public class TeamCityBlockWriter<TCloseBlock> : BaseWriter, ITeamCityBlockWriter<TCloseBlock>, ISubWriter
+    where TCloseBlock : IDisposable
   {
-    public TeamCityBlockWriter(IServiceMessageProcessor target) : base(target)
+    private readonly Func<IDisposable, TCloseBlock> myCloseBlock;
+    private int myIsChildOpenned;
+
+    public TeamCityBlockWriter(IServiceMessageProcessor target, Func<IDisposable, TCloseBlock> closeBlock) : base(target)
     {
+      myCloseBlock = closeBlock;
     }
 
-    public IDisposable OpenBlock(string blockName)
+    public void AssertNoChildOpened()
     {
-      PostMessage(new SimpleServiceMessage("blockOpened"){{"name", blockName}});
-      return new DisposableDelegate(() => PostMessage(new SimpleServiceMessage("blockClosed") {{"name", blockName}}));
+      if (myIsChildOpenned != 0)
+        throw new InvalidOperationException("There is at least one block opened");
+    }
+
+    public void Dispose()
+    {
+      if (myIsChildOpenned != 0)
+        throw new InvalidOperationException("Some of child block writers were not disposed");
+    }
+
+    public TCloseBlock OpenBlock(string blockName)
+    {
+      AssertNoChildOpened();
+      PostMessage(new SimpleServiceMessage("blockOpened") {{"name", blockName}});
+      myIsChildOpenned++;
+      return myCloseBlock(new DisposableDelegate(() => this.CloseBlock(blockName)));
+    }
+
+    private void CloseBlock(string blockName)
+    {
+      myIsChildOpenned--;
+      PostMessage(new SimpleServiceMessage("blockClosed") {{"name", blockName}});
+    }
+  }
+
+  public class TeamCityBlockWriter : TeamCityBlockWriter<IDisposable>
+  {
+    public TeamCityBlockWriter(IServiceMessageProcessor target) : base(target, x=>x)
+    {
     }
   }
 }

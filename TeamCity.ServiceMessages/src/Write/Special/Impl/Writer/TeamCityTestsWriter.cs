@@ -19,7 +19,7 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
-  public class TeamCityTestsWriter : BaseDisposableWriter, ITeamCityTestsSubWriter
+  public class TeamCityTestsWriter : BaseDisposableWriter, ITeamCityTestsSubWriter, ISubWriter
   {
     [CanBeNull]
     private readonly string mySuiteName;
@@ -31,6 +31,14 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     {
       mySuiteName = suiteName;
       OpenSuite();
+    }
+
+    public void AssertNoChildOpened()
+    {
+      if (myIsChildSuiteOpened != 0)
+        throw new InvalidOperationException("There is at least one child test suite opened");
+      if (myIsChildTestOpened != 0)
+        throw new InvalidOperationException("There is at least one test suite opened");
     }
 
     private void OpenSuite()
@@ -53,7 +61,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 
     public ITeamCityTestsSubWriter OpenTestSuite(string suiteName)
     {
-      AssertOpenChildBlock();
+      AssertNoChildOpened();
 
       var writer = new TeamCityTestsWriter(myTarget, suiteName);
       myIsChildSuiteOpened++;
@@ -63,21 +71,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 
     public ITeamCityTestWriter OpenTest(string testName)
     {
-      AssertOpenChildBlock();
+      AssertNoChildOpened();
 
       var writer = new TeamCityTestWriter(myTarget, testName);
       writer.OpenTest();
       myIsChildTestOpened++;
       writer.Disposed += delegate { myIsChildTestOpened--; };
       return writer;
-    }
-
-    private void AssertOpenChildBlock()
-    {
-      if (myIsChildSuiteOpened != 0)
-        throw new InvalidOperationException("There is at least one child test suite opened");
-      if (myIsChildTestOpened != 0)
-        throw new InvalidOperationException("There is at least one test suite opened");
     }
   }
 

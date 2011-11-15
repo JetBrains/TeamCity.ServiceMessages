@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Globalization;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 {
@@ -24,10 +25,17 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
   /// </summary>
   public class TimestampUpdater : IServiceMessageUpdater
   {
+    private readonly Func<DateTime> myTimeService;
+
+    public TimestampUpdater(Func<DateTime> timeService)
+    {
+      myTimeService = timeService;
+    }
+
     public IServiceMessage UpdateServiceMessage(IServiceMessage message)
     {
       if (message.DefaultValue != null) return message;
-      return new PatchedServiceMessage(message) { { "Timestamp", DateTime.Now.ToString("yyyy-MM-dd'T'HH:mm:ss.SSSZ") } };
+      return new PatchedServiceMessage(message) { { "timestamp", myTimeService().ToString("yyyy-MM-dd'T'HH:mm:ss.fffzzz", CultureInfo.InvariantCulture) } };      
     }
   }
 }
