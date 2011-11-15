@@ -22,6 +22,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
   /// Service messages for dynamically publish artifacts.
   /// http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-PublishingArtifactswhiletheBuildisStillinProgress
   /// </summary>
+  /// <remarks>
+  /// Implementation is not thread-safe. Create an instance for each thread instead.
+  /// </remarks>
   public interface ITeamCityArtifactsWriter
   {
     /// <summary>

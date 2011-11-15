@@ -25,6 +25,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
   /// </pre>
   /// http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ReportingMessagesForBuildLog
   /// </summary>
+  /// <remarks>
+  /// Implementation is not thread-safe. Create an instance for each thread instead.
+  /// </remarks>
   public interface ITeamCityMessageWriter
   {
     /// <summary>

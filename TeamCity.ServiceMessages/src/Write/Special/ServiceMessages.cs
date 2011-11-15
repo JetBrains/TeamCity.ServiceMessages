@@ -25,7 +25,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
   /// <summary>
   /// Basic implementation of TeamCity service message generation facade
   /// </summary>
-  public class TeamCityServiceMessages  : ITeamCityServiceMessages
+  public class TeamCityServiceMessages : ITeamCityServiceMessages
   {
     public ITeamCityWriter CreateWriter()
     {

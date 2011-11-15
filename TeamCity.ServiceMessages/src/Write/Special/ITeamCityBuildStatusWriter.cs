@@ -22,6 +22,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
   /// Interface for writing build-related messages
   /// http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ReportingBuildNumber
   /// </summary>
+  /// <remarks>
+  /// Implementation is not thread-safe. Create an instance for each thread instead.
+  /// </remarks>
   public interface ITeamCityBuildStatusWriter
   {
     /// <summary>
