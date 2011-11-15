@@ -55,7 +55,13 @@
     <Compile Include="src\Read\StringWrapper.cs" />
     <Compile Include="src\ServiceMessageReplacementsTest.cs" />
     <Compile Include="src\Write\ServiceMessageFormatterTest.cs" />
-    <Compile Include="src\Write\SpecialMessagesTest.cs" />
+    <Compile Include="src\Write\TeamCityArtifactsWriterTest.cs" />
+    <Compile Include="src\Write\TeamCityBlockWriterTest.cs" />
+    <Compile Include="src\Write\TeamCityBuildStatusWriterTest.cs" />
+    <Compile Include="src\Write\TeamCityCompilationBlockWriterTest.cs" />
+    <Compile Include="src\Write\TeamCityMessageWriterTest.cs" />
+    <Compile Include="src\Write\TeamCityTestsWriterTest.cs" />
+    <Compile Include="src\Write\TeamCityTestWriterTest.cs" />
     <Compile Include="src\Write\TeamCityWriterBaseTest.cs" />
   </ItemGroup>
   <ItemGroup />
