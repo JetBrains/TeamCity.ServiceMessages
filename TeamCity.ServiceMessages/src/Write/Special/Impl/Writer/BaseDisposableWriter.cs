@@ -22,11 +22,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
   {
     private bool myIsDisposed = false;
 
-    protected BaseDisposableWriter(IServiceMessageProcessor target) : base(target)
-    {
-    }
+    public event EventHandler Disposed;
 
-    protected BaseDisposableWriter(BaseWriter writer) : base(writer)
+
+    protected BaseDisposableWriter(IServiceMessageProcessor target) : base(target)
     {
     }
 
@@ -36,6 +35,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
         throw new ObjectDisposedException(GetType() + " was allready disaposed");
       
       myIsDisposed = true;
+      Disposed(this, EventArgs.Empty);
       DisposeImpl();
     }
 

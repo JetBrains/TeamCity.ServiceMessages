@@ -55,6 +55,8 @@
     <Compile Include="src\Read\StringWrapper.cs" />
     <Compile Include="src\ServiceMessageReplacementsTest.cs" />
     <Compile Include="src\Write\ServiceMessageFormatterTest.cs" />
+    <Compile Include="src\Write\SpecialMessagesTest.cs" />
+    <Compile Include="src\Write\TeamCityWriterBaseTest.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

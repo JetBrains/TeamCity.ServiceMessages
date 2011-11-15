@@ -15,6 +15,7 @@
  */
 
 using System;
+using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
@@ -23,15 +24,19 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     private readonly string myTestName;
     private TimeSpan? myDuration;
 
-    public TeamCityTestWriter(BaseWriter target, string testName) : base(target)
+    public TeamCityTestWriter(IServiceMessageProcessor target, string testName) : base(target)
     {
-      myTestName = testName;
-      PostMessage(new SimpleServiceMessage("testStarted") { { "name", testName }, {"captureStandardOutput", "false"} });
+      myTestName = testName;      
+    }
+
+    public void OpenTest()
+    {
+      PostMessage(new SimpleServiceMessage("testStarted") { { "name", myTestName }, { "captureStandardOutput", "false" } });
     }
 
     protected override void DisposeImpl()
     {
-      var msg = new SimpleServiceMessage("testStarted") { { "name", myTestName }};
+      var msg = new SimpleServiceMessage("testFinished") { { "name", myTestName }};
       if (myDuration != null)
         msg.Add("duration", ((long) myDuration.Value.TotalMilliseconds).ToString());
       PostMessage(msg);
@@ -51,7 +56,20 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 
     public void WriteIgnored(string message)
     {
-      PostMessage(new SimpleServiceMessage("testIgnored") { { "name", myTestName }, { "message", message } });
+      WriteIgnoredImpl(message);
+    }
+
+    public void WriteIgnored()
+    {
+      WriteIgnoredImpl(null);
+    }
+
+    private void WriteIgnoredImpl([CanBeNull] string message)
+    {
+      var msg = new SimpleServiceMessage("testIgnored") { { "name", myTestName }};
+      if (message != null)
+        msg.Add("message", message);
+      PostMessage(msg);
     }
 
     public void WriteTestFailed(string errorMessage, string errorDetails)

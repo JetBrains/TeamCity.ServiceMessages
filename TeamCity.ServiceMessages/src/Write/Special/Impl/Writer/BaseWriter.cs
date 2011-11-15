@@ -18,7 +18,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
   public class BaseWriter
   {
-    private readonly IServiceMessageProcessor myTarget;
+    protected readonly IServiceMessageProcessor myTarget;
 
     protected BaseWriter(IServiceMessageProcessor target)
     {

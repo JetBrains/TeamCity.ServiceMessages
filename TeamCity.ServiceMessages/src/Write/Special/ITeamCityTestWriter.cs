@@ -43,6 +43,11 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     void WriteIgnored([NotNull] string ignoreReason);
 
     /// <summary>
+    /// Marks test as ignored
+    /// </summary>
+    void WriteIgnored();
+
+    /// <summary>
     /// Marks test as failed.
     /// </summary>
     /// <param name="errorMessage">short error message</param>

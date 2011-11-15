@@ -44,6 +44,6 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     /// </summary>
     /// <param name="text">text</param>
     /// <param name="errorDetails">error details</param>
-    void WriteError([NotNull] string text, [CanBeNull] string errorDetails);    
+    void WriteError([NotNull] string text, [CanBeNull] string errorDetails = null);    
   }
 }

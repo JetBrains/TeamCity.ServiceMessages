@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using System;
 using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
@@ -22,6 +23,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
   {
     [CanBeNull]
     private readonly string mySuiteName;
+
+    private int myIsChildTestOpened;
+    private int myIsChildSuiteOpened;
 
     public TeamCityTestsWriter(IServiceMessageProcessor target, string suiteName = null) : base(target)
     {
@@ -35,26 +39,46 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
         PostMessage(new SimpleServiceMessage("testSuiteStarted") {{"name", mySuiteName}});
     }
 
-    public TeamCityTestsWriter(BaseWriter target, string suiteName = null) : base(target)
-    {
-      mySuiteName = suiteName;
-      OpenSuite();
-    }
-
     protected override void DisposeImpl()
     {
+      if (myIsChildTestOpened != 0)
+        throw new InvalidOperationException("Some child test writers were not disposed.");
+
+      if (myIsChildSuiteOpened != 0)
+        throw new InvalidOperationException("Some child test suite writers were not disposed.");
+
       if (mySuiteName != null)
         PostMessage(new SimpleServiceMessage("testSuiteFinished") { { "name", mySuiteName } });
     }
 
     public ITeamCityTestsSubWriter OpenTestSuite(string suiteName)
     {
-      return new TeamCityTestsWriter(this, suiteName);
+      AssertOpenChildBlock();
+
+      var writer = new TeamCityTestsWriter(myTarget, suiteName);
+      myIsChildSuiteOpened++;
+      writer.Disposed += delegate { myIsChildSuiteOpened--; };
+      return writer;
     }
 
     public ITeamCityTestWriter OpenTest(string testName)
     {
-      return new TeamCityTestWriter(this, testName);
+      AssertOpenChildBlock();
+
+      var writer = new TeamCityTestWriter(myTarget, testName);
+      writer.OpenTest();
+      myIsChildTestOpened++;
+      writer.Disposed += delegate { myIsChildTestOpened--; };
+      return writer;
+    }
+
+    private void AssertOpenChildBlock()
+    {
+      if (myIsChildSuiteOpened != 0)
+        throw new InvalidOperationException("There is at least one child test suite opened");
+      if (myIsChildTestOpened != 0)
+        throw new InvalidOperationException("There is at least one test suite opened");
     }
   }
+
 }
