@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using JetBrains.TeamCity.ServiceMessages.Read;
 using JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater;
 using NUnit.Framework;
@@ -44,9 +45,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
       var message = upd.UpdateServiceMessage(new ServiceMessageParser().ParseServiceMessages("##teamcity[simple a='message']").Single());
       var timeStamp = message.GetValue("timestamp");
 
+      Assert.NotNull(timeStamp);
       Console.Out.WriteLine(timeStamp);
 
-      Assert.AreEqual("2012-12-12T12:12:12.012+01:00", timeStamp);
+      var match = Regex.Match(timeStamp, @"^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}:\d{2}(\.\d{3})?([-\+]\d{1,2}:\d{2})?$");
+      Console.Out.WriteLine(match.Value);
+      Assert.IsTrue(match.Success); 
     }
   }
 }
