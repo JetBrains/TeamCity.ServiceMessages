@@ -25,19 +25,19 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
   /// </summary>
   public class SpecializedServiceMessagesWriter : IServiceMessageProcessor
   {
-    private readonly IServiceMessageFormatter myFormaater;
+    private readonly IServiceMessageFormatter myFormatter;
     private readonly List<IServiceMessageUpdater> myUpdaters;
     private readonly Action<string> myPrinter;
 
     /// <summary>
     /// Creates generic processor that calls messages updaters and sends output to provided deledate.
     /// </summary>
-    /// <param name="formaater"></param>
+    /// <param name="formatter"></param>
     /// <param name="updaters"></param>
     /// <param name="printer"></param>
-    public SpecializedServiceMessagesWriter([NotNull] IServiceMessageFormatter formaater, [NotNull] List<IServiceMessageUpdater> updaters, [NotNull] Action<string> printer)
+    public SpecializedServiceMessagesWriter([NotNull] IServiceMessageFormatter formatter, [NotNull] List<IServiceMessageUpdater> updaters, [NotNull] Action<string> printer)
     {
-      myFormaater = formaater;
+      myFormatter = formatter;
       myUpdaters = updaters;
       myPrinter = printer;
     }
@@ -47,7 +47,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
       foreach (var updater in myUpdaters)
         serviceMessage = updater.UpdateServiceMessage(serviceMessage);
 
-      myPrinter(myFormaater.FormatMessage(serviceMessage));
+      myPrinter(myFormatter.FormatMessage(serviceMessage));
     }
   }
 }
