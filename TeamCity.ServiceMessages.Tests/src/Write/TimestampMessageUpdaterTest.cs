@@ -48,7 +48,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
       Assert.NotNull(timeStamp);
       Console.Out.WriteLine(timeStamp);
 
-      var match = Regex.Match(timeStamp, @"^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}:\d{2}(\.\d{3})?([-\+]\d{1,2}:\d{2})?$");
+      var match = Regex.Match(timeStamp, @"^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}:\d{2}(\.\d{3})?([-\+]\d{1,2}\d{2})?$");
       Console.Out.WriteLine(match.Value);
       Assert.IsTrue(match.Success); 
     }

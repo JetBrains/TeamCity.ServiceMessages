@@ -35,7 +35,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     public IServiceMessage UpdateServiceMessage(IServiceMessage message)
     {
       if (message.DefaultValue != null) return message;
-      return new PatchedServiceMessage(message) { { "timestamp", myTimeService().ToString("yyyy-MM-dd'T'HH:mm:ss.fffzzz", CultureInfo.InvariantCulture) } };      
+      return new PatchedServiceMessage(message) { { "timestamp", myTimeService().ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fff", CultureInfo.InvariantCulture) + "+0000" } };
     }
   }
 }
