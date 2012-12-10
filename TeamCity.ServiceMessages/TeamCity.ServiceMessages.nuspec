@@ -13,7 +13,7 @@
     <tags>TeamCity ServiceMessage ServiceMessages</tags>
   </metadata>
   <files>
-    <file src="bin/Release/**" target="lib/net20" />
-    <file src="bin/Release4/**" target="lib/net40" />
+    <file src="TeamCity.ServiceMessages/bin/Release/**" target="lib/net20" />
+    <file src="TeamCity.ServiceMessages/bin/Release4/**" target="lib/net40" />
   </files>
 </package>
