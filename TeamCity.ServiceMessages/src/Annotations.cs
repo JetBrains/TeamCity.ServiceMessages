@@ -23,7 +23,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// Indicates that marked element should be localized or not.
   /// </summary>
   [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
-  public sealed class LocalizationRequiredAttribute : Attribute
+  internal sealed class LocalizationRequiredAttribute : Attribute
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="LocalizationRequiredAttribute"/> class.
@@ -69,7 +69,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// The format string should be in <see cref="string.Format(IFormatProvider,string,object[])"/> -like form
   /// </summary>
   [AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-  public sealed class StringFormatMethodAttribute : Attribute
+  internal sealed class StringFormatMethodAttribute : Attribute
   {
     private readonly string myFormatParameterName;
 
@@ -96,7 +96,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// For example, <see cref="ArgumentNullException"/> has such parameter.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
-  public sealed class InvokerParameterNameAttribute : Attribute
+  internal sealed class InvokerParameterNameAttribute : Attribute
   {
   }
 
@@ -106,7 +106,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// </summary>
   /// <seealso cref="AssertionConditionAttribute"/>
   [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-  public sealed class AssertionMethodAttribute : Attribute
+  internal sealed class AssertionMethodAttribute : Attribute
   {
   }
 
@@ -117,7 +117,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// </summary>
   /// <seealso cref="AssertionConditionType"/>
   [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
-  public sealed class AssertionConditionAttribute : Attribute
+  internal sealed class AssertionConditionAttribute : Attribute
   {
     private readonly AssertionConditionType myConditionType;
 
@@ -143,7 +143,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// Specifies assertion type. If the assertion method argument satisifes the condition, then the execution continues. 
   /// Otherwise, execution is assumed to be halted
   /// </summary>
-  public enum AssertionConditionType
+  internal enum AssertionConditionType
   {
     /// <summary>
     /// Indicates that the marked parameter should be evaluated to true
@@ -171,7 +171,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// For example, it could unconditionally throw exception
   /// </summary>
   [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-  public sealed class TerminatesProgramAttribute : Attribute
+  internal sealed class TerminatesProgramAttribute : Attribute
   {
   }
 
@@ -179,7 +179,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// Indicates that the value of marked element could be <c>null</c> sometimes, so the check for <c>null</c> is necessary before its usage
   /// </summary>
   [AttributeUsage(AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Delegate | AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
-  public sealed class CanBeNullAttribute : Attribute
+  internal sealed class CanBeNullAttribute : Attribute
   {
   }
 
@@ -187,7 +187,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// Indicates that the value of marked element could never be <c>null</c>
   /// </summary>
   [AttributeUsage(AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Delegate | AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
-  public sealed class NotNullAttribute : Attribute
+  internal sealed class NotNullAttribute : Attribute
   {
   }
 
@@ -196,7 +196,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// There is only exception to compare with <c>null</c>, it is permitted
   /// </summary>
   [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false, Inherited = true)]
-  public sealed class CannotApplyEqualityOperatorAttribute : Attribute
+  internal sealed class CannotApplyEqualityOperatorAttribute : Attribute
   {
   }
 
@@ -207,17 +207,17 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// <example>
   /// <code>
   /// [BaseTypeRequired(typeof(IComponent)] // Specify requirement
-  /// public class ComponentAttribute : Attribute 
+  /// internal class ComponentAttribute : Attribute 
   /// {}
   /// 
   /// [Component] // ComponentAttribute requires implementing IComponent interface
-  /// public class MyComponent : IComponent
+  /// internal class MyComponent : IComponent
   /// {}
   /// </code>
   /// </example>
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
   [BaseTypeRequired(typeof(Attribute))]
-  public sealed class BaseTypeRequiredAttribute : Attribute
+  internal sealed class BaseTypeRequiredAttribute : Attribute
   {    
     private readonly Type[] myBaseTypes;
 
@@ -244,7 +244,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// so this symbol will not be marked as unused (as well as by other usage inspections)
   /// </summary>
   [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
-  public sealed class UsedImplicitlyAttribute : Attribute
+  internal sealed class UsedImplicitlyAttribute : Attribute
   {
     [UsedImplicitly]
     public UsedImplicitlyAttribute()
@@ -285,7 +285,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// Should be used on attributes and causes ReSharper to not mark symbols marked with such attributes as unused (as well as by other usage inspections)
   /// </summary>
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-  public sealed  class MeansImplicitUseAttribute : Attribute
+  internal sealed  class MeansImplicitUseAttribute : Attribute
   {
     [UsedImplicitly]
     public MeansImplicitUseAttribute() 
@@ -323,7 +323,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   }
   
   [Flags]
-  public enum ImplicitUseKindFlags
+  internal enum ImplicitUseKindFlags
   {
     Default = Access | Assign | InstantiatedWithFixedConstructorSignature,
 
@@ -353,7 +353,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// Specify what is considered used implicitly when marked with <see cref="MeansImplicitUseAttribute"/> or <see cref="UsedImplicitlyAttribute"/>
   /// </summary>
   [Flags]
-  public enum ImplicitUseTargetFlags
+  internal enum ImplicitUseTargetFlags
   {
     Default = Itself,
 
@@ -371,17 +371,17 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   }
 
   /// <summary>
-  /// This attribute is intended to mark publicly available API which should not be removed and so is treated as used.
+  /// This attribute is intended to mark internally available API which should not be removed and so is treated as used.
   /// </summary>
   [MeansImplicitUse]
-  public sealed class PublicAPIAttribute : Attribute
+  internal sealed class internalAPIAttribute : Attribute
   {
-    public PublicAPIAttribute()
+    public internalAPIAttribute()
     {
     }
 
 // ReSharper disable UnusedParameter.Local
-    public PublicAPIAttribute(string comment)
+    public internalAPIAttribute(string comment)
 // ReSharper restore UnusedParameter.Local
     {
     }
@@ -393,7 +393,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// If the parameter is enumerable, indicates that it is enumerated while the method is executed.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter, Inherited = true)]
-  public sealed class InstantHandleAttribute : Attribute
+  internal sealed class InstantHandleAttribute : Attribute
   {
   }
 
@@ -402,12 +402,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
   /// The same as <see cref="System.Diagnostics.Contracts.PureAttribute"/>
   /// </summary>
   [AttributeUsage(AttributeTargets.Method, Inherited = true)]
-  public sealed class PureAttribute : Attribute {}
+  internal sealed class PureAttribute : Attribute {}
 }
 namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter)]
-  public class PathReferenceAttribute : System.Attribute
+  internal class PathReferenceAttribute : System.Attribute
   {
     public PathReferenceAttribute() { }
 
@@ -422,12 +422,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
 namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter)]
-  public sealed class AspMvcModelTypeAttribute : System.Attribute { }
+  internal sealed class AspMvcModelTypeAttribute : System.Attribute { }
 }
 namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter | System.AttributeTargets.Method)]
-  public sealed class AspMvcControllerAttribute : System.Attribute
+  internal sealed class AspMvcControllerAttribute : System.Attribute
   {
     public string AnonymousProperty { get; private set; }
     
@@ -442,21 +442,21 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
 namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter)]
-  public sealed class AspMvcMasterAttribute : System.Attribute
+  internal sealed class AspMvcMasterAttribute : System.Attribute
   {
   }
 }
 namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter | System.AttributeTargets.Method)]
-  public sealed class AspMvcViewAttribute : PathReferenceAttribute
+  internal sealed class AspMvcViewAttribute : PathReferenceAttribute
   {
   }
 }
 namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter)]
-  public sealed class AspMvcAreaAttribute : PathReferenceAttribute
+  internal sealed class AspMvcAreaAttribute : PathReferenceAttribute
   {
     public string AnonymousProperty { get; private set; }
     
@@ -471,7 +471,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
 namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter | System.AttributeTargets.Method)]
-  public sealed class AspMvcActionAttribute : System.Attribute
+  internal sealed class AspMvcActionAttribute : System.Attribute
   {
     public string AnonymousProperty { get; private set; }
     
@@ -486,7 +486,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Annotations
 namespace JetBrains.TeamCity.ServiceMessages.Annotations
 {
   [System.AttributeUsage(System.AttributeTargets.Parameter)]
-  public sealed class AspMvcTemplateAttribute : System.Attribute
+  internal sealed class AspMvcTemplateAttribute : System.Attribute
   {
   }
 }
