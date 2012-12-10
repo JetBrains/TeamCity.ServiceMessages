@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9F013D
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCity.ServiceMessages.net4", "TeamCity.ServiceMessages\TeamCity.ServiceMessages.net4.csproj", "{C6618EF1-7190-46FB-B51B-E94D85EA7728}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{EF2FBABE-8456-474C-9BA1-B76A8C64DFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF2FBABE-8456-474C-9BA1-B76A8C64DFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF2FBABE-8456-474C-9BA1-B76A8C64DFBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6618EF1-7190-46FB-B51B-E94D85EA7728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6618EF1-7190-46FB-B51B-E94D85EA7728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6618EF1-7190-46FB-B51B-E94D85EA7728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6618EF1-7190-46FB-B51B-E94D85EA7728}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

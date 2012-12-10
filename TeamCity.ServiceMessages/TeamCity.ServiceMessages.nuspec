@@ -12,4 +12,8 @@
     <description>This library provides read/write access to TeamCity Service messages. Take a look at the description of service messages at http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ServiceMessages</description>
     <tags>TeamCity ServiceMessage ServiceMessages</tags>
   </metadata>
+  <files>
+    <file src="bin/Release/**" target="lib/net20" />
+    <file src="bin/Release4/**" target="lib/net40" />
+  </files>
 </package>
