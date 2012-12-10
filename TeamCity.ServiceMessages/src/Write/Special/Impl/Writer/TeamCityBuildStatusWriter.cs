@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+using System;
+using JetBrains.TeamCity.ServiceMessages.Read;
+
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
   public class TeamCityBuildStatusWriter : BaseWriter, ITeamCityBuildStatusWriter
@@ -25,6 +28,14 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     public void WriteBuildNumber(string buildNumber)
     {
       PostMessage(new ValueServiceMessage("buildNumber", buildNumber));
+    }
+
+    public void WriteBuildProblem(string identity, string message)
+    {
+      if (identity.Length >= 60)
+        throw new ArgumentOutOfRangeException("identity", "Value is too big. Only 60 chars are allowed");
+
+      PostMessage(new SimpleServiceMessage("buildProblem") { { "identity", identity }, {"description", message}});
     }
 
     public void WriteBuildParameter(string parameterName, string parameterValue)

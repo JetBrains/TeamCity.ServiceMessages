@@ -42,6 +42,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
       myStatusWriter.WriteBuildNumber(buildNumber);
     }
 
+    public void WriteBuildProblem(string identity, string message)
+    {
+      CheckConsistency();
+      myStatusWriter.WriteBuildProblem(identity, message);
+    }
+
     public void WriteBuildParameter(string parameterName, string parameterValue)
     {
       CheckConsistency();

@@ -45,5 +45,11 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
     {
       DoTest(x => x.WriteBuildStatistics("num", "100500.5"), "##teamcity[buildStatisticValue key='num' value='100500.5']");
     }
+
+    [Test]
+    public void TestBuildProblem()
+    {
+      DoTest(x => x.WriteBuildProblem("id5", "aaaa"), "##teamcity[buildProblem identity='id5' description='aaaa']");
+    }
   }
 }

@@ -35,11 +35,18 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 
 
     /// <summary>
+    /// Generates build problem service message
+    /// </summary>
+    /// <param name="identity">problem unique identity, no more than 60 chars</param>
+    /// <param name="description">problem message</param>
+    void WriteBuildProblem([NotNull] string identity, [NotNull] string description);
+
+    /// <summary>
     /// Generates service message to update build parameter
     /// 
     /// http://confluence.jetbrains.net/display/TCD7/Configuring+Build+Parameters
     /// </summary>
-    /// <param name="parameterName">parameter name, could start with env. or system. </param>
+    /// <param name="parameterName">parameter name, could start with env. for environment, system. for system property, otherwise it would be config parameter</param>
     /// <param name="parameterValue">value</param>
     /// 
     void WriteBuildParameter([NotNull] string parameterName, [NotNull] string parameterValue);

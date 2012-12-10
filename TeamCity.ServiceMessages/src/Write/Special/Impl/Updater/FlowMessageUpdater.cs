@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Globalization;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 {
@@ -38,7 +39,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     /// <summary>
     /// Generates random flowId
     /// </summary>
-    public FlowMessageUpdater() : this((DateTime.Now.Ticks % int.MaxValue).ToString())
+    public FlowMessageUpdater() : this((DateTime.Now.Ticks % int.MaxValue).ToString(CultureInfo.InvariantCulture))
     {
     }
 

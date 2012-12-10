@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Globalization;
 using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
@@ -38,7 +39,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     {
       var msg = new SimpleServiceMessage("testFinished") { { "name", myTestName }};
       if (myDuration != null)
-        msg.Add("duration", ((long) myDuration.Value.TotalMilliseconds).ToString());
+        msg.Add("duration", ((long) myDuration.Value.TotalMilliseconds).ToString(CultureInfo.InvariantCulture));
       PostMessage(msg);
     }
 
