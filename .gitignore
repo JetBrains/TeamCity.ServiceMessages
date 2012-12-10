@@ -8,3 +8,4 @@ bin*
 *.cache
 _ReSharper*
 packages/**/*
+packages
