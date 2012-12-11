@@ -18,6 +18,7 @@ using System;
 using System.Text;
 using JetBrains.TeamCity.ServiceMessages.Write;
 using JetBrains.TeamCity.ServiceMessages.Write.Special;
+using JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer;
 using NUnit.Framework;
 using System.Linq;
 

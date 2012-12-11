@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+#pragma warning disable 642
 using System;
 using JetBrains.TeamCity.ServiceMessages.Write.Special;
 using JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer;
@@ -73,7 +73,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
                {
                  using (var suite = x.OpenTestSuite("suite3"))
                  {
-                   using (var suite2 = suite.OpenTestSuite("suite3.444")) ;
+                   using (var suite2 = suite.OpenTestSuite("suite3.444"))
+                   {
+                     //NOP
+                   }
                  }
                },
              "##teamcity[testSuiteStarted name='suite3']",
@@ -93,7 +96,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
                  {
                    using (var suite2 = suite.OpenTestSuite("suite3.333"))
                    {
-                     using (var test = suite2.OpenTest("test")) ;
+                     using (var test = suite2.OpenTest("test"))
+                     {
+                       //NOP
+                     }
                    }
                  }
                },
@@ -115,9 +121,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
                  {
                    using (var suite2 = suite.OpenTestSuite("suite3.333"))
                    {
-                     using (var test = suite2.OpenTest("test")) ;
-                     using (var test = suite2.OpenTest("test2")) ;
-                     using (var test = suite2.OpenTest("test3")) ;
+                     using (suite2.OpenTest("test")) ;
+                     using (suite2.OpenTest("test2")) ;
+                     using (suite2.OpenTest("test3")) ;
                    }
                  }
                },

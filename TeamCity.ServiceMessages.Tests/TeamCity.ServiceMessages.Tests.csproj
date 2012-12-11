@@ -56,6 +56,8 @@
     <Compile Include="src\Read\ServiceMessageParserTest.cs" />
     <Compile Include="src\Read\StringWrapper.cs" />
     <Compile Include="src\ServiceMessageReplacementsTest.cs" />
+    <Compile Include="src\Write\Specials\DisposableDelegate.cs" />
+    <Compile Include="src\Write\Specials\TeamCityWriterTest.cs" />
     <Compile Include="src\Write\Updaters\FlowMessageUpdaterTest.cs" />
     <Compile Include="src\Write\ServiceMessageFormatterTest.cs" />
     <Compile Include="src\Write\Specials\TeamCityArtifactsWriterTest.cs" />

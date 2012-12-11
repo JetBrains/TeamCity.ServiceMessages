@@ -29,7 +29,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
   /// <remarks>
   /// Implementation is not thread-safe. Create an instance for each thread instead.
   /// </remarks>
-  public interface ITeamCityWriter : ITeamCityBlockWriter<ITeamCityWriter>, ITeamCityMessageWriter, ITeamCityTestsWriter, ITeamCityCompilationBlockWriter<ITeamCityWriter>, ITeamCityArtifactsWriter, ITeamCityBuildStatusWriter, IDisposable
+  public interface ITeamCityWriter : ITeamCityBlockWriter<ITeamCityWriter>, ITeamCityFlowWriter<ITeamCityWriter>, ITeamCityMessageWriter, ITeamCityTestsWriter, ITeamCityCompilationBlockWriter<ITeamCityWriter>, ITeamCityArtifactsWriter, ITeamCityBuildStatusWriter, IDisposable
   {
     /// <summary>
     ///  Allows to send bare service message

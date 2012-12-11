@@ -20,7 +20,7 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 {
   /// <summary>
-  /// Generates pair of service messages like 
+  /// Generates pair of service messages to open/close block, for example:
   /// <pre>##teamcity[blockOpened name='&lt;blockName>']</pre>
   /// and 
   /// <pre>##teamcity[blockClosed name='&lt;blockName>']</pre>
@@ -37,6 +37,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     /// </summary>
     /// <param name="blockName">block name to report</param>
     /// <returns></returns>
+    [NotNull]
     CloseBlock OpenBlock([NotNull] string blockName);
   }
 }

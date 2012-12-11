@@ -85,6 +85,7 @@
     <Compile Include="src\Write\Special\ITeamCityBlockWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityBuildStatusWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityCompilationBlockWriter.cs" />
+    <Compile Include="src\Write\Special\ITeamCityFlowWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityMessageWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityServiceMessages.cs" />
     <Compile Include="src\Write\Special\ITeamCityTestSuiteWriter.cs" />

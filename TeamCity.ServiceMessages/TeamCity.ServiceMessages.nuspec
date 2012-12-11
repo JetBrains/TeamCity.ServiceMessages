@@ -13,7 +13,9 @@
     <tags>TeamCity ServiceMessage ServiceMessages</tags>
   </metadata>
   <files>
-    <file src="TeamCity.ServiceMessages/bin/Release/**" target="lib/net20" />
-    <file src="TeamCity.ServiceMessages/bin/Release4/**" target="lib/net40" />
+    <file src="TeamCity.ServiceMessages/bin/Release/*.dll" target="lib/net20" />
+    <file src="TeamCity.ServiceMessages/bin/Release/*.xml" target="lib/net20" />
+    <file src="TeamCity.ServiceMessages/bin/Release4/*.dll" target="lib/net40" />
+    <file src="TeamCity.ServiceMessages/bin/Release4/*.xml" target="lib/net40" />
   </files>
 </package>
