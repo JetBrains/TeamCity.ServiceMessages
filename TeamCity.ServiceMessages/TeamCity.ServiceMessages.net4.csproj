@@ -51,52 +51,136 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Annotations.cs" />
-    <Compile Include="src\IServiceMessage.cs" />
-    <Compile Include="src\Read\IServiceMessageParser.cs" />
-    <Compile Include="src\ServiceMessageConstants.cs" />
-    <Compile Include="src\Read\ServiceMessage.cs" />
-    <Compile Include="src\Read\ServiceMessageParser.cs" />
-    <Compile Include="src\ServiceMessageReplacements.cs" />
-    <Compile Include="src\Write\IServiceMessageFormatter.cs" />
-    <Compile Include="src\Write\ServiceMessageFormatter.cs" />
-    <Compile Include="src\Write\ServiceMessageProperty.cs" />
-    <Compile Include="src\Write\Special\IFlowServiceMessagesProcessor.cs" />
-    <Compile Include="src\Write\Special\Impl\DisposableDelegate.cs" />
-    <Compile Include="src\Write\Special\Impl\FlowServiceMessagesWriter.cs" />
-    <Compile Include="src\Write\Special\Impl\PatchedServiceMessage.cs" />
-    <Compile Include="src\Write\Special\Impl\SimpleServiceMessage.cs" />
-    <Compile Include="src\Write\Special\Impl\TeamCityWriterFacade.cs" />
-    <Compile Include="src\Write\Special\Impl\TeamCityWriterImpl.cs" />
-    <Compile Include="src\Write\Special\Impl\Updater\FlowId.cs" />
-    <Compile Include="src\Write\Special\Impl\Updater\FlowMessageUpdater.cs" />
-    <Compile Include="src\Write\Special\Impl\Updater\TimestampUpdater.cs" />
-    <Compile Include="src\Write\Special\Impl\ValueServiceMessage.cs" />
-    <Compile Include="src\Write\Special\Impl\Writer\BaseDisposableWriter.cs" />
-    <Compile Include="src\Write\Special\Impl\Writer\BaseWriter.cs" />
-    <Compile Include="src\Write\Special\Impl\Writer\IChildInfoProvider.cs" />
-    <Compile Include="src\Write\Special\Impl\Writer\TeamCityArtifactsWriter.cs" />
-    <Compile Include="src\Write\Special\Impl\Writer\TeamCityBlockWriter.cs" />
-    <Compile Include="src\Write\Special\Impl\Writer\TeamCityBuildStatusWriter.cs" />
-    <Compile Include="src\Write\Special\Impl\Writer\TeamCityCompilationBlockWriter.cs" />
-    <Compile Include="src\Write\Special\Impl\Writer\TeamCityFlowWriter.cs" />
-    <Compile Include="src\Write\Special\Impl\Writer\TeamCityMessageWriter.cs" />
-    <Compile Include="src\Write\Special\Impl\Writer\TeamCityTestsWriter.cs" />
-    <Compile Include="src\Write\Special\Impl\Writer\TeamCityTestWriter.cs" />
-    <Compile Include="src\Write\Special\IServiceMessageProcessor.cs" />
-    <Compile Include="src\Write\Special\IServiceMessageUpdater.cs" />
-    <Compile Include="src\Write\Special\ITeamCityArtifactsWriter.cs" />
-    <Compile Include="src\Write\Special\ITeamCityBlockWriter.cs" />
-    <Compile Include="src\Write\Special\ITeamCityBuildStatusWriter.cs" />
-    <Compile Include="src\Write\Special\ITeamCityCompilationBlockWriter.cs" />
-    <Compile Include="src\Write\Special\ITeamCityFlowWriter.cs" />
-    <Compile Include="src\Write\Special\ITeamCityMessageWriter.cs" />
-    <Compile Include="src\Write\Special\ITeamCityServiceMessages.cs" />
-    <Compile Include="src\Write\Special\ITeamCityTestSuiteWriter.cs" />
-    <Compile Include="src\Write\Special\ITeamCityTestsWriter.cs" />
-    <Compile Include="src\Write\Special\ITeamCityTestWriter.cs" />
-    <Compile Include="src\Write\Special\ITeamCityWriter.cs" />
-    <Compile Include="src\Write\Special\TeamCityServiceMessages.cs" />
+    <Compile Include="src\Annotations.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\IServiceMessage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Read\IServiceMessageParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Read\ServiceMessage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Read\ServiceMessageParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\ServiceMessageConstants.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\ServiceMessageReplacements.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\IServiceMessageFormatter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\ServiceMessage.cs" />
+    <Compile Include="src\Write\ServiceMessageFormatter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\ServiceMessageProperty.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\IFlowIdGenerator.cs" />
+    <Compile Include="src\Write\Special\IFlowServiceMessageProcessor.cs" />
+    <Compile Include="src\Write\Special\Impl\DefaultFlowIdGenerator.cs" />
+    <Compile Include="src\Write\Special\Impl\DisposableDelegate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\FlowServiceMessageWriter.cs" />
+    <Compile Include="src\Write\Special\Impl\PatchedServiceMessage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\ServiceMessagesWriter.cs" />
+    <Compile Include="src\Write\Special\Impl\TeamCityWriterFacade.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\TeamCityWriterImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Updater\FlowMessageUpdater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Updater\TimestampUpdater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\ValueServiceMessage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Writer\BaseDisposableWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Writer\BaseWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Writer\IChildInfoProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityArtifactsWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityBlockWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityBuildStatusWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityCompilationBlockWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityFlowWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityMessageWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityTestSuiteBlock.cs" />
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityTestWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\IServiceMessageProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\IServiceMessageUpdater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\ITeamCityArtifactsWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\ITeamCityBlockWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\ITeamCityBuildStatusWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\ITeamCityCompilationBlockWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\ITeamCityFlowWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\ITeamCityMessageWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\ITeamCityServiceMessages.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\ITeamCityTestSuiteWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\ITeamCityTestsWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\ITeamCityTestWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\ITeamCityWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Write\Special\TeamCityServiceMessages.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TeamCity.ServiceMessages.snk" />
