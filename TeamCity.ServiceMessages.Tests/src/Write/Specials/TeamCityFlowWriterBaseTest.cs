@@ -12,7 +12,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
 
     protected sealed override T Create(IServiceMessageProcessor proc)
     {
-      return Create(new FlowServiceMessageWriter(proc, Enumerable.Empty<IServiceMessageUpdater>()));
+      return Create(new FlowServiceMessageWriter(proc, new DefaultFlowIdGenerator(), Enumerable.Empty<IServiceMessageUpdater>()));
     }
 
     protected override ToStringProcessor CreateProcessor()
@@ -31,7 +31,6 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
           base.AddServiceMessage(serviceMessage);
           return;          
         }
-
 
         if (serviceMessage.Name == "flowStarted")
           serviceMessage = new PatchedServiceMessage(serviceMessage) { { "parent", FlowToString(serviceMessage.GetValue("parent")) } }; 

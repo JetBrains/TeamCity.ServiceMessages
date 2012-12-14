@@ -28,25 +28,37 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
   /// </summary>
   public class TeamCityServiceMessages : ITeamCityServiceMessages
   {
-    private readonly IServiceMessageFormatter myFormatter;
-    private readonly List<IServiceMessageUpdater> myUpdaters;
+    [NotNull]
+    public IServiceMessageFormatter Formatter { get; set; }
+    
+    [NotNull]
+    public IFlowIdGenerator FlowIdGenerator { get; set; }
+    
+    [NotNull]
+    public IEnumerable<IServiceMessageUpdater> Updaters { get; set; }
 
-    public TeamCityServiceMessages()
-      : this(new ServiceMessageFormatter(), new IServiceMessageUpdater[] { new FlowMessageUpdater(), new TimestampUpdater(() => DateTime.Now) })
-    {
+    public TeamCityServiceMessages(){
+      Formatter = new ServiceMessageFormatter();
+      Updaters = new IServiceMessageUpdater[] {new TimestampUpdater(() => DateTime.Now)};
+      FlowIdGenerator = new DefaultFlowIdGenerator();
     }
 
-    public TeamCityServiceMessages([NotNull] IServiceMessageFormatter formatter, [NotNull] IEnumerable<IServiceMessageUpdater> updaters)
+    /// <summary>
+    /// Most specific constructor. Could be used with DI
+    /// </summary>
+    public TeamCityServiceMessages([NotNull] IServiceMessageFormatter formatter, 
+                                   [NotNull] IFlowIdGenerator flowIdGenerator, 
+                                   [NotNull] IEnumerable<IServiceMessageUpdater> updaters)
     {
-      myFormatter = formatter;
-      myUpdaters = updaters.ToList();
+      Formatter = formatter;
+      FlowIdGenerator = flowIdGenerator;
+      Updaters = updaters;
     }
 
     public void AddServiceMessageUpdater(IServiceMessageUpdater updater)
     {
-      myUpdaters.Add(updater);
+      Updaters = Updaters.Union(new [] {updater}).ToArray();      
     }
-
 
     public ITeamCityWriter CreateWriter()
     {
@@ -55,7 +67,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 
     public ITeamCityWriter CreateWriter(Action<string> destination)
     {
-      var processor = new FlowServiceMessageWriter(new ServiceMessagesWriter(myFormatter, destination), myUpdaters.ToList());
+      var processor = new FlowServiceMessageWriter(new ServiceMessagesWriter(Formatter, destination), FlowIdGenerator, Updaters.ToList());
       return new TeamCityWriterImpl(
         processor,
         new DisposableDelegate(() => { })

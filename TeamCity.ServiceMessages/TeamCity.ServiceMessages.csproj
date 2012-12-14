@@ -61,13 +61,14 @@
     <Compile Include="src\Write\ServiceMessage.cs" />
     <Compile Include="src\Write\ServiceMessageFormatter.cs" />
     <Compile Include="src\Write\ServiceMessageProperty.cs" />
+    <Compile Include="src\Write\Special\IFlowIdGenerator.cs" />
+    <Compile Include="src\Write\Special\Impl\DefaultFlowIdGenerator.cs" />
     <Compile Include="src\Write\Special\Impl\DisposableDelegate.cs" />
     <Compile Include="src\Write\Special\Impl\PatchedServiceMessage.cs" />
     <Compile Include="src\Write\Special\Impl\ServiceMessagesWriter.cs" />
     <Compile Include="src\Write\Special\Impl\FlowServiceMessageWriter.cs" />
     <Compile Include="src\Write\Special\Impl\TeamCityWriterFacade.cs" />
     <Compile Include="src\Write\Special\Impl\TeamCityWriterImpl.cs" />
-    <Compile Include="src\Write\Special\Impl\Updater\FlowId.cs" />
     <Compile Include="src\Write\Special\Impl\Updater\FlowMessageUpdater.cs" />
     <Compile Include="src\Write\Special\Impl\Updater\TimestampUpdater.cs" />
     <Compile Include="src\Write\Special\Impl\ValueServiceMessage.cs" />

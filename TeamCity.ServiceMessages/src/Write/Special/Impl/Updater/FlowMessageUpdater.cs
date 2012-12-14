@@ -36,10 +36,11 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     }
 
     /// <summary>
-    /// Generates random flowId
+    /// Creates flow id from given generator instance
     /// </summary>
-    public FlowMessageUpdater() : this(Updater.FlowId.NewFlowId())
-    {
+    /// <param name="flowId"></param>
+    public FlowMessageUpdater([NotNull] IFlowIdGenerator flowId) : this(flowId.NewFlowId())
+    {      
     }
 
     [NotNull]

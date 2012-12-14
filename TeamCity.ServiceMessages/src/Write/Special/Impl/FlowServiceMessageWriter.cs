@@ -27,17 +27,21 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
   public class FlowServiceMessageWriter : IFlowServiceMessageProcessor
   {
     private readonly IServiceMessageProcessor myProcessor;
+    private readonly IFlowIdGenerator myGenerator;
     private readonly List<IServiceMessageUpdater> myUpdaters;
 
     /// <summary>
     /// Creates generic processor that calls messages updaters and sends output to provided deledate.
     /// </summary>
-    /// <param name="processor"></param>
-    /// <param name="updaters"></param>
+    /// <param name="processor">writer of service messages objects</param>
+    /// <param name="generator">flow id generator that is called to create next flowId</param>
+    /// <param name="updaters">service message updaters, i.e. timestamp updater</param>
     public FlowServiceMessageWriter([NotNull] IServiceMessageProcessor processor, 
-                                     [NotNull] IEnumerable<IServiceMessageUpdater> updaters)
+                                    [NotNull] IFlowIdGenerator generator,
+                                    [NotNull] IEnumerable<IServiceMessageUpdater> updaters)
     {
       myProcessor = processor;
+      myGenerator = generator;
       myUpdaters = IncludeFlowId(updaters);      
     }
 
@@ -58,15 +62,16 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
     {
       return new FlowServiceMessageWriter(
         myProcessor,
+        myGenerator, 
         IncludeFlowId(myUpdaters)
         );
     }
 
     [NotNull]
-    private static List<IServiceMessageUpdater> IncludeFlowId([NotNull] IEnumerable<IServiceMessageUpdater> updaters)
+    private List<IServiceMessageUpdater> IncludeFlowId([NotNull] IEnumerable<IServiceMessageUpdater> updaters)
     {
       return updaters.Where(x => !(x is FlowMessageUpdater))
-                     .Union(new[] {new FlowMessageUpdater()})
+                     .Union(new[] {new FlowMessageUpdater(myGenerator)})
                      .ToList();
     }
   }

@@ -1,23 +1,19 @@
 using System;
 using System.Globalization;
 using System.Threading;
-using JetBrains.TeamCity.ServiceMessages.Annotations;
 
-namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
+namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
 {
   /// <summary>
   /// Helper class to generate FlowIds
-  /// </summary>
-  /// //TODO: make as interface and allow to change
-  public static class FlowId
+  /// </summary>  
+  public class DefaultFlowIdGenerator : IFlowIdGenerator
   {
     private static int myIds;
     /// <summary>
     /// Generates new unique FlowId
     /// </summary>
-    /// <returns></returns>
-    [NotNull]
-    public static string NewFlowId()
+    public string NewFlowId()
     {
       return
         (
