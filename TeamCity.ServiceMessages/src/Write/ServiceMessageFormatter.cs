@@ -86,7 +86,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
       {
         return FormatMessage(serviceMessage.Name, serviceMessage.DefaultValue);
       }
-      return FormatMessage(serviceMessage.Name, serviceMessage.Keys.Select(key => new ServiceMessageProperty(key, serviceMessage.GetValue(key))));
+      return FormatMessage(serviceMessage.Name, serviceMessage.Keys.Select(key => new ServiceMessageProperty(key, serviceMessage.GetValue(key) ?? "")));
     }
 
     /// <summary>
