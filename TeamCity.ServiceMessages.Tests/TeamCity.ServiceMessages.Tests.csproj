@@ -56,18 +56,20 @@
     <Compile Include="src\Read\ServiceMessageParserTest.cs" />
     <Compile Include="src\Read\StringWrapper.cs" />
     <Compile Include="src\ServiceMessageReplacementsTest.cs" />
-    <Compile Include="src\Write\FlowMessageUpdaterTest.cs" />
+    <Compile Include="src\Write\Specials\DisposableDelegate.cs" />
+    <Compile Include="src\Write\Specials\TeamCityWriterTest.cs" />
+    <Compile Include="src\Write\Updaters\FlowMessageUpdaterTest.cs" />
     <Compile Include="src\Write\ServiceMessageFormatterTest.cs" />
-    <Compile Include="src\Write\TeamCityArtifactsWriterTest.cs" />
-    <Compile Include="src\Write\TeamCityBlockWriterTest.cs" />
-    <Compile Include="src\Write\TeamCityBuildStatusWriterTest.cs" />
-    <Compile Include="src\Write\TeamCityCompilationBlockWriterTest.cs" />
-    <Compile Include="src\Write\TeamCityMessageWriterTest.cs" />
+    <Compile Include="src\Write\Specials\TeamCityArtifactsWriterTest.cs" />
+    <Compile Include="src\Write\Specials\TeamCityBlockWriterTest.cs" />
+    <Compile Include="src\Write\Specials\TeamCityBuildStatusWriterTest.cs" />
+    <Compile Include="src\Write\Specials\TeamCityCompilationBlockWriterTest.cs" />
+    <Compile Include="src\Write\Specials\TeamCityMessageWriterTest.cs" />
     <Compile Include="src\Write\TeamCityServiceMessagesTest.cs" />
-    <Compile Include="src\Write\TeamCityTestsWriterTest.cs" />
-    <Compile Include="src\Write\TeamCityTestWriterTest.cs" />
-    <Compile Include="src\Write\TeamCityWriterBaseTest.cs" />
-    <Compile Include="src\Write\TimestampMessageUpdaterTest.cs" />
+    <Compile Include="src\Write\Specials\TeamCityTestsWriterTest.cs" />
+    <Compile Include="src\Write\Specials\TeamCityTestWriterTest.cs" />
+    <Compile Include="src\Write\Specials\TeamCityWriterBaseTest.cs" />
+    <Compile Include="src\Write\Updaters\TimestampMessageUpdaterTest.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
