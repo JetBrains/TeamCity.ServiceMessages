@@ -20,12 +20,12 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
-  public class TeamCityTestWriter : BaseDisposableWriter, ITeamCityTestWriter 
+  public class TeamCityTestWriter : BaseDisposableWriter<IServiceMessageProcessor>, ITeamCityTestWriter 
   {
     private readonly string myTestName;
     private TimeSpan? myDuration;
 
-    public TeamCityTestWriter(IServiceMessageProcessor target, string testName) : base(target)
+    public TeamCityTestWriter([NotNull] IServiceMessageProcessor target, [NotNull] string testName, [NotNull] IDisposable disposableHander) : base(target, disposableHander)
     {
       myTestName = testName;      
     }

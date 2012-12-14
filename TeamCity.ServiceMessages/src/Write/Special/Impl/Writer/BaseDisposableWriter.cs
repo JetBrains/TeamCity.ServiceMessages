@@ -15,30 +15,30 @@
  */
 
 using System;
+using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
-  public abstract class BaseDisposableWriter : BaseWriter, IDisposable
+  public abstract class BaseDisposableWriter<TProc> : BaseWriter, IDisposable
+    where TProc : IServiceMessageProcessor
   {
+    private readonly IDisposable myDisposableHandler;
     private volatile bool myIsDisposed = false;
 
-    public event EventHandler Disposed;
-
-
-    protected BaseDisposableWriter(IServiceMessageProcessor target) : base(target)
+    protected BaseDisposableWriter([NotNull] IServiceMessageProcessor target, [NotNull] IDisposable disposableHandler) : base(target)
     {
+      myDisposableHandler = disposableHandler;
     }
 
     public void Dispose()
     {
       if (myIsDisposed)
-        throw new ObjectDisposedException(GetType() + " was allready disaposed");
-      
+        throw new ObjectDisposedException(GetType() + " was allready disaposed");      
       myIsDisposed = true;
-      if (Disposed != null)
-        Disposed(this, EventArgs.Empty);
-
+      
       DisposeImpl();
+
+      myDisposableHandler.Dispose();
     }
 
     protected abstract void DisposeImpl();

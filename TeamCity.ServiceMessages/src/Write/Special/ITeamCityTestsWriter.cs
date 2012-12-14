@@ -45,7 +45,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
   /// <summary>
   /// Sub inteface for created tests writer for some parent test suite.
   /// </summary>
-  public interface ITeamCityTestsSubWriter : ITeamCityTestsWriter, IDisposable
+  public interface ITeamCityTestsSubWriter : ITeamCityTestsWriter, ITeamCityFlowWriter<ITeamCityTestsSubWriter>, IDisposable
   {
   }
 }

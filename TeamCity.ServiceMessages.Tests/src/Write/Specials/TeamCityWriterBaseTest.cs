@@ -24,14 +24,6 @@ using System.Linq;
 
 namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
 {
-  public abstract class TeamCityWriterBaseTest : TeamCityFlowWriterBaseTest<ITeamCityWriter>
-  {
-    protected override ITeamCityWriter Create(IFlowServiceMessageProcessor proc)
-    {
-      return new TeamCityWriterImpl(proc, new DisposableDelegate(() => { }));
-    }
-  }
-
   public abstract class TeamCityWriterBaseTest<T>
   {
     protected abstract T Create(IServiceMessageProcessor proc);
@@ -88,4 +80,14 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
     }
     
   }
+
+
+  public abstract class TeamCityWriterBaseTest : TeamCityFlowWriterBaseTest<ITeamCityWriter>
+  {
+    protected override ITeamCityWriter Create(IFlowServiceMessageProcessor proc)
+    {
+      return new TeamCityWriterImpl(proc, new DisposableDelegate(() => { }));
+    }
+  }
+
 }

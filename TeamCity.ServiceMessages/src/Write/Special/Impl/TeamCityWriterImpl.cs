@@ -28,25 +28,25 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
     public TeamCityWriterImpl([NotNull] IFlowServiceMessageProcessor processor,
                               [NotNull] IDisposable dispose)
       : this(processor,
-             new TeamCityBlockWriter<ITeamCityWriter>(processor, d => new TeamCityWriterImpl (processor, d)),
+             new TeamCityFlowWriter<ITeamCityWriter>(processor, (handler, writer) => new TeamCityWriterImpl(writer, handler)),
+             new TeamCityBlockWriter<ITeamCityWriter>(processor, d => new TeamCityWriterImpl(processor, d)),
              new TeamCityCompilationBlockWriter<ITeamCityWriter>(processor, d => new TeamCityWriterImpl(processor, d)),
-             new TeamCityTestsWriter(processor),
+             new TeamCityTestsWriter(processor, null, new DisposableDelegate(() => { })),
              new TeamCityMessageWriter(processor),
              new TeamCityArtifactsWriter(processor),
-             new TeamCityBuildStatusWriter(processor),
-             new TeamCityFlowWriter<ITeamCityWriter>(processor, (handler, writer) => new TeamCityWriterImpl(writer, handler)), 
+             new TeamCityBuildStatusWriter(processor),             
              dispose)
     {
     }
 
-    private TeamCityWriterImpl([NotNull] IFlowServiceMessageProcessor processor, 
-                               [NotNull] TeamCityBlockWriter<ITeamCityWriter> blockWriter, 
+    private TeamCityWriterImpl([NotNull] IFlowServiceMessageProcessor processor,
+                               [NotNull] TeamCityFlowWriter<ITeamCityWriter> flowWriter, 
+                               [NotNull] TeamCityBlockWriter<ITeamCityWriter> blockWriter,
                                [NotNull] TeamCityCompilationBlockWriter<ITeamCityWriter> compilationWriter, 
                                [NotNull] TeamCityTestsWriter testsWriter, 
                                [NotNull] ITeamCityMessageWriter messageWriter, 
                                [NotNull] ITeamCityArtifactsWriter artifactsWriter, 
                                [NotNull] ITeamCityBuildStatusWriter statusWriter, 
-                               [NotNull] TeamCityFlowWriter<ITeamCityWriter> flowWriter,
                                [NotNull] IDisposable dispose) 
       : base(processor, blockWriter, compilationWriter, testsWriter, messageWriter, artifactsWriter, statusWriter, flowWriter, dispose)
     {

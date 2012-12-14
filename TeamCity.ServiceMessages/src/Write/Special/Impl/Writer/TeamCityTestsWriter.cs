@@ -19,7 +19,7 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
-  public class TeamCityTestsWriter : BaseDisposableWriter, ITeamCityTestsSubWriter, ISubWriter
+  public class TeamCityTestsWriter : BaseDisposableWriter<IServiceMessageProcessor>, ITeamCityTestsSubWriter, ISubWriter
   {
     [CanBeNull]
     private readonly string mySuiteName;
@@ -27,10 +27,15 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     private int myIsChildTestOpened;
     private int myIsChildSuiteOpened;
 
-    public TeamCityTestsWriter(IServiceMessageProcessor target, string suiteName = null) : base(target)
+    public TeamCityTestsWriter([NotNull] IServiceMessageProcessor target, [CanBeNull] string suiteName, [NotNull] IDisposable disposableHandler) : base(target, disposableHandler)
     {
       mySuiteName = suiteName;
       OpenSuite();
+    }
+
+    public ITeamCityTestsSubWriter OpenFlow()
+    {
+      throw new NotImplementedException();
     }
 
     public void AssertNoChildOpened()
@@ -62,10 +67,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     public ITeamCityTestsSubWriter OpenTestSuite(string suiteName)
     {
       AssertNoChildOpened();
-
-      var writer = new TeamCityTestsWriter(myTarget, suiteName);
       myIsChildSuiteOpened++;
-      writer.Disposed += delegate { myIsChildSuiteOpened--; };
+      var writer = new TeamCityTestsWriter(
+        myTarget,
+        suiteName,
+        new DisposableDelegate(() => { myIsChildSuiteOpened--; }));
+      
       return writer;
     }
 
@@ -73,10 +80,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     {
       AssertNoChildOpened();
 
-      var writer = new TeamCityTestWriter(myTarget, testName);
-      writer.OpenTest();
       myIsChildTestOpened++;
-      writer.Disposed += delegate { myIsChildTestOpened--; };
+      var writer = new TeamCityTestWriter(myTarget, testName, new DisposableDelegate(() => { myIsChildTestOpened--; }));
+      writer.OpenTest();            
       return writer;
     }
   }
