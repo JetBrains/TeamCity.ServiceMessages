@@ -8,8 +8,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
   /// <summary>
   /// Helper class to generate FlowIds
   /// </summary>
+  /// //TODO: make as interface and allow to change
   public static class FlowId
   {
+    private static int myIds;
     /// <summary>
     /// Generates new unique FlowId
     /// </summary>
@@ -19,6 +21,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     {
       return
         (
+          Interlocked.Increment(ref myIds) << 27
+          +
           (Thread.CurrentThread.ManagedThreadId << 21)
           +
           (Environment.TickCount%int.MaxValue)
