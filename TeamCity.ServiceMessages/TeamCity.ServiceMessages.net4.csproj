@@ -15,12 +15,13 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <IntermediateOutputPath>obj4\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug4\</OutputPath>
+    <OutputPath>bin4\Debug4\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,20 +29,17 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release4\</OutputPath>
+    <OutputPath>bin4\Release4\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release4\JetBrains.TeamCity.ServiceMessages.XML</DocumentationFile>
+    <DocumentationFile>bin4\Release4\JetBrains.TeamCity.ServiceMessages.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>TeamCity.ServiceMessages.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <IntermediateOutputPath>$(BaseOutputPath)\Obj4\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -88,7 +86,6 @@
     <Compile Include="src\Write\Special\ITeamCityBlockWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityBuildStatusWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityCompilationBlockWriter.cs" />
-    <Compile Include="src\Write\Special\ITeamCityFlowWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityMessageWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityServiceMessages.cs" />
     <Compile Include="src\Write\Special\ITeamCityTestSuiteWriter.cs" />
