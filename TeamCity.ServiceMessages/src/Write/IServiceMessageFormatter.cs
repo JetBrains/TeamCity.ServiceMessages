@@ -16,7 +16,6 @@
 
 using System.Collections.Generic;
 using JetBrains.TeamCity.ServiceMessages.Annotations;
-using JetBrains.TeamCity.ServiceMessages.Read;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write
 {
@@ -39,6 +38,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="messageName">message name</param>
     /// <param name="anonymousProperties">anonymous object containing all service message parameters</param>
     /// <returns>service message string</returns>
+    [NotNull]
     string FormatMessage([NotNull] string messageName, [NotNull] object anonymousProperties);
 
     /// <summary>
@@ -47,6 +47,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="messageName">message name</param>
     /// <param name="properties">params array of service message properties</param>
     /// <returns>service message string</returns>
+    [NotNull]
     string FormatMessage([NotNull] string messageName, [NotNull] params ServiceMessageProperty[] properties);
 
     /// <summary>
@@ -55,6 +56,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="messageName">message name</param>
     /// <param name="properties">params of service message properties</param>
     /// <returns>service message string</returns>
+    [NotNull]
     string FormatMessage([NotNull] string messageName, [NotNull] IEnumerable<ServiceMessageProperty> properties);
 
     /// <summary>
@@ -62,6 +64,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// </summary>
     /// <param name="serviceMessage"></param>
     /// <returns></returns>
+    [NotNull]
     string FormatMessage([NotNull] IServiceMessage serviceMessage);
 
     /// <summary>
@@ -70,6 +73,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="name">service message name</param>
     /// <param name="arguments">arguments</param>
     /// <returns></returns>
+    [NotNull]
     string FormatMessage([NotNull] string name, [NotNull] IEnumerable<KeyValuePair<string, string>> arguments);
   }
 }
