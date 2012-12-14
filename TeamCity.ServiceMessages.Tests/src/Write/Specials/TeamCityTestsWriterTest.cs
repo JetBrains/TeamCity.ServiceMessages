@@ -22,9 +22,9 @@ using NUnit.Framework;
 namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
 {
   [TestFixture]
-  public class TeamCityTestsWriterTest : TeamCityWriterBaseTest<ITeamCityTestsWriter>
+  public class TeamCityTestsWriterTest : TeamCityFlowWriterBaseTest<ITeamCityTestsWriter>
   {
-    protected override ITeamCityTestsWriter Create(IServiceMessageProcessor proc)
+    protected override ITeamCityTestsWriter Create(IFlowServiceMessageProcessor proc)
     {
       return new TeamCityTestSuiteBlock(proc, new DisposableDelegate(() => { }));
     }
@@ -273,5 +273,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
 
     }
 
+
+    private new void DoTest(Action<ITeamCityTestsWriter> action, params String[] data)
+    {
+      base.DoTestReplacing(action, x=>x.Replace(" flowId='1'", ""), data);      
+    }
   }
 }

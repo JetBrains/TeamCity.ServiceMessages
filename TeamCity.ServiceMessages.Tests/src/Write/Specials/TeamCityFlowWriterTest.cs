@@ -10,7 +10,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
   {
     protected override TeamCityFlowWriter<IDisposable> Create(IFlowServiceMessageProcessor proc)
     {
-      return new TeamCityFlowWriter<IDisposable>(proc, (x ,_)=>x);
+      return new TeamCityFlowWriter<IDisposable>(proc, (x, _) => x, new DisposableDelegate(() => { }));
     }
 
     [Test]

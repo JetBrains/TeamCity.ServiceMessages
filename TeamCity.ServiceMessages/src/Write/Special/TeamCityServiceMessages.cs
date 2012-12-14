@@ -70,7 +70,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
       var processor = new FlowServiceMessageWriter(new ServiceMessagesWriter(Formatter, destination), FlowIdGenerator, Updaters.ToList());
       return new TeamCityWriterImpl(
         processor,
-        new DisposableDelegate(() => { })
+        DisposableNOP.Instance
         );
     }
   }

@@ -19,13 +19,14 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
-  public abstract class BaseDisposableWriter<TProc> : BaseWriter, IDisposable
+  public abstract class BaseDisposableWriter<TProc> : BaseWriter<TProc>, IDisposable
     where TProc : IServiceMessageProcessor
   {
     private readonly IDisposable myDisposableHandler;
     private volatile bool myIsDisposed = false;
 
-    protected BaseDisposableWriter([NotNull] IServiceMessageProcessor target, [NotNull] IDisposable disposableHandler) : base(target)
+    protected BaseDisposableWriter([NotNull] TProc target, [NotNull] IDisposable disposableHandler)
+      : base(target)
     {
       myDisposableHandler = disposableHandler;
     }

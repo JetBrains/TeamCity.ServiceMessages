@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 using JetBrains.TeamCity.ServiceMessages.Write;
 using JetBrains.TeamCity.ServiceMessages.Write.Special;
@@ -32,18 +33,23 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
       return new ToStringProcessor();
     }
 
-    protected void DoTest(Action<T> action, params string[] golds)
+    protected void DoTestReplacing(Action<T> action, Func<string, string> replace, params string[] golds)
     {
       if (golds == null || golds.Any(x => x == null)) throw new ArgumentNullException("golds");
-      DoTestImpl(action, golds);
+      DoTestImpl(action, replace, golds);
+    }
+
+    protected void DoTest(Action<T> action, params string[] golds)
+    {
+      DoTestReplacing(action, x=>x, golds);        
     }
 
     protected void DoTestWithoutAsseert(Action<T> action)
     {
-      DoTestImpl(action, null);
+      DoTestImpl(action, x=>x, null);
     }
 
-    private void DoTestImpl(Action<T> action, string[] golds)
+    private void DoTestImpl(Action<T> action, Func<string, string> replace, string[] golds)
     {
       var proc = CreateProcessor();
       var myWriter = Create(proc);
@@ -53,7 +59,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
       if (golds == null) return;
 
       Func<string, string[]> preprocess = s => s.Split("\r\n".ToCharArray()).Select(x => x.Trim()).Where(x => x.Length > 0).ToArray();
-      var actual = preprocess(proc.Buffer);
+      var actual = preprocess(string.Join("\r\n", proc.Buffer.Select(replace).ToArray()));
       var actualText = "\r\n" + string.Join("\r\n", actual);
       var expected =  preprocess(string.Join("\r\n", golds));
 
@@ -70,12 +76,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
 
     protected class ToStringProcessor : IServiceMessageProcessor
     {      
-      private readonly StringBuilder myBuffer = new StringBuilder();
-      public string Buffer { get { return myBuffer.ToString(); } }
+      private readonly List<string> myBuilder = new List<string>();
+      public IEnumerable<string> Buffer { get { return myBuilder.ToArray(); } }
 
       public virtual void AddServiceMessage(IServiceMessage serviceMessage)
       {
-        myBuffer.AppendLine(new ServiceMessageFormatter().FormatMessage(serviceMessage));
+        myBuilder.Add(new ServiceMessageFormatter().FormatMessage(serviceMessage));
       }
     }
     

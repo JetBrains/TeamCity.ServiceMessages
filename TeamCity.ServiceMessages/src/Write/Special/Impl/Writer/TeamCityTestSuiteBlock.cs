@@ -19,18 +19,24 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
-  public class TeamCityTestSuiteBlock : BaseDisposableWriter<IServiceMessageProcessor>, ITeamCityTestsSubWriter, ISubWriter
+  public class TeamCityTestSuiteBlock : BaseDisposableWriter<IFlowServiceMessageProcessor>, ITeamCityTestsSubWriter, ISubWriter
   {
+    private readonly TeamCityFlowWriter<ITeamCityTestsSubWriter> myFlows;
     private int myIsChildTestOpened;
     private int myIsChildSuiteOpened;
 
-    public TeamCityTestSuiteBlock([NotNull] IServiceMessageProcessor target, [NotNull] IDisposable disposableHandler) : base(target, disposableHandler)
+    public TeamCityTestSuiteBlock([NotNull] IFlowServiceMessageProcessor target, [NotNull] IDisposable disposableHandler) : base(target, disposableHandler)
     {            
+      myFlows = new TeamCityFlowWriter<ITeamCityTestsSubWriter>(
+        target, 
+        (handler, writer) => new TeamCityTestSuiteBlock(writer, handler), 
+        DisposableNOP.Instance);
     }
 
     public ITeamCityTestsSubWriter OpenFlow()
     {
-      throw new NotImplementedException();
+      AssertNoChildOpened();
+      return myFlows.OpenFlow();
     }
 
     public void AssertNoChildOpened()
@@ -39,6 +45,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
         throw new InvalidOperationException("There is at least one child test suite opened");
       if (myIsChildTestOpened != 0)
         throw new InvalidOperationException("There is at least one test suite opened");
+      
+      myFlows.AssertNoChildOpened();
     }
 
     protected override void DisposeImpl()
@@ -48,6 +56,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 
       if (myIsChildSuiteOpened != 0)
         throw new InvalidOperationException("Some child test suite writers were not disposed.");
+
+      myFlows.Dispose();
     }
 
     public ITeamCityTestsSubWriter OpenTestSuite(string suiteName)

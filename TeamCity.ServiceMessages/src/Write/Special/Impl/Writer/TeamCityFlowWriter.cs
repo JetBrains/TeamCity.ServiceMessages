@@ -4,14 +4,14 @@ using JetBrains.TeamCity.ServiceMessages.Annotations;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
-  public class TeamCityFlowWriter<TCloseBlock> : BaseWriter<IFlowServiceMessageProcessor>, ITeamCityFlowWriter<TCloseBlock>, ISubWriter
+  public class TeamCityFlowWriter<TCloseBlock> : BaseDisposableWriter<IFlowServiceMessageProcessor>, ITeamCityFlowWriter<TCloseBlock>, ISubWriter
     where TCloseBlock : IDisposable
   {
     private readonly CreateWriter myCloseBlock;
     private int myIsChildFlowOpenned;
 
-    public TeamCityFlowWriter([NotNull] IFlowServiceMessageProcessor target, [NotNull] CreateWriter closeBlock)
-      : base(target)
+    public TeamCityFlowWriter([NotNull] IFlowServiceMessageProcessor target, [NotNull] CreateWriter closeBlock, [NotNull] IDisposable disposableHander)
+      : base(target, disposableHander)
     {
       myCloseBlock = closeBlock;
     }
@@ -23,8 +23,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
       //Opened blocks within another flowID makes no sense.
     }
 
-    public void Dispose()
-    {
+    protected override void DisposeImpl()
+    {      
       if (myIsChildFlowOpenned != 0)
         throw new InvalidOperationException("Some of child block writers were not disposed");
     }

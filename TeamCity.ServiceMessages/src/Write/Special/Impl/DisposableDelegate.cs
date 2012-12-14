@@ -32,4 +32,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
       myHost();
     }
   }
+
+  internal class DisposableNOP : IDisposable
+  {
+    public static readonly IDisposable Instance = new DisposableNOP();
+    public void Dispose()
+    {      
+    }
+  }
 }

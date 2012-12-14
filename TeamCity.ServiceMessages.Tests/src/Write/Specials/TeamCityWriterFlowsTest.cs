@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
+#pragma warning disable 642
 namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
 {
   [TestFixture]
@@ -62,8 +63,120 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
             {
               using (var suite = x.OpenTestSuite("Suite"))
               {
+                using (suite.OpenTest("some other 1")) ;
+                using (var sF = suite.OpenFlow())
+                {
+                  using (sF.OpenTest("some Test")) ;
+                }
+                using (suite.OpenTest("some other 2")) ;
               }
+            }
+          }, 
+          
+          "##teamcity[testSuiteStarted name='Suite' flowId='1']",
+          "##teamcity[testStarted name='some other 1' captureStandardOutput='false' flowId='1']",
+          "##teamcity[testFinished name='some other 1' flowId='1']",
+          "##teamcity[flowStarted parent='1' flowId='2']",
+          "##teamcity[testStarted name='some Test' captureStandardOutput='false' flowId='2']",
+          "##teamcity[testFinished name='some Test' flowId='2']",
+          "##teamcity[flowFinished flowId='2']",
+          "##teamcity[testStarted name='some other 2' captureStandardOutput='false' flowId='1']",
+          "##teamcity[testFinished name='some other 2' flowId='1']",
+          "##teamcity[testSuiteFinished name='Suite' flowId='1']");
+    }
 
+    [Test]
+    public void TestFlows_ForTest_Mix()
+    {
+      DoTest(
+        x =>
+          {
+            using (x)
+            {
+              using (var suite = x.OpenTestSuite("Suite"))
+              {
+                var suiteF = suite.OpenFlow(); 
+                
+                var test1 = suite.OpenTest("some other 1");
+                
+                var testF = suiteF.OpenTest("some Test");
+
+                test1.Dispose();
+                var test2 = suite.OpenTest("some other 2");
+                testF.Dispose();
+                test2.Dispose();
+                suiteF.Dispose();
+              }
+            }
+          }, 
+          
+          "##teamcity[testSuiteStarted name='Suite' flowId='1']",
+          "##teamcity[flowStarted parent='1' flowId='2']",
+          "##teamcity[testStarted name='some other 1' captureStandardOutput='false' flowId='1']",
+          "##teamcity[testStarted name='some Test' captureStandardOutput='false' flowId='2']",
+          "##teamcity[testFinished name='some other 1' flowId='1']",
+          "##teamcity[testStarted name='some other 2' captureStandardOutput='false' flowId='1']",
+          "##teamcity[testFinished name='some Test' flowId='2']",
+          "##teamcity[testFinished name='some other 2' flowId='1']",
+          "##teamcity[flowFinished flowId='2']",
+          "##teamcity[testSuiteFinished name='Suite' flowId='1']");
+    }
+
+    [Test]
+    public void TestFlows_SubSuite_ForTest_Mix()
+    {
+      DoTest(
+        x =>
+          {
+            using (x)
+            {
+              using (var suite2 = x.OpenTestSuite("Suite2"))
+              using (var suite = suite2.OpenTestSuite("Suite"))
+              {
+                var suiteF = suite.OpenFlow(); 
+                
+                var test1 = suite.OpenTest("some other 1");
+                
+                var testF = suiteF.OpenTest("some Test");
+
+                test1.Dispose();
+                var test2 = suite.OpenTest("some other 2");
+                testF.Dispose();
+                test2.Dispose();
+                suiteF.Dispose();
+              }
+            }
+          }, 
+          
+          "##teamcity[testSuiteStarted name='Suite2' flowId='1']",
+          "##teamcity[testSuiteStarted name='Suite' flowId='1']",
+          "##teamcity[flowStarted parent='1' flowId='2']",
+          "##teamcity[testStarted name='some other 1' captureStandardOutput='false' flowId='1']",
+          "##teamcity[testStarted name='some Test' captureStandardOutput='false' flowId='2']",
+          "##teamcity[testFinished name='some other 1' flowId='1']",
+          "##teamcity[testStarted name='some other 2' captureStandardOutput='false' flowId='1']",
+          "##teamcity[testFinished name='some Test' flowId='2']",
+          "##teamcity[testFinished name='some other 2' flowId='1']",
+          "##teamcity[flowFinished flowId='2']",
+          "##teamcity[testSuiteFinished name='Suite' flowId='1']",
+          "##teamcity[testSuiteFinished name='Suite2' flowId='1']");
+    }
+
+    [Test, ExpectedException]
+    public void TestFlows_FailToOpenFlowFromTest()
+    {
+      DoTestWithoutAsseert(
+        x =>
+          {
+            using (x)
+            {
+              using (var suite = x.OpenTestSuite("Suite"))
+              {
+                using (var test = suite.OpenTest("test"))
+                {
+                  suite.OpenFlow();
+                }                
+              }
             }
           });
     }

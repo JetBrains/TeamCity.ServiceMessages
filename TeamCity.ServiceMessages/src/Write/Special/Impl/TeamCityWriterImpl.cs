@@ -28,10 +28,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
     public TeamCityWriterImpl([NotNull] IFlowServiceMessageProcessor processor,
                               [NotNull] IDisposable dispose)
       : this(processor,
-             new TeamCityFlowWriter<ITeamCityWriter>(processor, (handler, writer) => new TeamCityWriterImpl(writer, handler)),
+             new TeamCityFlowWriter<ITeamCityWriter>(processor, (handler, writer) => new TeamCityWriterImpl(writer, handler), DisposableNOP.Instance),
              new TeamCityBlockWriter<ITeamCityWriter>(processor, d => new TeamCityWriterImpl(processor, d)),
              new TeamCityCompilationBlockWriter<ITeamCityWriter>(processor, d => new TeamCityWriterImpl(processor, d)),
-             new TeamCityTestSuiteBlock(processor, new DisposableDelegate(() => { })),
+             new TeamCityTestSuiteBlock(processor, DisposableNOP.Instance),
              new TeamCityMessageWriter(processor),
              new TeamCityArtifactsWriter(processor),
              new TeamCityBuildStatusWriter(processor),             
