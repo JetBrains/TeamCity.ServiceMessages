@@ -18,8 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using JetBrains.TeamCity.ServiceMessages.Annotations;
-using JetBrains.TeamCity.ServiceMessages.Read;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write
 {
@@ -34,7 +32,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="messageName">message name</param>
     /// <param name="singleValue">value</param>
     /// <returns>service message string</returns>
-    public string FormatMessage([NotNull] string messageName, [NotNull] string singleValue)
+    public string FormatMessage(string messageName, string singleValue)
     {
       if (string.IsNullOrEmpty(messageName))
         throw new ArgumentNullException("messageName");
@@ -53,7 +51,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="messageName">message name</param>
     /// <param name="anonymousProperties">anonymous object containing all service message parameters</param>
     /// <returns>service message string</returns>
-    public string FormatMessage([NotNull] string messageName, [NotNull] object anonymousProperties)
+    public string FormatMessage(string messageName, object anonymousProperties)
     {
       if (string.IsNullOrEmpty(messageName))
         throw new ArgumentNullException("messageName");
@@ -72,7 +70,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="messageName">message name</param>
     /// <param name="properties">params array of service message properties</param>
     /// <returns>service message string</returns>
-    public string FormatMessage([NotNull] string messageName, [NotNull] params ServiceMessageProperty[] properties)
+    public string FormatMessage(string messageName, params ServiceMessageProperty[] properties)
     {
       return FormatMessage(messageName, properties.ToList());
     }
@@ -82,7 +80,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// </summary>
     /// <param name="serviceMessage">parser service message</param>
     /// <returns></returns>
-    public string FormatMessage([NotNull] IServiceMessage serviceMessage)
+    public string FormatMessage(IServiceMessage serviceMessage)
     {
       if (serviceMessage.DefaultValue != null)
       {
@@ -97,7 +95,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="name">service message name</param>
     /// <param name="arguments">arguments</param>
     /// <returns></returns>
-    public string FormatMessage([NotNull] string name, [NotNull] IEnumerable<KeyValuePair<string, string>> arguments)
+    public string FormatMessage(string name, IEnumerable<KeyValuePair<string, string>> arguments)
     {
       return FormatMessage(name, arguments.Select(key => new ServiceMessageProperty(key.Key, key.Value)));
     }
@@ -108,7 +106,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     /// <param name="messageName">message name</param>
     /// <param name="properties">params of service message properties</param>
     /// <returns>service message string</returns>
-    public string FormatMessage([NotNull] string messageName, [NotNull] IEnumerable<ServiceMessageProperty> properties)
+    public string FormatMessage(string messageName, IEnumerable<ServiceMessageProperty> properties)
     {
       if (messageName == null)
         throw new ArgumentNullException("messageName");
