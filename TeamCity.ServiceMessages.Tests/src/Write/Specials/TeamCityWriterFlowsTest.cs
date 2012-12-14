@@ -154,7 +154,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
                "##teamcity[flowFinished flowId='3']",
                "##teamcity[flowFinished flowId='2']"
                );      
- +   }
+    }
  
   }
 }
