@@ -6,6 +6,7 @@ bin*
 *.user
 *.dotCover
 *.cache
+*.nupkg
 _ReSharper*
 packages/**/*
 packages
