@@ -40,6 +40,7 @@ namespace JetBrains.TeamCity.ServiceMessages
     /// <summary>
     /// Emptry for one-value service messages, i.e. ##teamcity[message 'aaa'], returns all keys otherwise
     /// </summary>
+    [NotNull]
     IEnumerable<string> Keys { get; }
 
     /// <summary>

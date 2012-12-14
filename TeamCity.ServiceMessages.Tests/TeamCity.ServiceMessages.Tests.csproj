@@ -51,12 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\TeamCity.ServiceMessages\src\Write\Special\Impl\PatchedServiceMessage.cs">
+      <Link>src\Write\Specials\PatchedServiceMessage.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Read\ServiceMessageParserPerformanceTest.cs" />
     <Compile Include="src\Read\ServiceMessageParserTest.cs" />
     <Compile Include="src\Read\StringWrapper.cs" />
     <Compile Include="src\ServiceMessageReplacementsTest.cs" />
     <Compile Include="src\Write\Specials\DisposableDelegate.cs" />
+    <Compile Include="src\Write\Specials\TeamCityFlowWriterBaseTest.cs" />
+    <Compile Include="src\Write\Specials\TeamCityFlowWriterTest.cs" />
     <Compile Include="src\Write\Specials\TeamCityWriterTest.cs" />
     <Compile Include="src\Write\Updaters\FlowMessageUpdaterTest.cs" />
     <Compile Include="src\Write\ServiceMessageFormatterTest.cs" />

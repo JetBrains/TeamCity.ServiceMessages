@@ -55,8 +55,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 
     public ITeamCityWriter CreateWriter(Action<string> destination)
     {
-      IServiceMessageProcessor processor = new SpecializedServiceMessagesWriter(myFormatter, myUpdaters.ToList(), destination);
-
+      var processor = new FlowServiceMessageWriter(new ServiceMessagesWriter(myFormatter, destination), myUpdaters.ToList());
       return new TeamCityWriterImpl(
         processor,
         new DisposableDelegate(() => { })

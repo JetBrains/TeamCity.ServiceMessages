@@ -16,22 +16,33 @@
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
-  public class BaseWriter
+  public class BaseWriter<TProc> where TProc : IServiceMessageProcessor
   {
-    protected readonly IServiceMessageProcessor myTarget;
+    protected readonly TProc myTarget;
 
-    protected BaseWriter(IServiceMessageProcessor target)
+    protected BaseWriter(TProc target)
     {
       myTarget = target;
     }
 
-    protected BaseWriter(BaseWriter writer) : this(writer.myTarget)
+    protected BaseWriter(BaseWriter<TProc> writer) : this(writer.myTarget)
     {      
     }
 
     protected void PostMessage(IServiceMessage message)
     {
       myTarget.AddServiceMessage(message);
+    }
+  }
+
+  public class BaseWriter : BaseWriter<IServiceMessageProcessor>
+  {
+    protected BaseWriter(IServiceMessageProcessor target) : base(target)
+    {
+    }
+
+    protected BaseWriter(BaseWriter<IServiceMessageProcessor> writer) : base(writer)
+    {
     }
   }
 }

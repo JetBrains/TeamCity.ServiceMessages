@@ -22,12 +22,5 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     /// <returns></returns>
     [NotNull]
     CloseBlock OpenFlow();
-
-    /// <summary>
-    /// Generates start flow message and returns disposable object to close flow
-    /// </summary>
-    /// <returns></returns>
-    [NotNull]
-    CloseBlock OpenFlow([NotNull] string flowId);
   }
 }

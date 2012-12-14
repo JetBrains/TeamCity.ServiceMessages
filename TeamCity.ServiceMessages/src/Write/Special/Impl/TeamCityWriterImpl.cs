@@ -25,7 +25,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
   {
     private readonly IEnumerable<ISubWriter> myWriteCheck;
 
-    public TeamCityWriterImpl([NotNull] IServiceMessageProcessor processor,
+    public TeamCityWriterImpl([NotNull] IFlowServiceMessageProcessor processor,
                               [NotNull] IDisposable dispose)
       : this(processor,
              new TeamCityBlockWriter<ITeamCityWriter>(processor, d => new TeamCityWriterImpl (processor, d)),
@@ -34,20 +34,23 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
              new TeamCityMessageWriter(processor),
              new TeamCityArtifactsWriter(processor),
              new TeamCityBuildStatusWriter(processor),
+             new TeamCityFlowWriter<ITeamCityWriter>(processor, (handler, writer) => new TeamCityWriterImpl(writer, handler)), 
              dispose)
     {
     }
 
-    private TeamCityWriterImpl([NotNull] IServiceMessageProcessor processor, 
-      [NotNull] TeamCityBlockWriter<ITeamCityWriter> blockWriter, 
-      [NotNull] TeamCityCompilationBlockWriter<ITeamCityWriter> compilationWriter, 
-      [NotNull] TeamCityTestsWriter testsWriter, 
-      [NotNull] ITeamCityMessageWriter messageWriter, 
-      [NotNull] ITeamCityArtifactsWriter artifactsWriter, 
-      [NotNull] ITeamCityBuildStatusWriter statusWriter, 
-      [NotNull] IDisposable dispose) : base(processor, blockWriter, compilationWriter, testsWriter, messageWriter, artifactsWriter, statusWriter, dispose)
+    private TeamCityWriterImpl([NotNull] IFlowServiceMessageProcessor processor, 
+                               [NotNull] TeamCityBlockWriter<ITeamCityWriter> blockWriter, 
+                               [NotNull] TeamCityCompilationBlockWriter<ITeamCityWriter> compilationWriter, 
+                               [NotNull] TeamCityTestsWriter testsWriter, 
+                               [NotNull] ITeamCityMessageWriter messageWriter, 
+                               [NotNull] ITeamCityArtifactsWriter artifactsWriter, 
+                               [NotNull] ITeamCityBuildStatusWriter statusWriter, 
+                               [NotNull] TeamCityFlowWriter<ITeamCityWriter> flowWriter,
+                               [NotNull] IDisposable dispose) 
+      : base(processor, blockWriter, compilationWriter, testsWriter, messageWriter, artifactsWriter, statusWriter, flowWriter, dispose)
     {
-      myWriteCheck = new ISubWriter[] { blockWriter, compilationWriter, testsWriter };
+      myWriteCheck = new ISubWriter[] { blockWriter, compilationWriter, testsWriter, flowWriter };
     }
 
     public void AssertNoChildOpened()
@@ -58,6 +61,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
 
     protected override void CheckConsistency()
     {
+      base.CheckConsistency();
       AssertNoChildOpened();
     }
 

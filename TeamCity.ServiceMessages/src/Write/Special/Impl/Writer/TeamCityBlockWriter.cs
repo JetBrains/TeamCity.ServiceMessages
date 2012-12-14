@@ -44,7 +44,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     public TCloseBlock OpenBlock(string blockName)
     {
       AssertNoChildOpened();
-      PostMessage(new SimpleServiceMessage("blockOpened") {{"name", blockName}});
+      PostMessage(new ServiceMessage("blockOpened") {{"name", blockName}});
       myIsChildOpenned++;
       return myCloseBlock(new DisposableDelegate(() => this.CloseBlock(blockName)));
     }
@@ -52,7 +52,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     private void CloseBlock(string blockName)
     {
       myIsChildOpenned--;
-      PostMessage(new SimpleServiceMessage("blockClosed") {{"name", blockName}});
+      PostMessage(new ServiceMessage("blockClosed") {{"name", blockName}});
     }
   }
 

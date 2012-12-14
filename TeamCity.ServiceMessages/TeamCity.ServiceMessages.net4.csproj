@@ -61,12 +61,14 @@
     <Compile Include="src\Write\IServiceMessageFormatter.cs" />
     <Compile Include="src\Write\ServiceMessageFormatter.cs" />
     <Compile Include="src\Write\ServiceMessageProperty.cs" />
+    <Compile Include="src\Write\Special\IFlowServiceMessagesProcessor.cs" />
     <Compile Include="src\Write\Special\Impl\DisposableDelegate.cs" />
+    <Compile Include="src\Write\Special\Impl\FlowServiceMessagesWriter.cs" />
     <Compile Include="src\Write\Special\Impl\PatchedServiceMessage.cs" />
     <Compile Include="src\Write\Special\Impl\SimpleServiceMessage.cs" />
-    <Compile Include="src\Write\Special\Impl\SpecializedServiceMessagesWriter.cs" />
     <Compile Include="src\Write\Special\Impl\TeamCityWriterFacade.cs" />
     <Compile Include="src\Write\Special\Impl\TeamCityWriterImpl.cs" />
+    <Compile Include="src\Write\Special\Impl\Updater\FlowId.cs" />
     <Compile Include="src\Write\Special\Impl\Updater\FlowMessageUpdater.cs" />
     <Compile Include="src\Write\Special\Impl\Updater\TimestampUpdater.cs" />
     <Compile Include="src\Write\Special\Impl\ValueServiceMessage.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="src\Write\Special\Impl\Writer\TeamCityBlockWriter.cs" />
     <Compile Include="src\Write\Special\Impl\Writer\TeamCityBuildStatusWriter.cs" />
     <Compile Include="src\Write\Special\Impl\Writer\TeamCityCompilationBlockWriter.cs" />
+    <Compile Include="src\Write\Special\Impl\Writer\TeamCityFlowWriter.cs" />
     <Compile Include="src\Write\Special\Impl\Writer\TeamCityMessageWriter.cs" />
     <Compile Include="src\Write\Special\Impl\Writer\TeamCityTestsWriter.cs" />
     <Compile Include="src\Write\Special\Impl\Writer\TeamCityTestWriter.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="src\Write\Special\ITeamCityBlockWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityBuildStatusWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityCompilationBlockWriter.cs" />
+    <Compile Include="src\Write\Special\ITeamCityFlowWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityMessageWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityServiceMessages.cs" />
     <Compile Include="src\Write\Special\ITeamCityTestSuiteWriter.cs" />

@@ -13,7 +13,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
     private readonly ITeamCityMessageWriter myMessageWriter;
     private readonly ITeamCityArtifactsWriter myArtifactsWriter;
     private readonly ITeamCityBuildStatusWriter myStatusWriter;
+    private readonly ITeamCityFlowWriter<ITeamCityWriter> myFlowWriter;
     private readonly IDisposable myDispose;
+
+    private volatile bool myIsDisposed;
 
     public TeamCityWriterFacade([NotNull] IServiceMessageProcessor processor,
                                 [NotNull] ITeamCityBlockWriter<ITeamCityWriter> blockWriter,
@@ -22,7 +25,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
                                 [NotNull] ITeamCityMessageWriter messageWriter,
                                 [NotNull] ITeamCityArtifactsWriter artifactsWriter,
                                 [NotNull] ITeamCityBuildStatusWriter statusWriter,
-                                [NotNull] IDisposable dispose)
+                                [NotNull] ITeamCityFlowWriter<ITeamCityWriter> flowWriter,
+                                [NotNull] IDisposable disposeCallback)
     {
       myProcessor = processor;
       myBlockWriter = blockWriter;
@@ -31,10 +35,21 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
       myMessageWriter = messageWriter;
       myArtifactsWriter = artifactsWriter;
       myStatusWriter = statusWriter;
-      myDispose = dispose;
+      myFlowWriter = flowWriter;
+      myDispose = disposeCallback;
     }
 
-    protected virtual void CheckConsistency() {}
+    protected virtual void CheckConsistency()
+    {
+      if (myIsDisposed)
+        throw new ObjectDisposedException("TeamCityWriterFacade has already beed disposed");
+    }
+
+    public ITeamCityWriter OpenFlow()
+    {
+      CheckConsistency();
+      return myFlowWriter.OpenFlow();
+    }
 
     public void WriteBuildNumber(string buildNumber)
     {
@@ -80,6 +95,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
 
     public virtual void Dispose()
     {
+      myIsDisposed = true;
       myDispose.Dispose();
     }
 

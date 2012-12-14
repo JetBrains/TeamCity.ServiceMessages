@@ -15,7 +15,6 @@
  */
 
 using System;
-using JetBrains.TeamCity.ServiceMessages.Read;
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
@@ -35,19 +34,19 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
       if (identity.Length >= 60)
         throw new ArgumentOutOfRangeException("identity", "Value is too big. Only 60 chars are allowed");
 
-      PostMessage(new SimpleServiceMessage("buildProblem") { { "identity", identity }, {"description", message}});
+      PostMessage(new ServiceMessage("buildProblem") { { "identity", identity }, {"description", message}});
     }
 
     public void WriteBuildParameter(string parameterName, string parameterValue)
     {
       //##teamcity[setParameter name='ddd' value='fff']
-      PostMessage(new SimpleServiceMessage("setParameter"){{"name", parameterName}, {"value", parameterValue}});
+      PostMessage(new ServiceMessage("setParameter"){{"name", parameterName}, {"value", parameterValue}});
     }
 
     public void WriteBuildStatistics(string statisticsKey, string statisticsValue)
     {
       //##teamcity[buildStatisticValue key='<valueTypeKey>' value='<value>']
-      PostMessage(new SimpleServiceMessage("buildStatisticValue"){{"key", statisticsKey}, {"value", statisticsValue}});
+      PostMessage(new ServiceMessage("buildStatisticValue"){{"key", statisticsKey}, {"value", statisticsValue}});
     }
   }
 }

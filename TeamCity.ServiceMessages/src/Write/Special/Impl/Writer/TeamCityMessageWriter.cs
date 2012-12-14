@@ -20,13 +20,14 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
   public class TeamCityMessageWriter : BaseWriter, ITeamCityMessageWriter
   {
-    public TeamCityMessageWriter(IServiceMessageProcessor target) : base(target)
+    public TeamCityMessageWriter(IServiceMessageProcessor target)
+      : base(target)
     {
     }
 
     private void Write([NotNull] string text, string details, [NotNull] string status)
     {
-      var msg = new SimpleServiceMessage("message"){{"text", text}, {"status", status}};
+      var msg = new ServiceMessage("message"){{"text", text}, {"status", status}};
       if (!string.IsNullOrEmpty(details))
         msg.Add("errorDetails", details);
 

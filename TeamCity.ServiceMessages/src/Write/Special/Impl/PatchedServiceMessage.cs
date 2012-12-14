@@ -21,7 +21,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
   /// <summary>
   /// Helper implementation of IServiceMessage
   /// </summary>
-  internal class PatchedServiceMessage : SimpleServiceMessage, IServiceMessage
+  internal class PatchedServiceMessage : ServiceMessage
   {
     public PatchedServiceMessage(IServiceMessage message) : base(message.Name)
     {      

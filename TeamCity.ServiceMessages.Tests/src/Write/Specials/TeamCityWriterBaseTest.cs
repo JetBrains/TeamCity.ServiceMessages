@@ -18,41 +18,41 @@ using System;
 using System.Text;
 using JetBrains.TeamCity.ServiceMessages.Write;
 using JetBrains.TeamCity.ServiceMessages.Write.Special;
-using JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer;
 using NUnit.Framework;
 using System.Linq;
 
 namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
 {
-  public abstract class TeamCityWriterBaseTest<T> : IServiceMessageProcessor
+  public abstract class TeamCityWriterBaseTest<T>
   {
-    private T myWriter;
-    private StringBuilder myBuffer;
-
-    protected T Writer { get { return myWriter; } }
-    protected string Buffer { get { return myBuffer.ToString(); } }
-
-    [SetUp]
-    public virtual void SetUp()
-    {
-      myBuffer = new StringBuilder();
-      myWriter = Create(this);
-    }
-
     protected abstract T Create(IServiceMessageProcessor proc);
-
-    void IServiceMessageProcessor.AddServiceMessage(IServiceMessage serviceMessage)
+    protected virtual ToStringProcessor CreateProcessor()
     {
-      myBuffer.AppendLine(new ServiceMessageFormatter().FormatMessage(serviceMessage));
+      return new ToStringProcessor();
     }
 
     protected void DoTest(Action<T> action, params string[] golds)
     {
+      if (golds == null || golds.Any(x => x == null)) throw new ArgumentNullException("golds");
+      DoTestImpl(action, golds);
+    }
+
+    protected void DoTestWithoutAsseert(Action<T> action)
+    {
+      DoTestImpl(action, null);
+    }
+
+    private void DoTestImpl(Action<T> action, string[] golds)
+    {
+      var proc = CreateProcessor();
+      var myWriter = Create(proc);
+      
       action(myWriter);
 
-      Func<string, string[]> preprocess = s => s.Split("\r\n".ToCharArray()).Select(x => x.Trim()).Where(x => x.Length > 0).ToArray();
+      if (golds == null) return;
 
-      var actual = preprocess(Buffer);
+      Func<string, string[]> preprocess = s => s.Split("\r\n".ToCharArray()).Select(x => x.Trim()).Where(x => x.Length > 0).ToArray();
+      var actual = preprocess(proc.Buffer);
       var actualText = "\r\n" + string.Join("\r\n", actual);
       var expected =  preprocess(string.Join("\r\n", golds));
 
@@ -64,6 +64,17 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
       for(int i = 0;  i < actual.Count(); i++)
       {
         Assert.AreEqual(actual[i], expected[i], "Message {0} does not match. Was: {1}", i, actualText);
+      }
+    }
+
+    protected class ToStringProcessor : IServiceMessageProcessor
+    {      
+      private readonly StringBuilder myBuffer = new StringBuilder();
+      public string Buffer { get { return myBuffer.ToString(); } }
+
+      public virtual void AddServiceMessage(IServiceMessage serviceMessage)
+      {
+        myBuffer.AppendLine(new ServiceMessageFormatter().FormatMessage(serviceMessage));
       }
     }
     

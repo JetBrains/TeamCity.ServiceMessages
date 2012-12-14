@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+using JetBrains.TeamCity.ServiceMessages.Annotations;
+
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 {
   /// <summary>
@@ -28,7 +30,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     /// Custructs updater
     /// </summary>
     /// <param name="flowId">flowId set to all messages</param>
-    public FlowMessageUpdater(string flowId)
+    public FlowMessageUpdater([NotNull] string flowId)
     {
       myFlowId = flowId;
     }
@@ -36,8 +38,14 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     /// <summary>
     /// Generates random flowId
     /// </summary>
-    public FlowMessageUpdater() : this(FlowId.NewFlowId())
+    public FlowMessageUpdater() : this(Updater.FlowId.NewFlowId())
     {
+    }
+
+    [NotNull]
+    public string FlowId
+    {
+      get { return myFlowId; }
     }
 
     public IServiceMessage UpdateServiceMessage(IServiceMessage message)

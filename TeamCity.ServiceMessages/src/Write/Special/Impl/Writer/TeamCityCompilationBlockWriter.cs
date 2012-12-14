@@ -45,7 +45,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     public TCloseBlock OpenCompilationBlock(string compilerName)
     {
       AssertNoChildOpened();
-      PostMessage(new SimpleServiceMessage("compilationStarted") { { "compiler", compilerName } });
+      PostMessage(new ServiceMessage("compilationStarted") { { "compiler", compilerName } });
       myIsChildOpenned++;
       return myCloseBlock(new DisposableDelegate(() => this.CloseBlock(compilerName)));
     }
@@ -53,7 +53,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     private void CloseBlock(string compilerName)
     {
       myIsChildOpenned--;
-      PostMessage(new SimpleServiceMessage("compilationFinished") { { "compiler", compilerName } });
+      PostMessage(new ServiceMessage("compilationFinished") { { "compiler", compilerName } });
     }
   }
 

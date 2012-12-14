@@ -44,7 +44,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     private void OpenSuite()
     {
       if (mySuiteName != null)
-        PostMessage(new SimpleServiceMessage("testSuiteStarted") {{"name", mySuiteName}});
+        PostMessage(new ServiceMessage("testSuiteStarted") {{"name", mySuiteName}});
     }
 
     protected override void DisposeImpl()
@@ -56,7 +56,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
         throw new InvalidOperationException("Some child test suite writers were not disposed.");
 
       if (mySuiteName != null)
-        PostMessage(new SimpleServiceMessage("testSuiteFinished") { { "name", mySuiteName } });
+        PostMessage(new ServiceMessage("testSuiteFinished") { { "name", mySuiteName } });
     }
 
     public ITeamCityTestsSubWriter OpenTestSuite(string suiteName)

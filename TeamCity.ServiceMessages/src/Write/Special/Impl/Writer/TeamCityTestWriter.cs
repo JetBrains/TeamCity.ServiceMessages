@@ -32,12 +32,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 
     public void OpenTest()
     {
-      PostMessage(new SimpleServiceMessage("testStarted") { { "name", myTestName }, { "captureStandardOutput", "false" } });
+      PostMessage(new ServiceMessage("testStarted") { { "name", myTestName }, { "captureStandardOutput", "false" } });
     }
 
     protected override void DisposeImpl()
     {
-      var msg = new SimpleServiceMessage("testFinished") { { "name", myTestName }};
+      var msg = new ServiceMessage("testFinished") { { "name", myTestName }};
       if (myDuration != null)
         msg.Add("duration", ((long) myDuration.Value.TotalMilliseconds).ToString(CultureInfo.InvariantCulture));
       PostMessage(msg);
@@ -46,13 +46,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     public void WriteStdOutput(string text)
     {
       //##teamcity[testStdOut name='testname' out='text']
-      PostMessage(new SimpleServiceMessage("testStdOut"){{"name", myTestName}, {"out", text}});
+      PostMessage(new ServiceMessage("testStdOut"){{"name", myTestName}, {"out", text}});
     }
 
     public void WriteErrOutput(string text)
     {
       //##teamcity[testStdErr name='testname' out='error text']
-      PostMessage(new SimpleServiceMessage("testStdErr") { { "name", myTestName }, { "out", text } });
+      PostMessage(new ServiceMessage("testStdErr") { { "name", myTestName }, { "out", text } });
     }
 
     public void WriteIgnored(string message)
@@ -67,7 +67,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 
     private void WriteIgnoredImpl([CanBeNull] string message)
     {
-      var msg = new SimpleServiceMessage("testIgnored") { { "name", myTestName }};
+      var msg = new ServiceMessage("testIgnored") { { "name", myTestName }};
       if (message != null)
         msg.Add("message", message);
       PostMessage(msg);
@@ -75,7 +75,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 
     public void WriteFailed(string errorMessage, string errorDetails)
     {
-      PostMessage(new SimpleServiceMessage("testFailed"){{"name", myTestName}, {"message", errorMessage}, {"details", errorDetails}});
+      PostMessage(new ServiceMessage("testFailed"){{"name", myTestName}, {"message", errorMessage}, {"details", errorDetails}});
     }
 
     public void WriteDuration(TimeSpan span)

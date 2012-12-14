@@ -20,7 +20,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
   public abstract class BaseDisposableWriter : BaseWriter, IDisposable
   {
-    private bool myIsDisposed = false;
+    private volatile bool myIsDisposed = false;
 
     public event EventHandler Disposed;
 

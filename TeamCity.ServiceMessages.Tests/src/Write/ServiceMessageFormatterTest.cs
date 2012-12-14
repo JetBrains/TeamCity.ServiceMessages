@@ -127,6 +127,27 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
       DoTestParsePresent("##teamcity[rulez 'wqe']");
     }
 
+    [Test]
+    public void TestIServiceMessageWithNULL()
+    {
+      Assert.AreEqual(
+        "##teamcity[AAA a='' b='' c='']",
+        new ServiceMessageFormatter().FormatMessage(new ServiceMessageWithNulls())
+        );
+    }
+
+
+    private class ServiceMessageWithNulls : IServiceMessage
+    {
+      public string Name { get { return "AAA"; } }
+      public string DefaultValue { get { return null; } }
+      public IEnumerable<string> Keys { get { return new[] { "a", "b", "c" }; } }
+      public string GetValue(string key)
+      {
+        return null;
+      }
+    }
+
     private static void DoTestParsePresent(string msg)
     {
       Assert.AreEqual(
