@@ -19,11 +19,20 @@ to get the instance of the object create an instance of the factory and get it b
 
 	new JetBrains.TeamCity.ServiceMessages.Write.Special.TeamCityServiceMessages().CreateWriter()
 
+
+Install:
+========
+
+Use NuGet to download latest version of the library. 
+
+	NuGet Install TeamCity.ServiceMessages
+
+
 Misc:
 =====
 
 I use TeamCity to compile and publish my package:
-http://teamcity.codebetter.com/project.html?projectId=project155&tab=projectOverview
+http://teamcity.jetbrains.com/viewType.html?buildTypeId=bt426
 
 
 Licanse:
