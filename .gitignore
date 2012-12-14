@@ -1,10 +1,15 @@
 bin*
+obj*
 **/bin
+**/bin4
 **/obj
+**/obj4
 **.suo
 **/*.user
 *.user
 *.dotCover
 *.cache
+*.nupkg
 _ReSharper*
 packages/**/*
+packages
