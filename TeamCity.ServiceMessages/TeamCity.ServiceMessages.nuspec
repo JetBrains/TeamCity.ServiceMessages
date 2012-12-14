@@ -16,5 +16,6 @@
     <file src="bin\Release\*" target="lib\net35" />
     <file src="bin4\Release4\*" target="lib\net40" />
     <file src="..\LICENSE.txt" target="" />
+    <file src="src\**\*" target="src" />
   </files>
 </package>
