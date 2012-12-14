@@ -26,7 +26,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
   {
     protected override ITeamCityTestsWriter Create(IServiceMessageProcessor proc)
     {
-      return new TeamCityTestsWriter(proc, null, new DisposableDelegate(() => { }));
+      return new TeamCityTestSuiteBlock(proc, new DisposableDelegate(() => { }));
     }
 
     [Test]
