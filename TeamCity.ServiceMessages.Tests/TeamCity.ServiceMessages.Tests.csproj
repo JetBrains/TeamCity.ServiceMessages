@@ -62,7 +62,8 @@
     <Compile Include="src\Write\Specials\DisposableDelegate.cs" />
     <Compile Include="src\Write\Specials\TeamCityFlowWriterBaseTest.cs" />
     <Compile Include="src\Write\Specials\TeamCityFlowWriterTest.cs" />
-    <Compile Include="src\Write\Specials\TeamCityWriterTest.cs" />
+    <Compile Include="src\Write\Specials\TeamCityWriterMessageTest.cs" />
+    <Compile Include="src\Write\Specials\TeamCityWriterFlowsTest.cs" />
     <Compile Include="src\Write\Updaters\FlowMessageUpdaterTest.cs" />
     <Compile Include="src\Write\ServiceMessageFormatterTest.cs" />
     <Compile Include="src\Write\Specials\TeamCityArtifactsWriterTest.cs" />
