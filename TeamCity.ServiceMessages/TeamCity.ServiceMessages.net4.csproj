@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{96c07434-55f6-40d9-8d2b-bdb72c0fd590}</ProjectGuid>
+    <ProjectGuid>{96C07434-55F6-40D9-8D2B-BDB72C0FD590}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JetBrains.TeamCity.ServiceMessages</RootNamespace>
@@ -88,6 +88,7 @@
     <Compile Include="src\Write\Special\ITeamCityBlockWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityBuildStatusWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityCompilationBlockWriter.cs" />
+    <Compile Include="src\Write\Special\ITeamCityFlowWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityMessageWriter.cs" />
     <Compile Include="src\Write\Special\ITeamCityServiceMessages.cs" />
     <Compile Include="src\Write\Special\ITeamCityTestSuiteWriter.cs" />
