@@ -9,6 +9,66 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
   {
 
     [Test]
+    public void TestFlows_FromBlock()
+    {
+      DoTest(
+        x =>
+          {
+            using (x)
+            {
+              using (var xB = x.OpenBlock("xB"))
+              {
+                using (var xF = xB.OpenFlow())
+                {
+                  xF.WriteMessage("flow");
+                  xB.WriteMessage("base");
+                }
+              }
+            }
+          },
+          "##teamcity[blockOpened name='xB' flowId='1']",
+          "##teamcity[flowStarted parent='1' flowId='2']",
+          "##teamcity[message text='flow' status='NORMAL' flowId='2']",
+          "##teamcity[message text='base' status='NORMAL' flowId='1']",
+          "##teamcity[flowFinished flowId='2']",
+          "##teamcity[blockClosed name='xB' flowId='1']"
+        );
+    }
+
+
+    [Test, ExpectedException] 
+    public void TestFlows_Block_CloseBeforeBlock()
+    {
+      DoTestWithoutAsseert(
+        x =>
+          {
+            using (x)
+            {
+              var xB = x.OpenBlock("xB");
+              xB.OpenFlow();
+              xB.Dispose();
+            }
+          }
+        );
+    }
+
+    [Test]
+    public void TestFlows_ForTest()
+    {
+      DoTest(
+        x =>
+          {
+            using (x)
+            {
+              using (var suite = x.OpenTestSuite("Suite"))
+              {
+              }
+
+            }
+          });
+    }
+
+    [Test]
     public void TestFlows_OpenDispose()
     {
       DoTestWithoutAsseert(flowB =>

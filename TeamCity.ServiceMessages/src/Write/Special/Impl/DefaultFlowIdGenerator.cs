@@ -9,7 +9,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
   /// </summary>  
   public class DefaultFlowIdGenerator : IFlowIdGenerator
   {
-    private static int myIds;
+    private int myIds;
     /// <summary>
     /// Generates new unique FlowId
     /// </summary>
