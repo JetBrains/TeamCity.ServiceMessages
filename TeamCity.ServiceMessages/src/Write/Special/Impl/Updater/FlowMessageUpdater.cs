@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-using System;
-using System.Globalization;
-
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 {
   /// <summary>
@@ -39,7 +36,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     /// <summary>
     /// Generates random flowId
     /// </summary>
-    public FlowMessageUpdater() : this((DateTime.Now.Ticks % int.MaxValue).ToString(CultureInfo.InvariantCulture))
+    public FlowMessageUpdater() : this(FlowId.NewFlowId())
     {
     }
 
