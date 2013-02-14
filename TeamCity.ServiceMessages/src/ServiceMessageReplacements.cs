@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-
-using System;
 using System.Text;
 using JetBrains.TeamCity.ServiceMessages.Annotations;
 
@@ -37,6 +35,7 @@ namespace JetBrains.TeamCity.ServiceMessages
           case '\''     : sb.Append("|'"); break;  //
           case '\n'     : sb.Append("|n"); break;  //
           case '\r'     : sb.Append("|r"); break;  //
+          case '['      : sb.Append("|["); break;  //
           case ']'      : sb.Append("|]"); break;  //
           case '\u0085' : sb.Append("|x"); break;  //\u0085 (next line)=>|x
           case '\u2028' : sb.Append("|l"); break;  //\u2028 (line separator)=>|l
@@ -73,6 +72,7 @@ namespace JetBrains.TeamCity.ServiceMessages
             case '\'': sb[i++] = ('\''); break;  //
             case 'n': sb[i++] = ('\n'); break;  //
             case 'r': sb[i++] = ('\r'); break;  //
+            case '[': sb[i++] = ('['); break;  //
             case ']': sb[i++] = (']'); break;  //
             case 'x': sb[i++] = ('\u0085'); break; //\u0085 (next line)=>|x
             case 'l': sb[i++] = ('\u2028'); break;//\u2028 (line separator)=>|l

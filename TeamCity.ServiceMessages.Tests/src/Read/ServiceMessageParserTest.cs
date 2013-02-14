@@ -290,7 +290,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     [Test]
     public void ShouldParseService_simpleMessage_decode()
     {
-      var sr = new StringWrapper("##teamcity[name '\"|'|n|r|x|l|p||[|]']");
+      var sr = new StringWrapper("##teamcity[name '\"|'|n|r|x|l|p|||[|]']");
       var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(1, result.Length);
 
@@ -427,7 +427,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     [Test]
     public void ShouldParseService_complexMessage_escaping()
     {
-      var sr = new StringWrapper("##teamcity[name    a='1\"|'|n|r|x|l|p||[|]'     b='2\"|'|n|r|x|l|p||[|]'   ]");
+      var sr = new StringWrapper("##teamcity[name    a='1\"|'|n|r|x|l|p|||[|]'     b='2\"|'|n|r|x|l|p|||[|]'   ]");
       var result = new ServiceMessageParser().ParseServiceMessages(sr).ToArray();
       Assert.AreEqual(1, result.Length);
 
@@ -443,7 +443,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     [Test]
     public void ShouldParseString()
     {
-      var result = new ServiceMessageParser().ParseServiceMessages("##teamcity[name    a='1\"|'|n|r|x|l|p||[|]'     b='2\"|'|n|r|x|l|p||[|]'   ]").ToArray();
+      var result = new ServiceMessageParser().ParseServiceMessages("##teamcity[name    a='1\"|'|n|r|x|l|p|||[|]'     b='2\"|'|n|r|x|l|p|||[|]'   ]").ToArray();
       Assert.AreEqual(1, result.Length);
 
       var msg = result[0];

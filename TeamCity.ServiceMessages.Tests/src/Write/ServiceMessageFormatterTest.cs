@@ -67,7 +67,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write
     public void SupportEscaping()
     {
       Assert.AreEqual(
-        "##teamcity[rulez Attribute='\" |' |n |r |x |l |p || [ |]']",
+        "##teamcity[rulez Attribute='\" |' |n |r |x |l |p || |[ |]']",
         new ServiceMessageFormatter().FormatMessage("rulez", new
                                                          {
                                                            Attribute = "\" ' \n \r \u0085 \u2028 \u2029 | [ ]",
