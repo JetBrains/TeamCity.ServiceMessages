@@ -12,9 +12,11 @@ Usage:
 Most use cases are covered in tests.
 
 To create service message use: 
+	
 	JetBrains.TeamCity.ServiceMessages.Write.ServiceMessageFormatter.FormatMessage
 
 To parse service messages use: 
+	
 	JetBrains.TeamCity.ServiceMessages.Read.ServiceMessageParser.ParseServiceMessages
 
 There is an API to generate TeamCity specific service messages, use: 
