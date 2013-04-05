@@ -11,10 +11,16 @@ Usage:
 
 Most use cases are covered in tests.
 
-To create service message use: JetBrains.TeamCity.ServiceMessages.Write.ServiceMessageFormatter.FormatMessage
-To parse service messages use: JetBrains.TeamCity.ServiceMessages.Read.ServiceMessageParser.ParseServiceMessages
+To create service message use: 
+	JetBrains.TeamCity.ServiceMessages.Write.ServiceMessageFormatter.FormatMessage
 
-There is an API to generate TeamCity specific service messages, use: JetBrains.TeamCity.ServiceMessages.Write.Special.ITeamCityWriter
+To parse service messages use: 
+	JetBrains.TeamCity.ServiceMessages.Read.ServiceMessageParser.ParseServiceMessages
+
+There is an API to generate TeamCity specific service messages, use: 
+
+	JetBrains.TeamCity.ServiceMessages.Write.Special.ITeamCityWriter
+	
 to get the instance of the object create an instance of the factory and get it by:
 
 	new JetBrains.TeamCity.ServiceMessages.Write.Special.TeamCityServiceMessages().CreateWriter()
@@ -26,7 +32,7 @@ I use TeamCity to compile and publish my package:
 http://teamcity.codebetter.com/project.html?projectId=project155&tab=projectOverview
 
 
-Licanse:
+License:
 ========
 Apache 2.0. 
 See LICENSE.txt.
