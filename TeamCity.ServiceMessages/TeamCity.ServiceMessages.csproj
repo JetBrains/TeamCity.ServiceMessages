@@ -100,6 +100,7 @@
     <Compile Include="src\Write\Special\TeamCityServiceMessages.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="TeamCity.ServiceMessages.nuspec" />
     <None Include="TeamCity.ServiceMessages.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
