@@ -31,10 +31,10 @@ to get the instance of the object create an instance of the factory and get it b
 Install:
 ========
 
-Use NuGet to download latest version of the library. 
+Use NuGet to download [latest version of the library](https://www.nuget.org/packages/TeamCity.ServiceMessages/
+). 
 
 	NuGet Install TeamCity.ServiceMessages
-
 
 Misc:
 =====
