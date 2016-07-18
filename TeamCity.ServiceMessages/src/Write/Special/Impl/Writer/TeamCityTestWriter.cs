@@ -45,14 +45,14 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 
     public void WriteStdOutput(string text)
     {
-      //##teamcity[testStdOut name='testname' out='text']
-      PostMessage(new ServiceMessage("testStdOut"){{"name", myTestName}, {"out", text}});
+      //##teamcity[testStdOut name='testname' out='text' tc:tags='tc:parseServiceMessagesInside']
+      PostMessage(new ServiceMessage("testStdOut"){{"name", myTestName}, {"out", text}, { "tc:tags", "tc:parseServiceMessagesInside" } });
     }
 
     public void WriteErrOutput(string text)
     {
-      //##teamcity[testStdErr name='testname' out='error text']
-      PostMessage(new ServiceMessage("testStdErr") { { "name", myTestName }, { "out", text } });
+      //##teamcity[testStdErr name='testname' out='error text' tc:tags='tc:parseServiceMessagesInside']
+      PostMessage(new ServiceMessage("testStdErr") { { "name", myTestName }, { "out", text }, { "tc:tags", "tc:parseServiceMessagesInside" } });
     }
 
     public void WriteIgnored(string message)

@@ -48,13 +48,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
     [Test]
     public void TestStdOut()
     {
-      DoTest(x => x.WriteStdOutput("outp4uz"), "##teamcity[testStdOut name='BadaBumBigBadaBum' out='outp4uz']");
+      DoTest(x => x.WriteStdOutput("outp4uz"), "##teamcity[testStdOut name='BadaBumBigBadaBum' out='outp4uz' tc:tags='tc:parseServiceMessagesInside']");
     }
 
     [Test]
     public void TestStdErr()
     {
-      DoTest(x => x.WriteErrOutput("outp4ut"), "##teamcity[testStdErr name='BadaBumBigBadaBum' out='outp4ut']");
+      DoTest(x => x.WriteErrOutput("outp4ut"), "##teamcity[testStdErr name='BadaBumBigBadaBum' out='outp4ut' tc:tags='tc:parseServiceMessagesInside']");
     }
 
     [Test]

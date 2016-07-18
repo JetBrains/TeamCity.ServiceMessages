@@ -193,7 +193,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
                  }
                },
              "##teamcity[testStarted name='test' captureStandardOutput='false']",
-             "##teamcity[testStdOut name='test' out='outp4ut']",
+             "##teamcity[testStdOut name='test' out='outp4ut' tc:tags='tc:parseServiceMessagesInside']",
              "##teamcity[testFinished name='test']"
         );
     }
@@ -208,8 +208,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
                    test.WriteErrOutput("error3");
                  }
                },
-             "##teamcity[testStarted name='test' captureStandardOutput='false']", 
-             "##teamcity[testStdErr name='test' out='error3']",
+             "##teamcity[testStarted name='test' captureStandardOutput='false']",
+             "##teamcity[testStdErr name='test' out='error3' tc:tags='tc:parseServiceMessagesInside']",
              "##teamcity[testFinished name='test']");
     }
 
