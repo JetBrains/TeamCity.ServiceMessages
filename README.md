@@ -11,11 +11,11 @@ Usage:
 
 Most use cases are covered in tests.
 
-To create service message use: 
+To create service message, use: 
 
 	JetBrains.TeamCity.ServiceMessages.Write.ServiceMessageFormatter.FormatMessage
 	
-To parse service messages use: 
+To parse service messages, use: 
 
 	JetBrains.TeamCity.ServiceMessages.Read.ServiceMessageParser.ParseServiceMessages
 
@@ -31,7 +31,7 @@ to get the instance of the object create an instance of the factory and get it b
 Install:
 ========
 
-Use NuGet to download [latest version of the library](https://www.nuget.org/packages/TeamCity.ServiceMessages/
+Use NuGet to download [the latest version of the library](https://www.nuget.org/packages/TeamCity.ServiceMessages/
 ). 
 
 	NuGet Install TeamCity.ServiceMessages
