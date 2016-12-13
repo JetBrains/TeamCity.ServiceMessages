@@ -32,7 +32,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
   public interface ITeamCityWriter : ITeamCityBlockWriter<ITeamCityWriter>, ITeamCityFlowWriter<ITeamCityWriter>, ITeamCityMessageWriter, ITeamCityTestsWriter, ITeamCityCompilationBlockWriter<ITeamCityWriter>, ITeamCityArtifactsWriter, ITeamCityBuildStatusWriter, IDisposable
   {
     /// <summary>
-    ///  Allows to send bare service message
+    ///  Allows sending bare service message
     /// </summary>
     /// <param name="message">message to send</param>
     void WriteRawMessage([NotNull] IServiceMessage message);
