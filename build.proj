@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<Version Condition=" '$(Version)' == '' ">1.0.0-beta</Version>
+		<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+		<PackagesDirectory>packages</PackagesDirectory>	
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Package Include="TeamCity.ServiceMessages"/>
+		<DotNetFramework Include="v3.5"><OutputDir>net35</OutputDir></DotNetFramework>
+		<DotNetFramework Include="v4.0"><OutputDir>net40</OutputDir></DotNetFramework>
+		<DotNetFramework Include="v4.5"><OutputDir>net45</OutputDir></DotNetFramework>
+		<!--DotNetFramework Include="v5.0"><OutputDir>portable-net46+netcore50+netstandard1.5+netstandard1.6+netcoreapp1.0</OutputDir><RunTests>false</RunTests></DotNetFramework-->
+	</ItemGroup>
+
+	<UsingTask TaskName="DownloadFile" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+		<ParameterGroup>
+			<Url ParameterType="System.String" Required="true" />
+			<LocalFilePath ParameterType="System.String" Required="true"/>
+		</ParameterGroup>
+		<Task>
+		<Using Namespace="System"/>
+		<Using Namespace="System.IO"/>
+		<Using Namespace="System.Net"/>
+      	<Code Type="Fragment" Language="cs">
+			<![CDATA[		
+				try
+				{				
+					var dirName = Path.GetDirectoryName(LocalFilePath);
+					if (dirName != null && Directory.Exists(dirName))	
+					{
+						Directory.CreateDirectory(dirName);
+					}
+
+					using (WebClient client = new WebClient())
+					{
+						client.DownloadFile(Url, LocalFilePath);
+					}
+				}
+				catch(Exception ex)
+				{
+					Log.LogMessage(MessageImportance.High, string.Format("##teamcity[buildProblem description='{0}' identity='{0}']", ex.Message));
+					throw;
+				}
+			]]>
+      	</Code>
+    	</Task>
+	</UsingTask>
+
+	<Target Name="GetNuGet">
+		<DownloadFile
+	    	Url="https://dist.nuget.org/win-x86-commandline/v3.5.0/NuGet.exe"
+	    	LocalFilePath="packages\nuget.exe"/>
+	</Target>
+
+	<Target Name="RestorePackages" DependsOnTargets="GetNuGet">
+		<Exec Command="packages\nuget.exe restore TeamCity.ServiceMessages.sln"/>
+	</Target>
+
+	<Target Name="Build" DependsOnTargets="RestorePackages">
+		<MSBuild Projects="TeamCity.ServiceMessages.sln" BuildInParallel="true" Targets="Clean;Build" Properties="Configuration=$(Configuration);TargetFrameworkVersion=%(DotNetFramework.Identity);OutputDir=%(DotNetFramework.OutputDir)"/>
+	</Target>	
+
+	<Target Name="RunTests" DependsOnTargets="Build">
+		<Exec Condition=" '%(DotNetFramework.RunTests)' != 'false' " Command="packages\nuget.exe install NUnit.Console -Version 3.6.0 -o packages"/>
+		<Exec Condition=" '%(DotNetFramework.RunTests)' != 'false' " IgnoreExitCode="True" Command="$(MSBuildProjectDirectory)\packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe $(MSBuildProjectDirectory)\TeamCity.ServiceMessages.Tests\bin\$(Configuration)\%(DotNetFramework.OutputDir)\JetBrains.TeamCity.ServiceMessages.Tests.dll --noresult --noheader">
+			<Output TaskParameter="ExitCode" ItemName="exitCode"/>
+		</Exec>
+	</Target>
+
+	<Target Name="CreatePackages" DependsOnTargets="RunTests">
+		<Exec Command="packages\nuget.exe pack %(Package.Identity)\package.nuspec -Version $(Version) -OutputDirectory $(PackagesDirectory)"/>
+		<Message Text="##teamcity[publishArtifacts '$(PackagesDirectory)\%(Package.FileName)%(Package.Extension).$(Version).nupkg=>$(PackagesDirectory)']" />
+	</Target>
+
+	<Target Name="PushPackagesToNuGet" DependsOnTargets="GetNuGet">
+		<Exec Command="packages\nuget.exe push $(PackagesDirectory)\%(Package.FileName)%(Package.Extension).$(Version).nupkg -ApiKey $(NuGetApiKey) -Source https://nuget.org/"/>
+	</Target>
+
+	<Target Name="PushPackagesToMyGet" DependsOnTargets="GetNuGet">
+		<Exec Command="packages\nuget.exe push $(PackagesDirectory)\%(Package.FileName)%(Package.Extension).$(Version).nupkg -ApiKey $(MyGetApiKey) -Source https://www.myget.org/F/dev_team/api/v2/package"/>
+	</Target>
+
+</Project>

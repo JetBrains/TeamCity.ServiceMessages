@@ -13,3 +13,4 @@ obj*
 _ReSharper*
 packages/**/*
 packages
+.vs
