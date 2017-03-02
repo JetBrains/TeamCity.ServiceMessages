@@ -25,7 +25,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
     /// </summary>
     public class DefaultFlowIdGenerator : IFlowIdGenerator
     {
-        private static int _ids;
+        private int _ids;
 
         /// <summary>
         ///     Generates new unique FlowId
