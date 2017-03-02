@@ -70,5 +70,28 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests
       Assert.AreEqual(ServiceMessageReplacements.Decode("|l"), "\u2028");
       Assert.AreEqual(ServiceMessageReplacements.Decode("|p"), "\u2029");
     }
+
+    [Test]
+    public void TestEncode_UnicodeCharacters()
+    {
+      Assert.AreEqual(@"|0x03c0", ServiceMessageReplacements.Encode("π"));
+      Assert.AreEqual(@"|0x00a9", ServiceMessageReplacements.Encode("©"));
+    }
+
+    [Test]
+    public void TestDecode_UnicodeCharacters()
+    {
+      Assert.AreEqual("π", ServiceMessageReplacements.Decode(@"|0x03c0"));
+      Assert.AreEqual("©", ServiceMessageReplacements.Decode(@"|0x00a9"));
+    }
+
+    [Test]
+    public void TestEncodeThenDecode_UnicodeCharacters()
+    {
+      string expected = "uʍop-ǝpısdn";
+      string actual = ServiceMessageReplacements.Decode(ServiceMessageReplacements.Encode(expected));
+
+      Assert.AreEqual(expected, actual);
+    }
   }
 }
