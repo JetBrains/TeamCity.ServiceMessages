@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version Condition=" '$(Version)' == '' ">1.0.0-beta</Version>
+		<Build_Number Condition=" '$(Build_Number)' == '' ">0</Build_Number>
+		<AssemblyVersion Condition=" '$(AssemblyVersion)' == '' ">3.0.6.$(Build_Number)</AssemblyVersion>
+		<Version>$(AssemblyVersion)</Version>
 		<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
 		<PackagesDirectory>packages</PackagesDirectory>	
 	</PropertyGroup>
@@ -11,7 +13,7 @@
 		<DotNetFramework Include="v3.5"><OutputDir>net35</OutputDir></DotNetFramework>
 		<DotNetFramework Include="v4.0"><OutputDir>net40</OutputDir></DotNetFramework>
 		<DotNetFramework Include="v4.5"><OutputDir>net45</OutputDir></DotNetFramework>
-		<!--DotNetFramework Include="v5.0"><OutputDir>portable-net46+netcore50+netstandard1.5+netstandard1.6+netcoreapp1.0</OutputDir><RunTests>false</RunTests></DotNetFramework-->
+		<DotNetFramework Include="v5.0"><OutputDir>portable-net46+netcore50+netstandard1.5+netstandard1.6+netcoreapp1.0</OutputDir><RunTests>false</RunTests></DotNetFramework>
 	</ItemGroup>
 
 	<UsingTask TaskName="DownloadFile" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
@@ -48,6 +50,33 @@
     	</Task>
 	</UsingTask>
 
+	<UsingTask TaskName="Replace" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+		<ParameterGroup>
+			<FilePath ParameterType="System.String" Required="true"/>
+			<Pattern ParameterType="System.String" Required="true" />
+			<Replacement ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+		<Task>
+		<Using Namespace="System"/>
+		<Using Namespace="System.IO"/>
+		<Using Namespace="System.Linq"/>
+		<Using Namespace="System.Text.RegularExpressions"/>
+      	<Code Type="Fragment" Language="cs">
+			<![CDATA[		
+				try
+				{	
+					File.WriteAllLines(FilePath, File.ReadAllLines(FilePath).Select(line => Regex.Replace(line, Pattern, Replacement)).ToList());
+				}
+				catch(Exception ex)
+				{
+					Log.LogMessage(MessageImportance.High, string.Format("##teamcity[buildProblem description='{0}' identity='{0}']", ex.Message));
+					throw;
+				}
+			]]>
+      	</Code>
+    	</Task>
+	</UsingTask>
+
 	<Target Name="GetNuGet">
 		<DownloadFile
 	    	Url="https://dist.nuget.org/win-x86-commandline/v3.5.0/NuGet.exe"
@@ -56,9 +85,17 @@
 
 	<Target Name="RestorePackages" DependsOnTargets="GetNuGet">
 		<Exec Command="packages\nuget.exe restore TeamCity.ServiceMessages.sln"/>
+		<Exec Command="packages\nuget.exe restore TeamCity.ServiceMessages\Portable\project.json"/>
 	</Target>
 
-	<Target Name="Build" DependsOnTargets="RestorePackages">
+	<Target Name="UpdateVersions">
+		<Replace
+	    	FilePath='TeamCity.ServiceMessages\Properties\AssemblyInfo.cs'
+			Pattern='(\[assembly:\s(AssemblyVersion|AssemblyFileVersion)\()"(\d+\.\d+\.\d+\.\d+)"(\)\])'
+			Replacement='$1"$(AssemblyVersion)"$4'/>
+	</Target>
+
+	<Target Name="Build" DependsOnTargets="RestorePackages;UpdateVersions">
 		<MSBuild Projects="TeamCity.ServiceMessages.sln" BuildInParallel="true" Targets="Clean;Build" Properties="Configuration=$(Configuration);TargetFrameworkVersion=%(DotNetFramework.Identity);OutputDir=%(DotNetFramework.OutputDir)"/>
 	</Target>	
 
