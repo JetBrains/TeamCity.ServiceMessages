@@ -31,5 +31,4 @@ to get the instance of the object create an instance of the factory and get it b
 ```
 License:
 ========
-Apache 2.0. 
-See LICENSE.txt.
+[Apache 2.0.](https://github.com/JetBrains/TeamCity.ServiceMessages/blob/v3.0/LICENSE.txt)
