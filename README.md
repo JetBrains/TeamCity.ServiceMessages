@@ -29,6 +29,26 @@ to get the instance of the object create an instance of the factory and get it b
 ```csharp
 new JetBrains.TeamCity.ServiceMessages.Write.Special.TeamCityServiceMessages().CreateWriter()
 ```
+
+for [example](https://github.com/JetBrains/TeamCity.ServiceMessages/blob/master/Samples/Simple/Program.cs):
+```csharp
+using (var writer = new TeamCityServiceMessages().CreateWriter())
+using (var block = writer.OpenBlock("Tests"))
+using (var testClass = block.OpenTestSuite("TestClass"))
+{
+    using (var test = testClass.OpenTest("Test1"))
+    {
+        test.WriteStdOutput("Some output");
+        test.WriteDuration(TimeSpan.FromSeconds(1));
+    }
+
+    using (var test = testClass.OpenTest("Test2"))
+    {
+        test.WriteIgnored();
+    }
+}
+```
+
 License:
 ========
 [Apache 2.0.](https://github.com/JetBrains/TeamCity.ServiceMessages/blob/master/LICENSE.txt)
