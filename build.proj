@@ -64,7 +64,7 @@
 
 	<Target Name="RunTests" DependsOnTargets="Build">
 		<Exec Condition=" '%(DotNetFramework.RunTests)' != 'false' " Command="packages\nuget.exe install NUnit.Console -Version 3.6.0 -o packages"/>
-		<Exec Condition=" '%(DotNetFramework.RunTests)' != 'false' " IgnoreExitCode="True" Command="$(MSBuildProjectDirectory)\packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe $(MSBuildProjectDirectory)\TeamCity.ServiceMessages.Tests\bin\$(Configuration)\%(DotNetFramework.OutputDir)\JetBrains.TeamCity.ServiceMessages.Tests.dll --noresult --noheader">
+		<Exec Condition=" '%(DotNetFramework.RunTests)' != 'false' " IgnoreExitCode="True" Command="$(MSBuildProjectDirectory)\packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe $(MSBuildProjectDirectory)\TeamCity.ServiceMessages.Tests\bin\$(Configuration)\%(DotNetFramework.OutputDir)\JetBrains.TeamCity.ServiceMessages.Tests.dll --noresult --noheader --workers=1 --inprocess">
 			<Output TaskParameter="ExitCode" ItemName="exitCode"/>
 		</Exec>
 	</Target>
