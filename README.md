@@ -1,4 +1,4 @@
-[<img src="http://teamcity.jetbrains.com/app/rest/builds/buildType:(id:TeamCityServiceMessages_TeamCityServiceMessages)/statusIcon"/>](http://tcavs2015.cloudapp.net/viewType.html?buildTypeId=DevTeam_IoC_Build) [<img src="https://www.nuget.org/Content/Logos/nugetlogo.png" height="18">](https://www.nuget.org/packages/TeamCity.ServiceMessages/)
+[<img src="http://teamcity.jetbrains.com/app/rest/builds/buildType:(id:TeamCityServiceMessages_TeamCityServiceMessages)/statusIcon"/>](http://teamcity.jetbrains.com/viewType.html?buildTypeId=TeamCityServiceMessages_TeamCityServiceMessages) [<img src="https://www.nuget.org/Content/Logos/nugetlogo.png" height="18">](https://www.nuget.org/packages/TeamCity.ServiceMessages/)
 
 TeamCity.ServiceMessages .NET library. 
 ======================================
