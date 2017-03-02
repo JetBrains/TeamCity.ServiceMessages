@@ -4,8 +4,8 @@ TeamCity.ServiceMessages .NET library.
 ======================================
 
 This library provides read/write access to TeamCity Service messages.
-Take a look at the description of service messages at 
-http://confluence.jetbrains.net/display/TCDL/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ServiceMessages
+Take a look at the description of service messages at this [page](
+http://confluence.jetbrains.net/display/TCDL/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ServiceMessages).
 
 
 Usage:
