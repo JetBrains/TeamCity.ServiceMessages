@@ -93,11 +93,12 @@
 	</Target>
 
 	<Target Name="Build" DependsOnTargets="GetNuGet;UpdateVersions">
+		<Exec Command="packages\nuget.exe install NUnit -Version 3.6.1 -o packages"/>
 		<MSBuild Projects="TeamCity.ServiceMessages.sln" BuildInParallel="true" Targets="Clean;Restore;Build" Properties="Configuration=$(Configuration);Framework=%(DotNetFramework.Identity);OutputDir=%(DotNetFramework.OutputDir)"/>
 	</Target>	
 
 	<Target Name="RunTests" DependsOnTargets="Build">		
-		<Exec Command="packages\nuget.exe install NUnit.Console -Version 3.6.0 -o packages"/>
+		<Exec Command="packages\nuget.exe install NUnit.Console -Version 3.6.0 -o packages"/>		
 		<Exec IgnoreExitCode="True" Command="$(MSBuildProjectDirectory)\packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe $(MSBuildProjectDirectory)\TeamCity.ServiceMessages.Tests\bin\$(Configuration)\%(DotNetFramework.OutputDir)\JetBrains.TeamCity.ServiceMessages.Tests.dll --noresult --noheader --workers=1 --inprocess">
 			<Output TaskParameter="ExitCode" ItemName="exitCode"/>
 		</Exec>
