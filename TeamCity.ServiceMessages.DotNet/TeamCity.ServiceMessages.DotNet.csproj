@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JetBrains.TeamCity.ServiceMessages</RootNamespace>
     <AssemblyName>TeamCity.ServiceMessages</AssemblyName>
-	<TargetFrameworkVersion Condition=" '$(TargetFrameworkVersion	)' == '' ">v3.5</TargetFrameworkVersion	>	
-    <TargetFrameworkVersion>$(TargetFrameworkVersion)</TargetFrameworkVersion>
+	<Framework Condition=" '$(Framework)' == '' ">v3.5</Framework>
+    <TargetFrameworkVersion Condition=" '$(TargetFrameworkVersion)' == '' ">$(Framework)</TargetFrameworkVersion>
+    <OutputDir Condition=" '$(OutputDir)' == '' ">net35</OutputDir>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
