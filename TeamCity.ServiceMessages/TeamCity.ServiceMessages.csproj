@@ -1,130 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFrameworkVersion Condition=" '$(TargetFrameworkVersion)' == '' ">v4.0</TargetFrameworkVersion>
-    <OutputDir Condition=" '$(OutputDir)' == '' ">
-    </OutputDir>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props') and ('$(TargetFrameworkVersion)' == 'v5.0')" />
-  <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BCB28CC0-6E8C-4F15-9E7A-E98598AFCEF3}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>netstandard1.5</TargetFramework>
+    <AssemblyName>TeamCity.ServiceMessages</AssemblyName>
+    <PackageId>TeamCity.ServiceMessages</PackageId>
+    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <RootNamespace>JetBrains.TeamCity.ServiceMessages</RootNamespace>
-    <AssemblyName>JetBrains.TeamCity.ServiceMessages</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)\..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\$(OutputDir)</OutputPath>
-    <DefineConstants Condition=" '$(TargetFrameworkVersion)' != 'v5.0' ">DEBUG;TRACE</DefineConstants>
-    <DefineConstants Condition=" '$(TargetFrameworkVersion)' == 'v5.0' ">DEBUG;TRACE;NETStandard15</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\$(OutputDir)</OutputPath>
-    <DefineConstants Condition=" '$(TargetFrameworkVersion)' != 'v5.0' ">TRACE</DefineConstants>
-    <DefineConstants Condition=" '$(TargetFrameworkVersion)' == 'v5.0' ">TRACE;NETStandard15</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\JetBrains.TeamCity.ServiceMessages.XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>TeamCity.ServiceMessages.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <DelaySign>false</DelaySign>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System.Core" />
+    <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFrameworkVersion)' == 'v5.0' ">
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="Portable\project.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Annotations.cs" />
-    <Compile Include="IServiceMessage.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Read\IServiceMessageParser.cs" />
-    <Compile Include="Read\ServiceMessage.cs" />
-    <Compile Include="Read\ServiceMessageParser.cs" />
-    <Compile Include="ServiceMessageConstants.cs" />
-    <Compile Include="ServiceMessageReplacements.cs" />
-    <Compile Include="Write\IServiceMessageFormatter.cs" />
-    <Compile Include="Write\ServiceMessage.cs" />
-    <Compile Include="Write\ServiceMessageFormatter.cs" />
-    <Compile Include="Write\ServiceMessageProperty.cs" />
-    <Compile Include="Write\Special\IFlowIdGenerator.cs" />
-    <Compile Include="Write\Special\IFlowServiceMessageProcessor.cs" />
-    <Compile Include="Write\Special\Impl\DefaultFlowIdGenerator.cs" />
-    <Compile Include="Write\Special\Impl\DisposableDelegate.cs" />
-    <Compile Include="Write\Special\Impl\FlowServiceMessageWriter.cs" />
-    <Compile Include="Write\Special\Impl\PatchedServiceMessage.cs" />
-    <Compile Include="Write\Special\Impl\ServiceMessagesWriter.cs" />
-    <Compile Include="Write\Special\Impl\TeamCityWriterFacade.cs" />
-    <Compile Include="Write\Special\Impl\TeamCityWriterImpl.cs" />
-    <Compile Include="Write\Special\Impl\Updater\FlowMessageUpdater.cs" />
-    <Compile Include="Write\Special\Impl\Updater\TimestampUpdater.cs" />
-    <Compile Include="Write\Special\Impl\ValueServiceMessage.cs" />
-    <Compile Include="Write\Special\Impl\Writer\BaseDisposableWriter.cs" />
-    <Compile Include="Write\Special\Impl\Writer\BaseWriter.cs" />
-    <Compile Include="Write\Special\Impl\Writer\IChildInfoProvider.cs" />
-    <Compile Include="Write\Special\Impl\Writer\TeamCityArtifactsWriter.cs" />
-    <Compile Include="Write\Special\Impl\Writer\TeamCityBlockWriter.cs" />
-    <Compile Include="Write\Special\Impl\Writer\TeamCityBuildStatusWriter.cs" />
-    <Compile Include="Write\Special\Impl\Writer\TeamCityCompilationBlockWriter.cs" />
-    <Compile Include="Write\Special\Impl\Writer\TeamCityFlowWriter.cs" />
-    <Compile Include="Write\Special\Impl\Writer\TeamCityMessageWriter.cs" />
-    <Compile Include="Write\Special\Impl\Writer\TeamCityTestSuiteBlock.cs" />
-    <Compile Include="Write\Special\Impl\Writer\TeamCityTestWriter.cs" />
-    <Compile Include="Write\Special\IServiceMessageProcessor.cs" />
-    <Compile Include="Write\Special\IServiceMessageUpdater.cs" />
-    <Compile Include="Write\Special\ITeamCityArtifactsWriter.cs" />
-    <Compile Include="Write\Special\ITeamCityBlockWriter.cs" />
-    <Compile Include="Write\Special\ITeamCityBuildStatusWriter.cs" />
-    <Compile Include="Write\Special\ITeamCityCompilationBlockWriter.cs" />
-    <Compile Include="Write\Special\ITeamCityFlowWriter.cs" />
-    <Compile Include="Write\Special\ITeamCityMessageWriter.cs" />
-    <Compile Include="Write\Special\ITeamCityServiceMessages.cs" />
-    <Compile Include="Write\Special\ITeamCityTestSuiteWriter.cs" />
-    <Compile Include="Write\Special\ITeamCityTestsWriter.cs" />
-    <Compile Include="Write\Special\ITeamCityTestWriter.cs" />
-    <Compile Include="Write\Special\ITeamCityWriter.cs" />
-    <Compile Include="Write\Special\TeamCityServiceMessages.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="package.nuspec" />
-    <None Include="TeamCity.ServiceMessages.snk" />
-  </ItemGroup>
-  <Import Condition=" '$(TargetFrameworkVersion)' != 'v5.0' " Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Condition=" '$(TargetFrameworkVersion)' == 'v5.0' " Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <ItemGroup>
-    <ProjectFiles Include="$(MSBuildProjectDirectory)\Portable\project.json;$(MSBuildProjectDirectory)\Portable\project.lock.json;" />
-	<TempProjectFiles Include="$(MSBuildProjectDirectory)\project.json;$(MSBuildProjectDirectory)\project.lock.json;" />
-  </ItemGroup>
-  <Target Name="BeforeBuild">
-    <Message Text="TargetFrameworkVersion=$(TargetFrameworkVersion);OutputDir=$(OutputDir)" />
-    <Delete Condition=" '$(TargetFrameworkVersion)' != 'v5.0' " Files="@(TempProjectFiles)" />
-    <Copy Condition=" '$(TargetFrameworkVersion)' == 'v5.0' " SourceFiles="@(ProjectFiles)" DestinationFolder="$(MSBuildProjectDirectory)" />
-  </Target>
-  <Target Name="AfterBuild">
-    <Delete Files="@(TempProjectFiles)" />
-  </Target>
+
 </Project>

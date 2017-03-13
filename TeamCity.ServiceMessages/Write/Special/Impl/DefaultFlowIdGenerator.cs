@@ -33,7 +33,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
         public string NewFlowId()
         {
             return (
-#if NETStandard15
+#if NETSTANDARD1_5
                 Interlocked.Increment(ref _ids)
 #else
                 Interlocked.Increment(ref _ids) << (27

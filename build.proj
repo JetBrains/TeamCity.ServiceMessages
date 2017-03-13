@@ -16,7 +16,6 @@
 		<DotNetFramework Include="v3.5"><OutputDir>net35</OutputDir></DotNetFramework>
 		<DotNetFramework Include="v4.0"><OutputDir>net40</OutputDir></DotNetFramework>
 		<DotNetFramework Include="v4.5"><OutputDir>net45</OutputDir></DotNetFramework>
-		<DotNetFramework Include="v5.0"><OutputDir>portable-net46+netcore50+netstandard1.5+netstandard1.6+netcoreapp1.0</OutputDir><RunTests>false</RunTests></DotNetFramework>
 	</ItemGroup>
 
 	<UsingTask TaskName="DownloadFile" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
@@ -86,11 +85,6 @@
 	    	LocalFilePath="packages\nuget.exe"/>
 	</Target>
 
-	<Target Name="RestorePackages" DependsOnTargets="GetNuGet">
-		<Exec Command="packages\nuget.exe restore TeamCity.ServiceMessages.sln"/>
-		<Exec Command="packages\nuget.exe restore TeamCity.ServiceMessages\Portable\project.json"/>
-	</Target>
-
 	<Target Name="UpdateVersions">
 		<Replace
 	    	FilePath='TeamCity.ServiceMessages\Properties\AssemblyInfo.cs'
@@ -98,18 +92,20 @@
 			Replacement='$1"$(AssemblyVersion)"$4'/>
 	</Target>
 
-	<Target Name="Build" DependsOnTargets="RestorePackages;UpdateVersions">
-		<MSBuild Projects="TeamCity.ServiceMessages.sln" BuildInParallel="true" Targets="Clean;Build" Properties="Configuration=$(Configuration);TargetFrameworkVersion=%(DotNetFramework.Identity);OutputDir=%(DotNetFramework.OutputDir)"/>
+	<Target Name="Build" DependsOnTargets="UpdateVersions">
+		<MSBuild Projects="TeamCity.ServiceMessages\TeamCity.ServiceMessages.csproj" BuildInParallel="true" Targets="Clean;Restore;Build" Properties="Configuration=$(Configuration)"/>
+		<MSBuild Projects="TeamCity.ServiceMessages.DotNet\TeamCity.ServiceMessages.DotNet.csproj" BuildInParallel="true" Targets="Clean;Restore;Build" Properties="Configuration=$(Configuration);TargetFrameworkVersion=%(DotNetFramework.Identity);OutputDir=%(DotNetFramework.OutputDir)"/>
+		<MSBuild Projects="TeamCity.ServiceMessages.Tests\TeamCity.ServiceMessages.Tests.csproj" BuildInParallel="true" Targets="Clean;Restore;Build" Properties="Configuration=$(Configuration);TargetFrameworkVersion=%(DotNetFramework.Identity);OutputDir=%(DotNetFramework.OutputDir)"/>
 	</Target>	
 
 	<Target Name="RunTests" DependsOnTargets="Build">
-		<Exec Condition=" '%(DotNetFramework.RunTests)' != 'false' " Command="packages\nuget.exe install NUnit.Console -Version 3.6.0 -o packages"/>
-		<Exec Condition=" '%(DotNetFramework.RunTests)' != 'false' " IgnoreExitCode="True" Command="$(MSBuildProjectDirectory)\packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe $(MSBuildProjectDirectory)\TeamCity.ServiceMessages.Tests\bin\$(Configuration)\%(DotNetFramework.OutputDir)\JetBrains.TeamCity.ServiceMessages.Tests.dll --noresult --noheader --workers=1 --inprocess">
+		<Exec Command="packages\nuget.exe install NUnit.Console -Version 3.6.0 -o packages"/>
+		<Exec IgnoreExitCode="True" Command="$(MSBuildProjectDirectory)\packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe $(MSBuildProjectDirectory)\TeamCity.ServiceMessages.Tests\bin\$(Configuration)\%(DotNetFramework.OutputDir)\JetBrains.TeamCity.ServiceMessages.Tests.dll --noresult --noheader --workers=1 --inprocess">
 			<Output TaskParameter="ExitCode" ItemName="exitCode"/>
 		</Exec>
 	</Target>
 
-	<Target Name="CreatePackages" DependsOnTargets="RunTests">
+	<Target Name="CreatePackages" DependsOnTargets="GetNuGet;Build">
 		<Exec Command="packages\nuget.exe pack %(Package.Identity)\package.nuspec -Version $(Version) -OutputDirectory $(PackagesDirectory)"/>
 		<Message Text="##teamcity[publishArtifacts '$(PackagesDirectory)\%(Package.FileName)%(Package.Extension).$(Version).nupkg=>$(PackagesDirectory)']" />
 	</Target>

@@ -15,7 +15,9 @@
     <tags>TeamCity ServiceMessage ServiceMessages</tags>
   </metadata>
   <files>
-    <file src="bin\Release\**\*" target="lib" />
+    <file src="bin\Release\netstandard1.5\**\*.dll;bin\Release\netstandard1.5\**\*.pdb" target="lib\portable-net46+netcore50+netcoreapp1.0" />
+	<file src="bin\Release\netstandard1.5\**\*.dll;bin\Release\netstandard1.5\**\*.pdb" target="lib\portable-netstandard1.5+netstandard1.6" />
+	<file src="..\TeamCity.ServiceMessages.DotNet\bin\Release\**\*" target="lib" />
     <file src="..\LICENSE.txt" target="" />
   </files>
 </package>
