@@ -1,1 +1,0 @@
-msbuild build.proj /t:CreatePackages

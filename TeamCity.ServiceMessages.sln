@@ -1,12 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCity.ServiceMessages", "TeamCity.ServiceMessages\TeamCity.ServiceMessages.csproj", "{BCB28CC0-6E8C-4F15-9E7A-E98598AFCEF3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCity.ServiceMessages.Tests", "TeamCity.ServiceMessages.Tests\TeamCity.ServiceMessages.Tests.csproj", "{EF2FBABE-8456-474C-9BA1-B76A8C64DFBA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCity.ServiceMessages.DotNet", "TeamCity.ServiceMessages.DotNet\TeamCity.ServiceMessages.DotNet.csproj", "{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,18 +32,6 @@ Global
 		{EF2FBABE-8456-474C-9BA1-B76A8C64DFBA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF2FBABE-8456-474C-9BA1-B76A8C64DFBA}.Release|x64.ActiveCfg = Release|Any CPU
 		{EF2FBABE-8456-474C-9BA1-B76A8C64DFBA}.Release|x86.ActiveCfg = Release|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Debug|x64.Build.0 = Debug|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Debug|x86.Build.0 = Debug|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Release|x64.ActiveCfg = Release|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Release|x64.Build.0 = Release|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Release|x86.ActiveCfg = Release|Any CPU
-		{1726C685-5F33-43E9-AA4D-3CB4EDCA6C93}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

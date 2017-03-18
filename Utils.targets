@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<UsingTask TaskName="DownloadFile" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+		<ParameterGroup>
+			<Url ParameterType="System.String" Required="true" />
+			<LocalFilePath ParameterType="System.String" Required="true"/>
+		</ParameterGroup>
+		<Task>
+		<Using Namespace="System"/>
+		<Using Namespace="System.IO"/>
+		<Using Namespace="System.Net"/>
+      	<Code Type="Fragment" Language="cs">
+			<![CDATA[		
+				try
+				{				
+					var dirName = Path.GetDirectoryName(LocalFilePath);
+					if (dirName != null && Directory.Exists(dirName))	
+					{
+						Directory.CreateDirectory(dirName);
+					}
+
+					using (WebClient client = new WebClient())
+					{
+						client.DownloadFile(Url, LocalFilePath);
+					}
+				}
+				catch(Exception ex)
+				{
+					Log.LogMessage(MessageImportance.High, string.Format("##teamcity[buildProblem description='{0}' identity='{0}']", ex.Message));
+					throw;
+				}
+			]]>
+      	</Code>
+    	</Task>
+	</UsingTask>
+
+	<UsingTask TaskName="Replace" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+		<ParameterGroup>
+			<FilePath ParameterType="System.String" Required="true"/>
+			<Pattern ParameterType="System.String" Required="true" />
+			<Replacement ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+		<Task>
+		<Using Namespace="System"/>
+		<Using Namespace="System.IO"/>
+		<Using Namespace="System.Linq"/>
+		<Using Namespace="System.Text.RegularExpressions"/>
+      	<Code Type="Fragment" Language="cs">
+			<![CDATA[		
+				try
+				{	
+					File.WriteAllLines(FilePath, File.ReadAllLines(FilePath).Select(line => Regex.Replace(line, Pattern, Replacement)).ToList());
+				}
+				catch(Exception ex)
+				{
+					Log.LogMessage(MessageImportance.High, string.Format("##teamcity[buildProblem description='{0}' identity='{0}']", ex.Message));
+					throw;
+				}
+			]]>
+      	</Code>
+    	</Task>
+	</UsingTask>
+</Project>

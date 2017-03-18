@@ -1,98 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EF2FBABE-8456-474C-9BA1-B76A8C64DFBA}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworks>netstandard1.6;net35;net40;net45;netcoreapp1.0</TargetFrameworks>
+    <AssemblyName>TeamCity.ServiceMessages.Tests</AssemblyName>
+    <PackageId>TeamCity.ServiceMessages.Tests</PackageId>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <RootNamespace>JetBrains.TeamCity.ServiceMessages.Tests</RootNamespace>
-    <AssemblyName>JetBrains.TeamCity.ServiceMessages.Tests</AssemblyName>
-	<Framework Condition=" '$(Framework)' == '' ">v3.5</Framework>
-    <TargetFrameworkVersion Condition=" '$(TargetFrameworkVersion)' == '' ">$(Framework)</TargetFrameworkVersion>
-    <OutputDir Condition=" '$(OutputDir)' == '' ">net35</OutputDir>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TeamCity.ServiceMessages\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\$(OutputDir)</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\$(OutputDir)</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
+    <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>TeamCity.ServiceMessages.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
   </PropertyGroup>
-  <PropertyGroup>
-    <DelaySign>false</DelaySign>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.6.1\lib\net35\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <PackageReference Include="NUnit"><Version>3.6.1</Version></PackageReference>
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Read\ServiceMessageParserPerformanceTest.cs" />
-    <Compile Include="Read\ServiceMessageParserTest.cs" />
-    <Compile Include="Read\StringWrapper.cs" />
-    <Compile Include="ServiceMessageReplacementsTest.cs" />
-    <Compile Include="Write\ServiceMessageFormatterTest.cs" />
-    <Compile Include="Write\Specials\TeamCityArtifactsWriterTest.cs" />
-    <Compile Include="Write\Specials\TeamCityBlockWriterTest.cs" />
-    <Compile Include="Write\Specials\TeamCityBuildStatusWriterTest.cs" />
-    <Compile Include="Write\Specials\TeamCityCompilationBlockWriterTest.cs" />
-    <Compile Include="Write\Specials\TeamCityFlowWriterBaseTest.cs" />
-    <Compile Include="Write\Specials\TeamCityFlowWriterTest.cs" />
-    <Compile Include="Write\Specials\TeamCityMessageWriterTest.cs" />
-    <Compile Include="Write\Specials\TeamCityTestsWriterTest.cs" />
-    <Compile Include="Write\Specials\TeamCityTestWriterTest.cs" />
-    <Compile Include="Write\Specials\TeamCityWriterBaseTest.cs" />
-    <Compile Include="Write\Specials\TeamCityWriterFlowsTest.cs" />
-    <Compile Include="Write\Specials\TeamCityWriterMessageTest.cs" />
-    <Compile Include="Write\TeamCityServiceMessagesTest.cs" />
-    <Compile Include="Write\Updaters\FlowMessageUpdaterTest.cs" />
-    <Compile Include="Write\Updaters\TimestampMessageUpdaterTest.cs" />
+    <ProjectReference Include="..\TeamCity.ServiceMessages\TeamCity.ServiceMessages.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="TeamCity.ServiceMessages.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TeamCity.ServiceMessages.DotNet\TeamCity.ServiceMessages.DotNet.csproj">
-      <Project>{1726c685-5f33-43e9-aa4d-3cb4edca6c93}</Project>
-      <Name>TeamCity.ServiceMessages.DotNet</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

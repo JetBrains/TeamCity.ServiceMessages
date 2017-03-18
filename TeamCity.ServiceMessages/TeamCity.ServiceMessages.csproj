@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFrameworks>netstandard1.3;net35;net40;net45;netcoreapp1.0</TargetFrameworks>
     <AssemblyName>TeamCity.ServiceMessages</AssemblyName>
     <PackageId>TeamCity.ServiceMessages</PackageId>
-    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -14,10 +13,18 @@
     <RootNamespace>JetBrains.TeamCity.ServiceMessages</RootNamespace>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>TeamCity.ServiceMessages.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+	<Authors>Eugene Petrenko</Authors>
+	<Title>TeamCity Service Messages read/write access</Title>
+	<Description>This library provides read/write access to TeamCity Service messages. Take a look at the description of service messages at http://confluence.jetbrains.net/display/TCDL/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ServiceMessages</Description>
+    <PackageLicenseUrl>https://github.com/JetBrains/TeamCity.ServiceMessages/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/JetBrains/TeamCity.ServiceMessages</PackageProjectUrl>
+    <PackageIconUrl>https://www.jetbrains.com/_assets//shared/favicons/jetbrains.ico</PackageIconUrl>
+    <RepositoryUrl>https://github.com/JetBrains/TeamCity.ServiceMessages.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>TeamCity ServiceMessage ServiceMessages</PackageTags>
+    <Version>1.0.0</Version>
+    <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">True</GeneratePackageOnBuild>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
-  </ItemGroup>
 
 </Project>

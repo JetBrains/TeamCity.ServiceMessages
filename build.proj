@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="Utils.targets" />  
+
 	<PropertyGroup>
 		<PackageVersion Condition=" '$(PackageVersion)' == '' ">3.0.8</PackageVersion>
 
@@ -13,71 +15,25 @@
 
 	<ItemGroup>
 		<Package Include="TeamCity.ServiceMessages"/>
-		<DotNetFramework Include="v3.5"><OutputDir>net35</OutputDir></DotNetFramework>
-		<DotNetFramework Include="v4.0"><OutputDir>net40</OutputDir></DotNetFramework>
-		<DotNetFramework Include="v4.5"><OutputDir>net45</OutputDir></DotNetFramework>
-	</ItemGroup>
+		<Framework Include="."><Version>net35</Version></Framework>
+		<Framework Include="."><Version>net40</Version></Framework>
+		<Framework Include="."><Version>net45</Version></Framework>
+	</ItemGroup>	
 
-	<UsingTask TaskName="DownloadFile" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-		<ParameterGroup>
-			<Url ParameterType="System.String" Required="true" />
-			<LocalFilePath ParameterType="System.String" Required="true"/>
-		</ParameterGroup>
-		<Task>
-		<Using Namespace="System"/>
-		<Using Namespace="System.IO"/>
-		<Using Namespace="System.Net"/>
-      	<Code Type="Fragment" Language="cs">
-			<![CDATA[		
-				try
-				{				
-					var dirName = Path.GetDirectoryName(LocalFilePath);
-					if (dirName != null && Directory.Exists(dirName))	
-					{
-						Directory.CreateDirectory(dirName);
-					}
+	<Target Name="Clear">	
+	    <RemoveDir Directories="%(Package.Identity)\bin\$(Configuration)" /> 
+	</Target>
 
-					using (WebClient client = new WebClient())
-					{
-						client.DownloadFile(Url, LocalFilePath);
-					}
-				}
-				catch(Exception ex)
-				{
-					Log.LogMessage(MessageImportance.High, string.Format("##teamcity[buildProblem description='{0}' identity='{0}']", ex.Message));
-					throw;
-				}
-			]]>
-      	</Code>
-    	</Task>
-	</UsingTask>
+	<Target Name="Build">
+		<Replace
+	    	FilePath='TeamCity.ServiceMessages\Properties\AssemblyInfo.cs'
+			Pattern='(\[assembly:\s(AssemblyVersion|AssemblyFileVersion)\()"(\d+\.\d+\.\d+\.\d+)"(\)\])'
+			Replacement='$1"$(AssemblyVersion)"$4'/>
 
-	<UsingTask TaskName="Replace" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-		<ParameterGroup>
-			<FilePath ParameterType="System.String" Required="true"/>
-			<Pattern ParameterType="System.String" Required="true" />
-			<Replacement ParameterType="System.String" Required="true" />
-		</ParameterGroup>
-		<Task>
-		<Using Namespace="System"/>
-		<Using Namespace="System.IO"/>
-		<Using Namespace="System.Linq"/>
-		<Using Namespace="System.Text.RegularExpressions"/>
-      	<Code Type="Fragment" Language="cs">
-			<![CDATA[		
-				try
-				{	
-					File.WriteAllLines(FilePath, File.ReadAllLines(FilePath).Select(line => Regex.Replace(line, Pattern, Replacement)).ToList());
-				}
-				catch(Exception ex)
-				{
-					Log.LogMessage(MessageImportance.High, string.Format("##teamcity[buildProblem description='{0}' identity='{0}']", ex.Message));
-					throw;
-				}
-			]]>
-      	</Code>
-    	</Task>
-	</UsingTask>
+		<MSBuild Projects="TeamCity.ServiceMessages.sln" BuildInParallel="true" Targets="Restore;Build" Properties="Configuration=$(Configuration);Version=$(Version)"/>
+
+		<Message Text="##teamcity[publishArtifacts 'TeamCity.ServiceMessages\bin\$(Configuration)\TeamCity.ServiceMessages.*.nupkg=>$(PackagesDirectory)']" />
+	</Target>	
 
 	<Target Name="GetNuGet">
 		<DownloadFile
@@ -85,36 +41,11 @@
 	    	LocalFilePath="packages\nuget.exe"/>
 	</Target>
 
-	<Target Name="UpdateVersions">
-		<Replace
-	    	FilePath='TeamCity.ServiceMessages\Properties\AssemblyInfo.cs'
-			Pattern='(\[assembly:\s(AssemblyVersion|AssemblyFileVersion)\()"(\d+\.\d+\.\d+\.\d+)"(\)\])'
-			Replacement='$1"$(AssemblyVersion)"$4'/>
-	</Target>
-
-	<Target Name="Build" DependsOnTargets="GetNuGet;UpdateVersions">
-		<Exec Command="packages\nuget.exe install NUnit -Version 3.6.1 -o packages"/>
-		<MSBuild Projects="TeamCity.ServiceMessages.sln" BuildInParallel="true" Targets="Clean;Restore;Build" Properties="Configuration=$(Configuration);Framework=%(DotNetFramework.Identity);OutputDir=%(DotNetFramework.OutputDir)"/>
-	</Target>	
-
-	<Target Name="RunTests" DependsOnTargets="Build">		
+	<Target Name="Test" DependsOnTargets="GetNuGet">		
 		<Exec Command="packages\nuget.exe install NUnit.Console -Version 3.6.0 -o packages"/>		
-		<Exec IgnoreExitCode="True" Command="$(MSBuildProjectDirectory)\packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe $(MSBuildProjectDirectory)\TeamCity.ServiceMessages.Tests\bin\$(Configuration)\%(DotNetFramework.OutputDir)\JetBrains.TeamCity.ServiceMessages.Tests.dll --noresult --noheader --workers=1 --inprocess">
+		<Exec IgnoreExitCode="True" Command="$(MSBuildProjectDirectory)\packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe $(MSBuildProjectDirectory)\TeamCity.ServiceMessages.Tests\bin\$(Configuration)\%(Framework.Version)\TeamCity.ServiceMessages.Tests.dll --noresult --noheader --workers=1 --inprocess">
 			<Output TaskParameter="ExitCode" ItemName="exitCode"/>
 		</Exec>
-	</Target>
-
-	<Target Name="CreatePackages" DependsOnTargets="Build">
-		<Exec Command="packages\nuget.exe pack %(Package.Identity)\package.nuspec -Version $(Version) -OutputDirectory $(PackagesDirectory)"/>
-		<Message Text="##teamcity[publishArtifacts '$(PackagesDirectory)\%(Package.FileName)%(Package.Extension).$(Version).nupkg=>$(PackagesDirectory)']" />
-	</Target>
-
-	<Target Name="PushPackagesToNuGet" DependsOnTargets="GetNuGet">
-		<Exec Command="packages\nuget.exe push $(PackagesDirectory)\%(Package.FileName)%(Package.Extension).$(Version).nupkg -ApiKey $(NuGetApiKey) -Source https://nuget.org/"/>
-	</Target>
-
-	<Target Name="PushPackagesToMyGet" DependsOnTargets="GetNuGet">
-		<Exec Command="packages\nuget.exe push $(PackagesDirectory)\%(Package.FileName)%(Package.Extension).$(Version).nupkg -ApiKey $(MyGetApiKey) -Source https://www.myget.org/F/dev_team/api/v2/package"/>
 	</Target>
 
 </Project>

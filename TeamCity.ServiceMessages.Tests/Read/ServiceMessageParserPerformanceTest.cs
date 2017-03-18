@@ -63,8 +63,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
         {
             var ps = new ServiceMessageParser();
             var text = GenerateTestData(1000);
-            var trash = new ArrayList();
-            MeasureTime(TimeSpan.FromMilliseconds(100), 10, () => trash.Add(ps.ParseServiceMessages(text).ToArray()));
+            var trash = new List<IServiceMessage>();
+            MeasureTime(TimeSpan.FromMilliseconds(100), 10, () => trash.AddRange(ps.ParseServiceMessages(text)));
             Console.Out.WriteLine(trash);
         }
 
@@ -73,8 +73,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
         {
             var ps = new ServiceMessageParser();
             var text = GenerateTestData(10000);
-            var trash = new ArrayList();
-            MeasureTime(TimeSpan.FromMilliseconds(1000), 10, () => trash.Add(ps.ParseServiceMessages(text).ToArray()));
+            var trash = new List<IServiceMessage>();
+            MeasureTime(TimeSpan.FromMilliseconds(1000), 10, () => trash.AddRange(ps.ParseServiceMessages(text)));
             Console.Out.WriteLine(trash);
         }
     }

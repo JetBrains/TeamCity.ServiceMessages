@@ -19,7 +19,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     using System;
     using System.Collections.Generic;
     using System.Linq;
-#if NETSTANDARD1_3
+#if !NET35 && !NET40
     using System.Reflection;
 #endif
     using System.Text;
@@ -55,7 +55,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
             if (anonymousProperties == null) throw new ArgumentNullException(nameof(anonymousProperties));
 
             var propType = anonymousProperties.GetType();
-#if NETSTANDARD1_3
+#if !NET35 && !NET40
             var properties = propType.GetTypeInfo().DeclaredProperties;
 #else
             var properties = propType.GetProperties();
