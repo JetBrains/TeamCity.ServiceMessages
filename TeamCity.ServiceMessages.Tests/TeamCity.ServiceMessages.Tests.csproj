@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;net35;net40;net45;netcoreapp1.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;net35;net40;net45;net46;netcoreapp1.0</TargetFrameworks>
     <AssemblyName>TeamCity.ServiceMessages.Tests</AssemblyName>
     <PackageId>TeamCity.ServiceMessages.Tests</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
