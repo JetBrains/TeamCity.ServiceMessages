@@ -67,7 +67,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 
         public ITeamCityWriter CreateWriter()
         {
-            return CreateWriter(Console.Out.WriteLine);
+            return CreateWriter(Console.WriteLine);
         }
 
         public ITeamCityWriter CreateWriter(Action<string> destination)

@@ -36,10 +36,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Updaters
             var timeStamp = message.GetValue("timestamp");
 
             Assert.NotNull(timeStamp);
-            Console.Out.WriteLine(timeStamp);
+            Console.WriteLine(timeStamp);
 
             var match = Regex.Match(timeStamp, @"^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}:\d{2}(\.\d{3})?([-\+]\d{1,2}\d{2})?$");
-            Console.Out.WriteLine(match.Value);
+            Console.WriteLine(match.Value);
             Assert.IsTrue(match.Success);
         }
 #endif
@@ -57,7 +57,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Updaters
             Assert.AreEqual(message.Keys.Contains("timestamp"), true);
             Assert.AreEqual(message.Keys.Count(), 2);
 
-            Console.Out.WriteLine(message.GetValue("timestamp"));
+            Console.WriteLine(message.GetValue("timestamp"));
         }
 
         [Test]
