@@ -7,7 +7,7 @@
     {
         public static void Main(string[] args)
         {
-            using (var writer = new TeamCityServiceMessages().CreateWriter())
+            using (var writer = new TeamCityServiceMessages().CreateWriter(str => Console.WriteLine(str)))
             using (var block = writer.OpenBlock("Tests"))
             using (var testClass = block.OpenTestSuite("TestClass"))
             {

@@ -32,7 +32,7 @@ new JetBrains.TeamCity.ServiceMessages.Write.Special.TeamCityServiceMessages().C
 
 for [example](https://github.com/JetBrains/TeamCity.ServiceMessages/blob/master/Samples/Simple/Program.cs):
 ```csharp
-using (var writer = new TeamCityServiceMessages().CreateWriter())
+using (var writer = new TeamCityServiceMessages().CreateWriter(str => Console.WriteLine(str))
 using (var block = writer.OpenBlock("Tests"))
 using (var testClass = block.OpenTestSuite("TestClass"))
 {
