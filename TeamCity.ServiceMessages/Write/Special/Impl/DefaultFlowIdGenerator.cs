@@ -16,7 +16,6 @@
 
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
 {
-    using System;
     using System.Globalization;
     using System.Threading;
 
@@ -25,22 +24,14 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
     /// </summary>
     public class DefaultFlowIdGenerator : IFlowIdGenerator
     {
-        private int _ids;
+        private static long ourIds;
 
         /// <summary>
         ///     Generates new unique FlowId
         /// </summary>
         public string NewFlowId()
         {
-            return (
-#if !NET35 && !NET40
-                Interlocked.Increment(ref _ids)
-#else
-                Interlocked.Increment(ref _ids) << (27
-                                                     + (Thread.CurrentThread.ManagedThreadId << 21)
-                                                     + Environment.TickCount % int.MaxValue)
-#endif
-            ).ToString(CultureInfo.InvariantCulture);
+            return Interlocked.Increment(ref ourIds).ToString(CultureInfo.InvariantCulture);
         }
     }
 }
