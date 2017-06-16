@@ -30,7 +30,7 @@ to get the instance of the object create an instance of the factory and get it b
 new JetBrains.TeamCity.ServiceMessages.Write.Special.TeamCityServiceMessages().CreateWriter()
 ```
 
-for [example](https://github.com/JetBrains/TeamCity.ServiceMessages/blob/master/Samples/Simple/Program.cs):
+for [example](https://dotnetfiddle.net/4SoKKt):
 ```csharp
 using (var writer = new TeamCityServiceMessages().CreateWriter(str => Console.WriteLine(str))
 using (var block = writer.OpenBlock("Tests"))
