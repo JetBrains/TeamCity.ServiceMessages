@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <PackageVersion Condition=" '$(PackageVersion)' == '' ">3.0.9</PackageVersion>
+        <PackageVersion Condition=" '$(PackageVersion)' == '' ">3.0.10</PackageVersion>
 
         <Build_Number Condition=" '$(Build_Number)' == '' ">0</Build_Number>
         <AssemblyVersion>$(PackageVersion).$(Build_Number)</AssemblyVersion>
