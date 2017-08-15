@@ -27,7 +27,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Updaters
     [TestFixture]
     public class TimestampMessageUpdaterTest
     {
-#if !NETSTANDARD1_6 && !NETCOREAPP1_0
+#if !NETSTANDARD1_6 && !NETCOREAPP1_0 && !NETCOREAPP2_0
         [Test]
         public void TestTimeFormat_DE()
         {

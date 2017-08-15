@@ -1,1 +1,1 @@
-msbuild build.proj /t:Clear;Build /p:Configuration=Debug
+msbuild build.proj /t:Build /p:Configuration=Debug

@@ -1,51 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<Import Project="Utils.targets" />  
+    <PropertyGroup>
+        <PackageVersion Condition=" '$(PackageVersion)' == '' ">3.0.9</PackageVersion>
 
-	<PropertyGroup>
-		<PackageVersion Condition=" '$(PackageVersion)' == '' ">3.0.9</PackageVersion>
+        <Build_Number Condition=" '$(Build_Number)' == '' ">0</Build_Number>
+        <AssemblyVersion>$(PackageVersion).$(Build_Number)</AssemblyVersion>
+        <Version>$(PackageVersion)</Version>
 
-		<Build_Number Condition=" '$(Build_Number)' == '' ">0</Build_Number>		
-		<AssemblyVersion>$(PackageVersion).$(Build_Number)</AssemblyVersion>
-		<Version>$(PackageVersion)</Version>
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <PackagesDirectory>packages</PackagesDirectory>
+    </PropertyGroup>
 
-		<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
-		<PackagesDirectory>packages</PackagesDirectory>	
-	</PropertyGroup>
+    <Target Name="Build">
+        <MSBuild Projects="TeamCity.ServiceMessages.sln" BuildInParallel="true" Targets="Restore;Build" Properties="Configuration=$(Configuration);Version=$(Version);AssemblyVersion=$(AssemblyVersion)"/>
+        <Message Text="##teamcity[publishArtifacts 'TeamCity.ServiceMessages\bin\$(Configuration)\TeamCity.ServiceMessages.*.nupkg=>$(PackagesDirectory)']" />
+    </Target>
 
-	<ItemGroup>
-		<Package Include="TeamCity.ServiceMessages"/>
-		<Framework Include="."><Version>net35</Version></Framework>
-		<Framework Include="."><Version>net40</Version></Framework>
-		<Framework Include="."><Version>net45</Version></Framework>
-	</ItemGroup>	
-
-	<Target Name="Clear">	
-	    <RemoveDir Directories="%(Package.Identity)\bin\$(Configuration)" /> 
-	</Target>
-
-	<Target Name="Build">
-		<Replace
-	    	FilePath='TeamCity.ServiceMessages\Properties\AssemblyInfo.cs'
-			Pattern='(\[assembly:\s(AssemblyVersion|AssemblyFileVersion)\()"(\d+\.\d+\.\d+\.\d+)"(\)\])'
-			Replacement='$1"$(AssemblyVersion)"$4'/>
-
-		<MSBuild Projects="TeamCity.ServiceMessages.sln" BuildInParallel="true" Targets="Restore;Build" Properties="Configuration=$(Configuration);Version=$(Version)"/>
-
-		<Message Text="##teamcity[publishArtifacts 'TeamCity.ServiceMessages\bin\$(Configuration)\TeamCity.ServiceMessages.*.nupkg=>$(PackagesDirectory)']" />
-	</Target>	
-
-	<Target Name="GetNuGet">
-		<DownloadFile
-	    	Url="https://dist.nuget.org/win-x86-commandline/v4.0.0/NuGet.exe"
-	    	LocalFilePath="packages\nuget.exe"/>
-	</Target>
-
-	<Target Name="Test" DependsOnTargets="GetNuGet">		
-		<Exec Command="packages\nuget.exe install NUnit.Console -Version 3.6.0 -o packages"/>		
-		<Exec IgnoreExitCode="True" Command="$(MSBuildProjectDirectory)\packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe $(MSBuildProjectDirectory)\TeamCity.ServiceMessages.Tests\bin\$(Configuration)\%(Framework.Version)\TeamCity.ServiceMessages.Tests.dll --noresult --noheader --workers=1 --inprocess">
-			<Output TaskParameter="ExitCode" ItemName="exitCode"/>
-		</Exec>
-	</Target>
+    <Target Name="Test">
+        <Exec IgnoreExitCode="true" Command="dotnet test TeamCity.ServiceMessages.Tests\TeamCity.ServiceMessages.Tests.csproj"/>
+    </Target>
 
 </Project>

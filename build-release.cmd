@@ -1,1 +1,1 @@
-msbuild build.proj /t:Clear;Build;Test /p:Configuration=Release
+msbuild build.proj /t:Build;Test /p:Configuration=Release

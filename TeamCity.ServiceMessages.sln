@@ -1,10 +1,15 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCity.ServiceMessages", "TeamCity.ServiceMessages\TeamCity.ServiceMessages.csproj", "{BCB28CC0-6E8C-4F15-9E7A-E98598AFCEF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamCity.ServiceMessages", "TeamCity.ServiceMessages\TeamCity.ServiceMessages.csproj", "{BCB28CC0-6E8C-4F15-9E7A-E98598AFCEF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCity.ServiceMessages.Tests", "TeamCity.ServiceMessages.Tests\TeamCity.ServiceMessages.Tests.csproj", "{EF2FBABE-8456-474C-9BA1-B76A8C64DFBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamCity.ServiceMessages.Tests", "TeamCity.ServiceMessages.Tests\TeamCity.ServiceMessages.Tests.csproj", "{EF2FBABE-8456-474C-9BA1-B76A8C64DFBA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4D133086-C842-4EEE-8CB5-0B1092A76A10}"
+	ProjectSection(SolutionItems) = preProject
+		build.proj = build.proj
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
