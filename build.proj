@@ -16,7 +16,7 @@
         <Message Text="##teamcity[publishArtifacts 'TeamCity.ServiceMessages\bin\$(Configuration)\TeamCity.ServiceMessages.*.nupkg=>$(PackagesDirectory)']" />
     </Target>
 
-    <Target Name="Test">
+    <Target Name="Test" DependsOnTargets="Build">
         <Exec IgnoreExitCode="true" Command="dotnet test TeamCity.ServiceMessages.Tests\TeamCity.ServiceMessages.Tests.csproj"/>
     </Target>
 
