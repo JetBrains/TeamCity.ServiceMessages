@@ -1,12 +1,10 @@
-[<img src="http://teamcity.jetbrains.com/app/rest/builds/buildType:(id:TeamCityServiceMessages_TeamCityServiceMessages)/statusIcon"/>](http://teamcity.jetbrains.com/viewType.html?buildTypeId=TeamCityServiceMessages_TeamCityServiceMessages) [<img src="https://www.nuget.org/Content/Logos/nugetlogo.png" height="18">](https://www.nuget.org/packages/TeamCity.ServiceMessages/)
-
-TeamCity.ServiceMessages .NET library 
-======================================
+## [<img src="http://jb.gg/badges/official.svg" height="20" align="center"/>](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub) [<img src="https://cdn.worldvectorlogo.com/logos/teamcity.svg" height="20" align="center"/>](https://www.jetbrains.com/teamcity/) Service Messages .NET library
 
 This library provides read/write access to TeamCity Service messages.
 Take a look at the description of service messages at this [page](
 http://confluence.jetbrains.net/display/TCDL/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ServiceMessages).
 
+[<img src="http://teamcity.jetbrains.com/app/rest/builds/buildType:(id:TeamCityServiceMessages_TeamCityServiceMessages)/statusIcon"/>](http://teamcity.jetbrains.com/viewType.html?buildTypeId=TeamCityServiceMessages_TeamCityServiceMessages) [<img src="https://www.nuget.org/Content/Logos/nugetlogo.png" height="18">](https://www.nuget.org/packages/TeamCity.ServiceMessages/)
 
 Usage:
 ======
