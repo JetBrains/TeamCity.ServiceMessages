@@ -31,25 +31,25 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
         [Test]
         public void TestErrorMessage()
         {
-            DoTest(x => x.WriteError("Opps"), "##teamcity[message text='Opps' status='ERROR']");
+            DoTest(x => x.WriteError("Opps"), "##teamcity[message text='Opps' status='ERROR' tc:tags='tc:parseServiceMessagesInside']");
         }
 
         [Test]
         public void TestErrorMessage2()
         {
-            DoTest(x => x.WriteError("Opps", "Es gefaehlt mir gut"), "##teamcity[message text='Opps' status='ERROR' errorDetails='Es gefaehlt mir gut']");
+            DoTest(x => x.WriteError("Opps", "Es gefaehlt mir gut"), "##teamcity[message text='Opps' status='ERROR' tc:tags='tc:parseServiceMessagesInside' errorDetails='Es gefaehlt mir gut']");
         }
 
         [Test]
         public void TestNormalMessage()
         {
-            DoTest(x => x.WriteMessage("Hello TeamCity World"), "##teamcity[message text='Hello TeamCity World' status='NORMAL']");
+            DoTest(x => x.WriteMessage("Hello TeamCity World"), "##teamcity[message text='Hello TeamCity World' status='NORMAL' tc:tags='tc:parseServiceMessagesInside']");
         }
 
         [Test]
         public void TestWarningMessage()
         {
-            DoTest(x => x.WriteWarning("Opps"), "##teamcity[message text='Opps' status='WARNING']");
+            DoTest(x => x.WriteWarning("Opps"), "##teamcity[message text='Opps' status='WARNING' tc:tags='tc:parseServiceMessagesInside']");
         }
     }
 }

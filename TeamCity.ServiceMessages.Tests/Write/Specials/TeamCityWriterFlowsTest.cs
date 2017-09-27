@@ -170,8 +170,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
                 },
                 "##teamcity[blockOpened name='xB' flowId='1']",
                 "##teamcity[flowStarted parent='1' flowId='2']",
-                "##teamcity[message text='flow' status='NORMAL' flowId='2']",
-                "##teamcity[message text='base' status='NORMAL' flowId='1']",
+                "##teamcity[message text='flow' status='NORMAL' tc:tags='tc:parseServiceMessagesInside' flowId='2']",
+                "##teamcity[message text='base' status='NORMAL' tc:tags='tc:parseServiceMessagesInside' flowId='1']",
                 "##teamcity[flowFinished flowId='2']",
                 "##teamcity[blockClosed name='xB' flowId='1']"
             );
@@ -194,9 +194,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
                     }
                 },
                 "##teamcity[flowStarted parent='1' flowId='2']",
-                "##teamcity[message text='flow1 message' status='NORMAL' flowId='2']",
-                "##teamcity[message text='flowB message' status='NORMAL' flowId='1']",
-                "##teamcity[message text='flow1 message' status='NORMAL' flowId='2']",
+                "##teamcity[message text='flow1 message' status='NORMAL' tc:tags='tc:parseServiceMessagesInside' flowId='2']",
+                "##teamcity[message text='flowB message' status='NORMAL' tc:tags='tc:parseServiceMessagesInside' flowId='1']",
+                "##teamcity[message text='flow1 message' status='NORMAL' tc:tags='tc:parseServiceMessagesInside' flowId='2']",
                 "##teamcity[flowFinished flowId='2']"
             );
         }
@@ -307,9 +307,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
                 "##teamcity[blockOpened name='b1' flowId='2']",
                 "##teamcity[blockOpened name='b2' flowId='3']",
                 "##teamcity[blockOpened name='root' flowId='1']",
-                "##teamcity[message text='root' status='NORMAL' flowId='1']",
-                "##teamcity[message text='flow1 message' status='NORMAL' flowId='2']",
-                "##teamcity[message text='flow2 message' status='NORMAL' flowId='3']",
+                "##teamcity[message text='root' status='NORMAL' tc:tags='tc:parseServiceMessagesInside' flowId='1']",
+                "##teamcity[message text='flow1 message' status='NORMAL' tc:tags='tc:parseServiceMessagesInside' flowId='2']",
+                "##teamcity[message text='flow2 message' status='NORMAL' tc:tags='tc:parseServiceMessagesInside' flowId='3']",
                 "##teamcity[blockClosed name='b1' flowId='2']",
                 "##teamcity[blockClosed name='root' flowId='1']",
                 "##teamcity[blockClosed name='b2' flowId='3']",
@@ -338,9 +338,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
                 },
                 "##teamcity[flowStarted parent='1' flowId='2']",
                 "##teamcity[flowStarted parent='1' flowId='3']",
-                "##teamcity[message text='flow1 message' status='NORMAL' flowId='2']",
-                "##teamcity[message text='flowB message' status='NORMAL' flowId='1']",
-                "##teamcity[message text='flow2 message' status='NORMAL' flowId='3']",
+                "##teamcity[message text='flow1 message' status='NORMAL' tc:tags='tc:parseServiceMessagesInside' flowId='2']",
+                "##teamcity[message text='flowB message' status='NORMAL' tc:tags='tc:parseServiceMessagesInside' flowId='1']",
+                "##teamcity[message text='flow2 message' status='NORMAL' tc:tags='tc:parseServiceMessagesInside' flowId='3']",
                 "##teamcity[flowFinished flowId='3']",
                 "##teamcity[flowFinished flowId='2']"
             );

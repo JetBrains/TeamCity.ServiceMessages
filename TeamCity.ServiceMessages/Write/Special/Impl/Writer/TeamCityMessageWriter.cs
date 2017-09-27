@@ -49,7 +49,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
         {
             if (text == null) throw new ArgumentNullException(nameof(text));
             if (status == null) throw new ArgumentNullException(nameof(status));
-            var msg = new ServiceMessage("message") {{"text", text}, {"status", status}};
+            var msg = new ServiceMessage("message") {{"text", text}, {"status", status}, {"tc:tags", "tc:parseServiceMessagesInside"}};
             if (!string.IsNullOrEmpty(details))
             {
                 msg.Add("errorDetails", details);
