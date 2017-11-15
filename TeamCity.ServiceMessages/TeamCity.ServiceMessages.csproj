@@ -22,9 +22,9 @@
     <Authors>JetBrains</Authors>
     <Title>TeamCity Service Messages read/write access</Title>
     <Description>This library provides read/write access to TeamCity Service messages. Take a look at the description of service messages at http://confluence.jetbrains.net/display/TCDL/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ServiceMessages</Description>
-    <PackageLicenseUrl>https://github.com/JetBrains/TeamCity.ServiceMessages/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/JetBrains/TeamCity.ServiceMessages/raw/master/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/JetBrains/TeamCity.ServiceMessages</PackageProjectUrl>
-    <PackageIconUrl>https://www.jetbrains.com/_assets//shared/favicons/jetbrains.ico</PackageIconUrl>
+    <PackageIconUrl>https://github.com/JetBrains/TeamCity.ServiceMessages/raw/master/icon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/JetBrains/TeamCity.ServiceMessages.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>TeamCity ServiceMessage ServiceMessages</PackageTags>
