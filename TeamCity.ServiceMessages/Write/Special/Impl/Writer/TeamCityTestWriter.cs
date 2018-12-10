@@ -24,13 +24,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
         private readonly string _testName;
         private TimeSpan? _duration;
 
-        public TeamCityTestWriter([NotNull] IServiceMessageProcessor target, [NotNull] string testName, [NotNull] IDisposable disposableHander)
-            : base(target, disposableHander)
+        public TeamCityTestWriter([NotNull] IServiceMessageProcessor target, [NotNull] string testName, [NotNull] IDisposable disposableHandler)
+            : base(target, disposableHandler)
         {
             if (target == null) throw new ArgumentNullException(nameof(target));
-            if (testName == null) throw new ArgumentNullException(nameof(testName));
-            if (disposableHander == null) throw new ArgumentNullException(nameof(disposableHander));
-            _testName = testName;
+            if (disposableHandler == null) throw new ArgumentNullException(nameof(disposableHandler));
+            _testName = testName ?? throw new ArgumentNullException(nameof(testName));
         }
 
         public void WriteStdOutput(string text)
@@ -68,6 +67,51 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
         public void WriteDuration(TimeSpan span)
         {
             _duration = span;
+        }
+
+        public void WriteImage(string teamCityArtifactUri, string description = "")
+        {
+            if (string.IsNullOrEmpty(teamCityArtifactUri)) throw new ArgumentException(nameof(teamCityArtifactUri));
+            if (description == null) throw new ArgumentNullException(nameof(description));
+            var message = new ServiceMessage("testMetadata") {{"testName", _testName}, {"type", "image"}, {"value", teamCityArtifactUri}};
+            if (!string.IsNullOrEmpty(description))
+            {
+                message.Add("name", description);
+            }
+
+            PostMessage(message);
+        }
+
+        public void WriteFile(string teamCityArtifactUri, string description = "")
+        {
+            if (string.IsNullOrEmpty(teamCityArtifactUri)) throw new ArgumentException(nameof(teamCityArtifactUri));
+            if (description == null) throw new ArgumentNullException(nameof(description));
+            var message = new ServiceMessage("testMetadata") {{"testName", _testName}, {"type", "artifact"}, {"value", teamCityArtifactUri}};
+            if (!string.IsNullOrEmpty(description))
+            {
+                message.Add("name", description);
+            }
+
+            PostMessage(message);
+        }
+
+        public void WriteValue(double value, string name)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException(nameof(name));
+            PostMessage(new ServiceMessage("testMetadata") {{"testName", _testName}, {"type", "number"}, {"value", value.ToString(CultureInfo.InvariantCulture)}, {"name", name}});
+        }
+
+        public void WriteValue(string value, string name)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException(nameof(name));
+            PostMessage(new ServiceMessage("testMetadata") {{"testName", _testName}, {"value", value}, {"name", name}});
+        }
+
+        public void WriteLink(string linkUri, string name)
+        {
+            if (string.IsNullOrEmpty(linkUri)) throw new ArgumentException(nameof(linkUri));
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException(nameof(name));
+            PostMessage(new ServiceMessage("testMetadata") {{"testName", _testName}, {"type", "link"}, {"value", linkUri}, {"name", name}});
         }
 
         public void OpenTest()

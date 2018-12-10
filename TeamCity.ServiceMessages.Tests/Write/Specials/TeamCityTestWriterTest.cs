@@ -75,5 +75,53 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
         {
             DoTest(x => x.WriteStdOutput("outp4uz"), "##teamcity[testStdOut name='BadaBumBigBadaBum' out='outp4uz' tc:tags='tc:parseServiceMessagesInside']");
         }
+
+        [Test]
+        public void TestWriteTextValue()
+        {
+            DoTest(x => x.WriteValue("strVal", "myVal"), "##teamcity[testMetadata testName='BadaBumBigBadaBum' value='strVal' name='myVal']");
+        }
+
+        [Test]
+        [TestCase(1.0d, "1")]
+        [TestCase(0.0d, "0")]
+        [TestCase(-1.0d, "-1")]
+        [TestCase(1.33d, "1.33")]
+        [TestCase(-1.33d, "-1.33")]
+        [TestCase(0.33d, "0.33")]
+        public void TestWriteNumber(double value, string expectedValueInMessage)
+        {
+            DoTest(x => x.WriteValue(value, "myVal"), "##teamcity[testMetadata testName='BadaBumBigBadaBum' type='number' value='" + expectedValueInMessage + "' name='myVal']");
+        }
+
+        [Test]
+        public void TestWriteLink()
+        {
+            DoTest(x => x.WriteLink("http://abc.com", "abc"), "##teamcity[testMetadata testName='BadaBumBigBadaBum' type='link' value='http://abc.com' name='abc']");
+        }
+
+        [Test]
+        public void TestWriteFile()
+        {
+            DoTest(x => x.WriteFile("abc.txt", "abc"), "##teamcity[testMetadata testName='BadaBumBigBadaBum' type='artifact' value='abc.txt' name='abc']");
+        }
+
+        [Test]
+        public void TestWriteFileWithoutDescription()
+        {
+            DoTest(x => x.WriteFile("abc.txt"), "##teamcity[testMetadata testName='BadaBumBigBadaBum' type='artifact' value='abc.txt']");
+        }
+
+        [Test]
+        public void TestWriteImage()
+        {
+            DoTest(x => x.WriteImage("abc.jpg", "abc"), "##teamcity[testMetadata testName='BadaBumBigBadaBum' type='image' value='abc.jpg' name='abc']");
+        }
+
+        [Test]
+        public void TestWriteImageWithoutDescription()
+        {
+            DoTest(x => x.WriteImage("abc.jpg"), "##teamcity[testMetadata testName='BadaBumBigBadaBum' type='image' value='abc.jpg']");
+        }
     }
 }

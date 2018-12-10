@@ -21,7 +21,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 
     /// <summary>
     ///     Service message updater that adds Timestamp to service message according to
-    ///     http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity
+    ///     http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity
     /// </summary>
     public class TimestampUpdater : IServiceMessageUpdater
     {
@@ -29,8 +29,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 
         public TimestampUpdater([NotNull] Func<DateTime> timeService)
         {
-            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
-            _timeService = timeService;
+            _timeService = timeService ?? throw new ArgumentNullException(nameof(timeService));
         }
 
         public IServiceMessage UpdateServiceMessage(IServiceMessage message)

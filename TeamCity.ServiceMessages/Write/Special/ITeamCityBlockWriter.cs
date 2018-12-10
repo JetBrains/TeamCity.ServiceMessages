@@ -23,7 +23,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     ///     <pre>##teamcity[blockOpened name='&lt;blockName>']</pre>
     ///     and
     ///     <pre>##teamcity[blockClosed name='&lt;blockName>']</pre>
-    ///     http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-BlocksofServiceMessages
+    ///     http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-BlocksofServiceMessages
     /// </summary>
     /// <remarks>
     ///     Implementation is not thread-safe. Create an instance for each thread instead.

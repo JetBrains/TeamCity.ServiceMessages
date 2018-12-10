@@ -18,7 +18,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 {
     /// <summary>
     ///     Interface for writing build-related messages
-    ///     http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ReportingBuildNumber
+    ///     http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ReportingBuildNumber
     /// </summary>
     /// <remarks>
     ///     Implementation is not thread-safe. Create an instance for each thread instead.
@@ -41,7 +41,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 
         /// <summary>
         ///     Generates service message to update build parameter
-        ///     http://confluence.jetbrains.net/display/TCD7/Configuring+Build+Parameters
+        ///     http://confluence.jetbrains.net/display/TCD18/Configuring+Build+Parameters
         /// </summary>
         /// <param name="parameterName">
         ///     parameter name, could start with env. for environment, system. for system property,
@@ -53,7 +53,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 
         /// <summary>
         ///     Generates service message to report build statistics values
-        ///     http://confluence.jetbrains.net/display/TCD7/Customizing+Statistics+Charts#CustomizingStatisticsCharts-customCharts
+        ///     http://confluence.jetbrains.net/display/TCD18/Customizing+Statistics+Charts#CustomizingStatisticsCharts-customCharts
         /// </summary>
         /// <param name="statisticsKey">statistics report key</param>
         /// <param name="statisticsValue">statistics report values</param>

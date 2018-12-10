@@ -21,7 +21,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     ///     <pre>
     ///         ##teamcity[message text='&lt;message text>' errorDetails='&lt;error details>' status='&lt;status value>']
     ///     </pre>
-    ///     http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ReportingMessagesForBuildLog
+    ///     http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ReportingMessagesForBuildLog
     /// </summary>
     /// <remarks>
     ///     Implementation is not thread-safe. Create an instance for each thread instead.

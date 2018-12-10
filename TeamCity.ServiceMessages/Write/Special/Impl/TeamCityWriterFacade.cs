@@ -129,7 +129,6 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
         public void PublishArtifact(string rules)
         {
             if (rules == null) throw new ArgumentNullException(nameof(rules));
-            CheckConsistency();
             _artifactsWriter.PublishArtifact(rules);
         }
 

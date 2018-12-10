@@ -20,20 +20,17 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 
     /// <summary>
     ///     Service message updater that adds FlowId to service message according to
-    ///     http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity
+    ///     http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity
     /// </summary>
     public class FlowMessageUpdater : IServiceMessageUpdater
     {
-        private readonly IFlowIdGenerator _flowId;
-
         /// <summary>
-        ///     Custructs updater
+        ///     Constructs updater
         /// </summary>
         /// <param name="flowId">flowId set to all messages</param>
         public FlowMessageUpdater([NotNull] string flowId)
         {
-            if (flowId == null) throw new ArgumentNullException(nameof(flowId));
-            FlowId = flowId;
+            FlowId = flowId ?? throw new ArgumentNullException(nameof(flowId));
         }
 
         /// <summary>
@@ -42,16 +39,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
         /// <param name="flowId"></param>
         public FlowMessageUpdater([NotNull] IFlowIdGenerator flowId) : this(flowId.NewFlowId())
         {
-            if (flowId == null) throw new ArgumentNullException(nameof(flowId));
-            _flowId = flowId;
         }
 
         public string FlowId { [NotNull] get; }
 
         public IServiceMessage UpdateServiceMessage(IServiceMessage message)
         {
-            if (message.DefaultValue != null) return message;
-            return new PatchedServiceMessage(message) {{"flowId", FlowId}};
+            return message.DefaultValue != null ? message : new PatchedServiceMessage(message) {{"flowId", FlowId}};
         }
     }
 }

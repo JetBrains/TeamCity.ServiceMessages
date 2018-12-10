@@ -18,7 +18,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 {
     /// <summary>
     ///     Service messages for dynamically publish artifacts.
-    ///     http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-PublishingArtifactswhiletheBuildisStillinProgress
+    ///     http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-PublishingArtifactswhiletheBuildisStillinProgress
     /// </summary>
     /// <remarks>
     ///     Implementation is not thread-safe. Create an instance for each thread instead.
@@ -27,7 +27,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     {
         /// <summary>
         ///     attaches new artifact publishing rules as described in
-        ///     http://confluence.jetbrains.net/display/TCD7/Build+Artifact
+        ///     http://confluence.jetbrains.net/display/TCD18/Build+Artifact
         /// </summary>
         /// <param name="rules"></param>
         void PublishArtifact([NotNull] string rules);
