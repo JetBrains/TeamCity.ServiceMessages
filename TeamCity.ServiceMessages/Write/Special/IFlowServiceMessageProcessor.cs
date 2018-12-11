@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,17 @@
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 {
     /// <summary>
-    ///     FlowId aware implementation of ServiceMessagesProcessor
+    /// FlowId aware implementation of ServiceMessagesProcessor
     /// </summary>
     public interface IFlowServiceMessageProcessor : IServiceMessageProcessor
     {
         /// <summary>
-        ///     Current flow Id
+        /// Current flow Id
         /// </summary>
         string FlowId { [NotNull] get; }
 
         /// <summary>
-        ///     Creates new ServiceMessage updater that uses specified FlowId
+        /// Creates new ServiceMessage updater that uses specified FlowId
         /// </summary>
         /// <returns></returns>
         [NotNull]

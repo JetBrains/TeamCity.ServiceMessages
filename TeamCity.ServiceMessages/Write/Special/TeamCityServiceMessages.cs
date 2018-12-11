@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     using Impl.Updater;
 
     /// <summary>
-    ///     Basic implementation of TeamCity service message generation facade
+    /// Basic implementation of TeamCity service message generation facade
     /// </summary>
     public class TeamCityServiceMessages : ITeamCityServiceMessages
     {
@@ -35,7 +35,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
         }
 
         /// <summary>
-        ///     Most specific constructor. Could be used with DI
+        /// Most specific constructor. Could be used with DI
         /// </summary>
         public TeamCityServiceMessages(
             [NotNull] IServiceMessageFormatter formatter,

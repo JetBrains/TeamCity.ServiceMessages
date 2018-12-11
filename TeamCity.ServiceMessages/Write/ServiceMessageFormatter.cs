@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,12 +25,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     using System.Text;
 
     /// <summary>
-    ///     Provides service messages serialization for most cases
+    /// Provides service messages serialization for most cases
     /// </summary>
     public class ServiceMessageFormatter : IServiceMessageFormatter
     {
         /// <summary>
-        ///     Serializes single value service message
+        /// Serializes single value service message
         /// </summary>
         /// <param name="messageName">message name</param>
         /// <param name="singleValue">value</param>
@@ -44,7 +44,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         }
 
         /// <summary>
-        ///     Serializes single value service message
+        /// Serializes single value service message
         /// </summary>
         /// <param name="messageName">message name</param>
         /// <param name="anonymousProperties">anonymous object containing all service message parameters</param>
@@ -66,7 +66,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         }
 
         /// <summary>
-        ///     Serializes single value service message
+        /// Serializes single value service message
         /// </summary>
         /// <param name="messageName">message name</param>
         /// <param name="properties">params array of service message properties</param>
@@ -79,7 +79,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         }
 
         /// <summary>
-        ///     Serializes service message
+        /// Serializes service message
         /// </summary>
         /// <param name="serviceMessage">parser service message</param>
         /// <returns></returns>
@@ -95,7 +95,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         }
 
         /// <summary>
-        ///     Serializes service message from IDictionary
+        /// Serializes service message from IDictionary
         /// </summary>
         /// <param name="name">service message name</param>
         /// <param name="arguments">arguments</param>
@@ -108,7 +108,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         }
 
         /// <summary>
-        ///     Serializes single value service message
+        /// Serializes single value service message
         /// </summary>
         /// <param name="messageName">message name</param>
         /// <param name="properties">params of service message properties</param>

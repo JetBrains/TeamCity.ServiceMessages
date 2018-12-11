@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,25 +19,25 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     using System;
 
     /// <summary>
-    ///     Factory interface for specialized service messages generation
-    ///     Create instance of <see cref="TeamCityServiceMessages" /> to get the implementation of the interface.
+    /// Factory interface for specialized service messages generation
+    /// Create instance of <see cref="TeamCityServiceMessages" /> to get the implementation of the interface.
     /// </summary>
     public interface ITeamCityServiceMessages
     {
         /// <summary>
-        ///     Created writer that generates service messages to a Console.Out
+        /// Created writer that generates service messages to a Console.Out
         /// </summary>
         /// <remarks>
-        ///     Implementation does not support multiple-threads.
-        ///     If you need to log more me
+        /// Implementation does not support multiple-threads.
+        /// If you need to log more me
         /// </remarks>
         /// <returns></returns>
         [NotNull]
         ITeamCityWriter CreateWriter();
 
         /// <summary>
-        ///     Creates writer that translates service messages to the given
-        ///     delegate.
+        /// Creates writer that translates service messages to the given
+        /// delegate.
         /// </summary>
         /// <param name="destination">generated service messages processor</param>
         /// <returns></returns>
@@ -45,7 +45,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
         ITeamCityWriter CreateWriter(Action<string> destination);
 
         /// <summary>
-        ///     Adds user-specific service message updater to the list of service message updaters.
+        /// Adds user-specific service message updater to the list of service message updaters.
         /// </summary>
         /// <param name="updater">updater instance</param>
         void AddServiceMessageUpdater([NotNull] IServiceMessageUpdater updater);

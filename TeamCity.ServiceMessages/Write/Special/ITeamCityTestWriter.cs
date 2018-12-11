@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,48 +19,48 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     using System;
 
     /// <summary>
-    ///     Writer interface for generating test information service messages
+    /// Writer interface for generating test information service messages
     /// </summary>
     public interface ITeamCityTestWriter : IDisposable
     {
         /// <summary>
-        ///     Attaches test output to the test
+        /// Attaches test output to the test
         /// </summary>
         /// <param name="text">test output</param>
         void WriteStdOutput([NotNull] string text);
 
         /// <summary>
-        ///     Attaches test error output to the test
+        /// Attaches test error output to the test
         /// </summary>
         /// <param name="text">error output</param>
         void WriteErrOutput([NotNull] string text);
 
         /// <summary>
-        ///     Marks test as ignored
+        /// Marks test as ignored
         /// </summary>
         /// <param name="ignoreReason">test ignore reason</param>
         void WriteIgnored([NotNull] string ignoreReason);
 
         /// <summary>
-        ///     Marks test as ignored
+        /// Marks test as ignored
         /// </summary>
         void WriteIgnored();
 
         /// <summary>
-        ///     Marks test as failed.
+        /// Marks test as failed.
         /// </summary>
         /// <param name="errorMessage">short error message</param>
         /// <param name="errorDetails">detailed error information, i.e. stacktrace</param>
         /// <remarks>
-        ///     This method can be called only once.
+        /// This method can be called only once.
         /// </remarks>
         void WriteFailed([NotNull] string errorMessage, [NotNull] string errorDetails);
 
         /// <summary>
-        ///     Specifies test duration
+        /// Specifies test duration
         /// </summary>
         /// <remarks>
-        ///     TeamCity may compute test duration itself, to provide precise data, you may set the duration explicitly
+        /// TeamCity may compute test duration itself, to provide precise data, you may set the duration explicitly
         /// </remarks>
         /// <param name="duration">time of test</param>
         void WriteDuration(TimeSpan duration);

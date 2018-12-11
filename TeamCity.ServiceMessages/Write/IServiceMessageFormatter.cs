@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     using System.Collections.Generic;
 
     /// <summary>
-    ///     Provides service messages serialization for most cases
+    /// Provides service messages serialization for most cases
     /// </summary>
     public interface IServiceMessageFormatter
     {
         /// <summary>
-        ///     Serializes single value service message
+        /// Serializes single value service message
         /// </summary>
         /// <param name="messageName">message name</param>
         /// <param name="singleValue">value</param>
@@ -32,7 +32,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         string FormatMessage([NotNull] string messageName, [NotNull] string singleValue);
 
         /// <summary>
-        ///     Serializes single value service message
+        /// Serializes single value service message
         /// </summary>
         /// <param name="messageName">message name</param>
         /// <param name="anonymousProperties">anonymous object containing all service message parameters</param>
@@ -41,7 +41,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         string FormatMessage([NotNull] string messageName, [NotNull] object anonymousProperties);
 
         /// <summary>
-        ///     Serializes single value service message
+        /// Serializes single value service message
         /// </summary>
         /// <param name="messageName">message name</param>
         /// <param name="properties">params array of service message properties</param>
@@ -50,7 +50,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         string FormatMessage([NotNull] string messageName, [NotNull] params ServiceMessageProperty[] properties);
 
         /// <summary>
-        ///     Serializes single value service message
+        /// Serializes single value service message
         /// </summary>
         /// <param name="messageName">message name</param>
         /// <param name="properties">params of service message properties</param>
@@ -59,7 +59,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         string FormatMessage([NotNull] string messageName, [NotNull] IEnumerable<ServiceMessageProperty> properties);
 
         /// <summary>
-        ///     Serializes service message
+        /// Serializes service message
         /// </summary>
         /// <param name="serviceMessage"></param>
         /// <returns></returns>
@@ -67,7 +67,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
         string FormatMessage([NotNull] IServiceMessage serviceMessage);
 
         /// <summary>
-        ///     Serializes service message from IDictionary
+        /// Serializes service message from IDictionary
         /// </summary>
         /// <param name="name">service message name</param>
         /// <param name="arguments">arguments</param>

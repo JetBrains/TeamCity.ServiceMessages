@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -157,7 +157,7 @@ namespace JetBrains.TeamCity.ServiceMessages
     /// <example><code>
     /// void Foo(string param) {
     ///   if (param == null)
-    ///     throw new ArgumentNullException("par"); // Warning: Cannot resolve symbol
+    /// throw new ArgumentNullException("par"); // Warning: Cannot resolve symbol
     /// }
     /// </code></example>
     [AttributeUsage(AttributeTargets.Parameter)]
@@ -188,8 +188,8 @@ namespace JetBrains.TeamCity.ServiceMessages
     ///   string _name;
     /// 
     ///   public string Name {
-    ///     get { return _name; }
-    ///     set { _name = value; NotifyChanged("LastName"); /* Warning */ }
+    /// get { return _name; }
+    /// set { _name = value; NotifyChanged("LastName"); /* Warning */ }
     ///   }
     /// }
     /// </code>
@@ -310,11 +310,11 @@ namespace JetBrains.TeamCity.ServiceMessages
     /// 
     /// class UsesNoEquality {
     ///   void Test() {
-    ///     var ca1 = new NoEquality();
-    ///     var ca2 = new NoEquality();
-    ///     if (ca1 != null) { // OK
-    ///       bool condition = ca1 == ca2; // Warning
-    ///     }
+    /// var ca1 = new NoEquality();
+    /// var ca2 = new NoEquality();
+    /// if (ca1 != null) { // OK
+    ///   bool condition = ca1 == ca2; // Warning
+    /// }
     ///   }
     /// }
     /// </code></example>
@@ -500,8 +500,8 @@ namespace JetBrains.TeamCity.ServiceMessages
     ///   [ProvidesContext] IBarService _barService = ...;
     /// 
     ///   void ProcessNode(INode node) {
-    ///     DoSomething(node, node.GetGlobalServices().Bar);
-    ///     //              ^ Warning: use value of '_barService' field
+    /// DoSomething(node, node.GetGlobalServices().Bar);
+    /// //              ^ Warning: use value of '_barService' field
     ///   }
     /// }
     /// </code></example>
@@ -546,7 +546,7 @@ namespace JetBrains.TeamCity.ServiceMessages
     /// [SourceTemplate]
     /// public static void forEach&lt;T&gt;(this IEnumerable&lt;T&gt; xs) {
     ///   foreach (var x in xs) {
-    ///      //$ $END$
+    ///  //$ $END$
     ///   }
     /// }
     /// </code>
@@ -569,7 +569,7 @@ namespace JetBrains.TeamCity.ServiceMessages
     /// [SourceTemplate, Macro(Target = "item", Expression = "suggestVariableName()")]
     /// public static void forEach&lt;T&gt;(this IEnumerable&lt;T&gt; collection) {
     ///   foreach (var item in collection) {
-    ///     //$ $END$
+    /// //$ $END$
     ///   }
     /// }
     /// </code>

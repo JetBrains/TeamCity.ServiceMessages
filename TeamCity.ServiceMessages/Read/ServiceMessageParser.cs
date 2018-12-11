@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +22,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
     using System.Text;
 
     /// <summary>
-    ///     Provides service messages parsing from stream
+    /// Provides service messages parsing from stream
     /// </summary>
     public class ServiceMessageParser : IServiceMessageParser
     {
         /// <summary>
-        ///     Lazy parses service messages from string
+        /// Lazy parses service messages from string
         /// </summary>
         /// <param name="text">text to parse</param>
         /// <returns>enumerable of service messages</returns>
@@ -38,7 +38,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Read
         }
 
         /// <summary>
-        ///     Reads stream parsing service messages from it.
+        /// Reads stream parsing service messages from it.
         /// </summary>
         /// <param name="reader">stream to parse. Stream will not be closed</param>
         /// <returns>Iterator of service messages</returns>

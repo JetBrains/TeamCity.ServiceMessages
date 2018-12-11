@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,22 +19,22 @@ namespace JetBrains.TeamCity.ServiceMessages.Write
     using System;
 
     /// <summary>
-    ///     Object to represent service message attributes
+    /// Object to represent service message attributes
     /// </summary>
     public struct ServiceMessageProperty
     {
         /// <summary>
-        ///     Key
+        /// Key
         /// </summary>
         public readonly string Key;
 
         /// <summary>
-        ///     Value
+        /// Value
         /// </summary>
         public readonly string Value;
 
         /// <summary>
-        ///     Constructor of service message attribute
+        /// Constructor of service message attribute
         /// </summary>
         /// <param name="key">service message key, must not contain escapable symbols, not null</param>
         /// <param name="value">value, notnull</param>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,14 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
     using System.Threading;
 
     /// <summary>
-    ///     Helper class to generate FlowIds
+    /// Helper class to generate FlowIds
     /// </summary>
     public class DefaultFlowIdGenerator : IFlowIdGenerator
     {
         private static long ourIds;
 
         /// <summary>
-        ///     Generates new unique FlowId
+        /// Generates new unique FlowId
         /// </summary>
         public string NewFlowId()
         {

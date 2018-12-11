@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     using System;
 
     /// <summary>
-    ///     Represents information about currently openned child blocks or tests or test suites.
+    /// Represents information about currently openned child blocks or tests or test suites.
     /// </summary>
     public interface ISubWriter : IDisposable
     {
         /// <summary>
-        ///     This method performs check if no child blocks are opennd.
-        ///     It is used to check if it is allowed to use current I*Writer
+        /// This method performs check if no child blocks are opennd.
+        /// It is used to check if it is allowed to use current I*Writer
         /// </summary>
         void AssertNoChildOpened();
     }

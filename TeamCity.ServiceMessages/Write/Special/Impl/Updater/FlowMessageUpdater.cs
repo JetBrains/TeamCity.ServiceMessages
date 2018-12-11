@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     using System;
 
     /// <summary>
-    ///     Service message updater that adds FlowId to service message according to
-    ///     http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity
+    /// Service message updater that adds FlowId to service message according to
+    /// http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity
     /// </summary>
     public class FlowMessageUpdater : IServiceMessageUpdater
     {
         /// <summary>
-        ///     Constructs updater
+        /// Constructs updater
         /// </summary>
         /// <param name="flowId">flowId set to all messages</param>
         public FlowMessageUpdater([NotNull] string flowId)
@@ -34,7 +34,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
         }
 
         /// <summary>
-        ///     Creates flow id from given generator instance
+        /// Creates flow id from given generator instance
         /// </summary>
         /// <param name="flowId"></param>
         public FlowMessageUpdater([NotNull] IFlowIdGenerator flowId) : this(flowId.NewFlowId())
