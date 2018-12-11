@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,20 +19,20 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     using System;
 
     /// <summary>
-    ///     Introduces compilation block.
-    ///     <pre>##teamcity[compilationStarted compiler='&lt;compiler name>']</pre>
-    ///     and
-    ///     <pre>##teamcity[compilationFinished compiler='&lt;compiler name>']</pre>
-    ///     http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ReportingCompilationMessages
+    /// Introduces compilation block.
+    /// <pre>##teamcity[compilationStarted compiler='&lt;compiler name>']</pre>
+    /// and
+    /// <pre>##teamcity[compilationFinished compiler='&lt;compiler name>']</pre>
+    /// http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ReportingCompilationMessages
     /// </summary>
     /// <remarks>
-    ///     Implementation is not thread-safe. Create an instance for each thread instead.
+    /// Implementation is not thread-safe. Create an instance for each thread instead.
     /// </remarks>
     public interface ITeamCityCompilationBlockWriter<out CloseBlock>
         where CloseBlock : IDisposable
     {
         /// <summary>
-        ///     Generates open compilation block. To close block call Dispose to the given handle
+        /// Generates open compilation block. To close block call Dispose to the given handle
         /// </summary>
         /// <param name="compilerName"></param>
         /// <returns></returns>

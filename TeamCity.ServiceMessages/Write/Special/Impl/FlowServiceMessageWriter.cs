@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
     using Updater;
 
     /// <summary>
-    ///     Servivce message acceptor implementation with support of IServiceMessageUpdater chains
+    /// Servivce message acceptor implementation with support of IServiceMessageUpdater chains
     /// </summary>
     public class FlowServiceMessageWriter : IFlowServiceMessageProcessor
     {
@@ -31,7 +31,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
         private readonly List<IServiceMessageUpdater> _updaters;
 
         /// <summary>
-        ///     Creates generic processor that calls messages updaters and sends output to provided deledate.
+        /// Creates generic processor that calls messages updaters and sends output to provided deledate.
         /// </summary>
         /// <param name="processor">writer of service messages objects</param>
         /// <param name="generator">flow id generator that is called to create next flowId</param>
@@ -57,7 +57,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
         public string FlowId => _updaters.OfType<FlowMessageUpdater>().First().FlowId;
 
         /// <summary>
-        ///     Creates new ServiceMessage updater that uses specified FlowId
+        /// Creates new ServiceMessage updater that uses specified FlowId
         /// </summary>
         public IFlowServiceMessageProcessor ForNewFlow()
         {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,31 +19,31 @@ namespace JetBrains.TeamCity.ServiceMessages
     using System.Collections.Generic;
 
     /// <summary>
-    ///     Object representation of TeamCity service message
+    /// Object representation of TeamCity service message
     /// </summary>
     public interface IServiceMessage
     {
         /// <summary>
-        ///     Service message name, i.e. messageName in ##teamcity[messageName 'ddd'].
+        /// Service message name, i.e. messageName in ##teamcity[messageName 'ddd'].
         /// </summary>
         [NotNull]
         string Name { get; }
 
         /// <summary>
-        ///     For one-value service messages returns value, i.e. 'aaa' for ##teamcity[message 'aaa']
-        ///     or <code>null</code> otherwise, i.e. ##teamcity[message aa='aaa']
+        /// For one-value service messages returns value, i.e. 'aaa' for ##teamcity[message 'aaa']
+        /// or <code>null</code> otherwise, i.e. ##teamcity[message aa='aaa']
         /// </summary>
         [CanBeNull]
         string DefaultValue { get; }
 
         /// <summary>
-        ///     Emptry for one-value service messages, i.e. ##teamcity[message 'aaa'], returns all keys otherwise
+        /// Emptry for one-value service messages, i.e. ##teamcity[message 'aaa'], returns all keys otherwise
         /// </summary>
         [NotNull]
         IEnumerable<string> Keys { get; }
 
         /// <summary>
-        ///     Return a value for keys or <code>null</code>
+        /// Return a value for keys or <code>null</code>
         /// </summary>
         /// <param name="key">Key to check for value</param>
         /// <returns>value of available or <code>null</code></returns>

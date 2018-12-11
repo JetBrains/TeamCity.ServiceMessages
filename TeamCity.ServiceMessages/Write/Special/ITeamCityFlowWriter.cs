@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,20 +19,20 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     using System;
 
     /// <summary>
-    ///     Starts another flowId reporting starting. This call would emmit
-    ///     <pre>##teamcity[flowStarted flowId='%lt;new flow id>' parent='current flow id']</pre>
-    ///     and
-    ///     <pre>##teamcity[flowFinished flowId='%lt;new flow id>']</pre>
-    ///     on writer dispose
+    /// Starts another flowId reporting starting. This call would emmit
+    /// <pre>##teamcity[flowStarted flowId='%lt;new flow id>' parent='current flow id']</pre>
+    /// and
+    /// <pre>##teamcity[flowFinished flowId='%lt;new flow id>']</pre>
+    /// on writer dispose
     /// </summary>
     /// <remarks>
-    ///     Implementation is not thread-safe. Create an instance for each thread instead.
+    /// Implementation is not thread-safe. Create an instance for each thread instead.
     /// </remarks>
     public interface ITeamCityFlowWriter<out TCloseBlock>
         where TCloseBlock : IDisposable
     {
         /// <summary>
-        ///     Generates start flow message and returns disposable object to close flow
+        /// Generates start flow message and returns disposable object to close flow
         /// </summary>
         /// <returns></returns>
         [NotNull]

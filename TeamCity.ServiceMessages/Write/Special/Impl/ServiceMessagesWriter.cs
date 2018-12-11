@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
     using System;
 
     /// <summary>
-    ///     Simple implementation of ServiceMessage
+    /// Simple implementation of ServiceMessage
     /// </summary>
     public class ServiceMessagesWriter : IServiceMessageProcessor
     {

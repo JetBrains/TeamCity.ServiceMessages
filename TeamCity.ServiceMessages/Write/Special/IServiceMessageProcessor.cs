@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,12 @@
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 {
     /// <summary>
-    ///     Abstract service message acceptor
+    /// Abstract service message acceptor
     /// </summary>
     public interface IServiceMessageProcessor
     {
         /// <summary>
-        ///     Accepts new service message. Default implementation may simply prtint service message to console
+        /// Accepts new service message. Default implementation may simply prtint service message to console
         /// </summary>
         /// <param name="serviceMessage">service message to process</param>
         void AddServiceMessage([NotNull] IServiceMessage serviceMessage);

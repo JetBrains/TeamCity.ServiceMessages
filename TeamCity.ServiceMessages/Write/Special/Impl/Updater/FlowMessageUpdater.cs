@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,39 +19,33 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     using System;
 
     /// <summary>
-    ///     Service message updater that adds FlowId to service message according to
-    ///     http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity
+    /// Service message updater that adds FlowId to service message according to
+    /// http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity
     /// </summary>
     public class FlowMessageUpdater : IServiceMessageUpdater
     {
-        private readonly IFlowIdGenerator _flowId;
-
         /// <summary>
-        ///     Custructs updater
+        /// Constructs updater
         /// </summary>
         /// <param name="flowId">flowId set to all messages</param>
         public FlowMessageUpdater([NotNull] string flowId)
         {
-            if (flowId == null) throw new ArgumentNullException(nameof(flowId));
-            FlowId = flowId;
+            FlowId = flowId ?? throw new ArgumentNullException(nameof(flowId));
         }
 
         /// <summary>
-        ///     Creates flow id from given generator instance
+        /// Creates flow id from given generator instance
         /// </summary>
         /// <param name="flowId"></param>
         public FlowMessageUpdater([NotNull] IFlowIdGenerator flowId) : this(flowId.NewFlowId())
         {
-            if (flowId == null) throw new ArgumentNullException(nameof(flowId));
-            _flowId = flowId;
         }
 
         public string FlowId { [NotNull] get; }
 
         public IServiceMessage UpdateServiceMessage(IServiceMessage message)
         {
-            if (message.DefaultValue != null) return message;
-            return new PatchedServiceMessage(message) {{"flowId", FlowId}};
+            return message.DefaultValue != null ? message : new PatchedServiceMessage(message) {{"flowId", FlowId}};
         }
     }
 }

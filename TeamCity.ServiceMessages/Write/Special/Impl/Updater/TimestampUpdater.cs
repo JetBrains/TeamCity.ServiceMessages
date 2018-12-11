@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     using System.Globalization;
 
     /// <summary>
-    ///     Service message updater that adds Timestamp to service message according to
-    ///     http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity
+    /// Service message updater that adds Timestamp to service message according to
+    /// http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity
     /// </summary>
     public class TimestampUpdater : IServiceMessageUpdater
     {
@@ -29,8 +29,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 
         public TimestampUpdater([NotNull] Func<DateTime> timeService)
         {
-            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
-            _timeService = timeService;
+            _timeService = timeService ?? throw new ArgumentNullException(nameof(timeService));
         }
 
         public IServiceMessage UpdateServiceMessage(IServiceMessage message)

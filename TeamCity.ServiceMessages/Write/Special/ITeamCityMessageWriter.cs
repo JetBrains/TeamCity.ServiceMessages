@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,31 +17,31 @@
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 {
     /// <summary>
-    ///     Add a build log entry message
-    ///     <pre>
-    ///         ##teamcity[message text='&lt;message text>' errorDetails='&lt;error details>' status='&lt;status value>']
-    ///     </pre>
-    ///     http://confluence.jetbrains.net/display/TCD7/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ReportingMessagesForBuildLog
+    /// Add a build log entry message
+    /// <pre>
+    ///     ##teamcity[message text='&lt;message text>' errorDetails='&lt;error details>' status='&lt;status value>']
+    /// </pre>
+    /// http://confluence.jetbrains.net/display/TCD18/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ReportingMessagesForBuildLog
     /// </summary>
     /// <remarks>
-    ///     Implementation is not thread-safe. Create an instance for each thread instead.
+    /// Implementation is not thread-safe. Create an instance for each thread instead.
     /// </remarks>
     public interface ITeamCityMessageWriter
     {
         /// <summary>
-        ///     Writes normal message
+        /// Writes normal message
         /// </summary>
         /// <param name="text">text</param>
         void WriteMessage([NotNull] string text);
 
         /// <summary>
-        ///     Writes warning message
+        /// Writes warning message
         /// </summary>
         /// <param name="text">text</param>
         void WriteWarning([NotNull] string text);
 
         /// <summary>
-        ///     Writes error message with details
+        /// Writes error message with details
         /// </summary>
         /// <param name="text">text</param>
         /// <param name="errorDetails">error details</param>

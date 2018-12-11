@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2017 JetBrains s.r.o.
+ * Copyright 2007-2019 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,11 +63,11 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
             var actualText = "\r\n" + string.Join("\r\n", actual);
             var expected = preprocess(string.Join("\r\n", golds));
 
-            if (actual.Count() != expected.Count())
+            if (actual.Length != expected.Length)
                 Assert.Fail("Incorrect number of messages. Was: " + actualText);
 
             for (var i = 0; i < actual.Count(); i++)
-                Assert.AreEqual(actual[i], expected[i], "Message {0} does not match. Was: {1}", i, actualText);
+                Assert.AreEqual(expected[i], actual[i], "Message {0} does not match. Was: {1}", i, actualText);
         }
 
         protected class ToStringProcessor : IServiceMessageProcessor
