@@ -17,7 +17,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TeamCity.ServiceMessages"><Version>3.0.7</Version></PackageReference>
+    <None Remove="TeamCity.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TeamCity.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TeamCity.ServiceMessages"><Version>3.0.11</Version></PackageReference>
   </ItemGroup>
 
 </Project>
