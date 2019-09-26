@@ -17,10 +17,15 @@
 namespace JetBrains.TeamCity.ServiceMessages
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
     using System.Text;
 
     public class ServiceMessageReplacements
     {
+        private static char InvalidChar = '?';
+
         /// <summary>
         /// Performs TeamCity-format escaping of a string.
         /// </summary>
@@ -60,7 +65,14 @@ namespace JetBrains.TeamCity.ServiceMessages
                         sb.Append("|p");
                         break; //
                     default:
-                        sb.Append(ch);
+                        if (ch > 127)
+                        {
+                            sb.Append($"|0x{(ulong)ch:x4}");
+                        }
+                        else
+                        {
+                            sb.Append(ch);
+                        }
                         break;
                 }
             return sb.ToString();
@@ -76,57 +88,114 @@ namespace JetBrains.TeamCity.ServiceMessages
             return Decode(value.ToCharArray());
         }
 
-        [NotNull]
         public static string Decode([NotNull] char[] value)
         {
-            if (value == null) throw new ArgumentNullException(nameof(value));
-            var i = 0;
-            var sb = value;
-            var escape = false;
+            return new string(DecodeChars(value).ToArray());
+        }
+
+        private static IEnumerable<char> DecodeChars([NotNull] IEnumerable<char> value)
+        {
+            var isEscaping = false;
+            var unicodeCounter = 0;
+            var unicodeSb = new StringBuilder();
             foreach (var ch in value)
-                if (!escape)
+            {
+                if (unicodeCounter > 0)
                 {
-                    if (ch == '|') escape = true;
-                    else sb[i++] = ch;
+                    if (unicodeCounter-- == 5)
+                    {
+                        if (ch != 'x')
+                        {
+                            unicodeCounter = 0;
+                        }
+                    }
+                    else
+                    {
+                        unicodeSb.Append(ch);
+                    }
                 }
-                else
+
+                if (unicodeCounter != 0)
                 {
+                    continue;
+                }
+
+                if (unicodeSb.Length == 4)
+                {
+                    var unicodeStr = "" + InvalidChar;
+                    try
+                    {
+                        unicodeStr = char.ConvertFromUtf32(int.Parse(unicodeSb.ToString(), NumberStyles.HexNumber));
+                    }
+                    catch (FormatException)
+                    {
+                    }
+
+                    unicodeSb.Length = 0;
+                    foreach (var c in unicodeStr)
+                    {
+                        yield return c;
+                    }
+
+                    continue;
+                }
+
+                if (isEscaping)
+                {
+                    isEscaping = false;
                     switch (ch)
                     {
                         case '|':
-                            sb[i++] = '|';
+                            yield return '|';
                             break; //
                         case '\'':
-                            sb[i++] = '\'';
+                            yield return '\'';
                             break; //
                         case 'n':
-                            sb[i++] = '\n';
+                            yield return '\n';
                             break; //
                         case 'r':
-                            sb[i++] = '\r';
+                            yield return '\r';
                             break; //
                         case '[':
-                            sb[i++] = '[';
+                            yield return '[';
                             break; //
                         case ']':
-                            sb[i++] = ']';
+                            yield return ']';
                             break; //
                         case 'x':
-                            sb[i++] = '\u0085';
+                            yield return '\u0085';
                             break; //\u0085 (next line)=>|x
                         case 'l':
-                            sb[i++] = '\u2028';
+                            yield return '\u2028';
                             break; //\u2028 (line separator)=>|l
                         case 'p':
-                            sb[i++] = '\u2029';
+                            yield return '\u2029';
                             break; //
+                        case '0':
+                            unicodeCounter = 5;
+                            break;
                         default:
-                            sb[i++] = '?';
-                            break; // do not thow any exception to make it faster //TODO: no exception on illegal format
+                            yield return InvalidChar;
+                            break; // do not throw any exception to make it faster //TODO: no exception on illegal format
                     }
-                    escape = false;
+
+                    continue;
                 }
-            return new string(sb, 0, i);
+
+                if (ch == '|')
+                {
+                    isEscaping = true;
+                    continue;
+                }
+
+                yield return ch;
+            }
+
+            if (isEscaping || unicodeCounter > 0)
+            {
+                yield return InvalidChar;
+            }
         }
     }
 }

@@ -21,54 +21,54 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests
     [TestFixture]
     public class ServiceMessageReplacementsTest
     {
-        [Test]
-        public void TestDecode_0()
+        // Simple
+        [TestCase("", "")]
+        [TestCase("!@#$%^&*", "!@#$%^&*")]
+        [TestCase("a", "a")]
+        [TestCase("Abc", "Abc")]
+
+        // Special
+        [TestCase("|n", "\n")]
+        [TestCase("|r", "\r")]
+        [TestCase("|]", "]")]
+        [TestCase("|[", "[")]
+        [TestCase("|'", "'")]
+        [TestCase("||", "|")]
+        [TestCase("|x", "\u0085")]
+        [TestCase("|l", "\u2028")]
+        [TestCase("|p", "\u2029")]
+
+        [TestCase("aaa|nbbb", "aaa\nbbb")]
+        [TestCase("aaa|nbbb||", "aaa\nbbb|")]
+        [TestCase("||||", "||")]
+
+        // Unicode
+        [TestCase("|0x00bf", "\u00bf")]
+        [TestCase("|0x00bfaaa", "\u00bfaaa")]
+        [TestCase("bb|0x00bfaaa", "bb\u00bfaaa")]
+        public void ShouldDecodeAndEncodeWhenUnicode(string textFormServiceMessage, string actualText)
         {
-            Assert.AreEqual("", ServiceMessageReplacements.Decode(""));
+            Assert.AreEqual(actualText, ServiceMessageReplacements.Decode(textFormServiceMessage));
+            Assert.AreEqual(textFormServiceMessage, ServiceMessageReplacements.Encode(actualText));
         }
 
-        [Test]
-        public void TestDecode_1()
-        {
-            Assert.AreEqual("a", ServiceMessageReplacements.Decode("a"));
-        }
+        // Invalid special
+        [TestCase("|z", "?")]
+        [TestCase("|", "?")]
 
-        [Test]
-        public void TestDecode_1_special()
-        {
-            Assert.AreEqual(ServiceMessageReplacements.Decode("|n"), "\n");
-            Assert.AreEqual(ServiceMessageReplacements.Decode("|r"), "\r");
-            Assert.AreEqual(ServiceMessageReplacements.Decode("|]"), "]");
-            Assert.AreEqual(ServiceMessageReplacements.Decode("|'"), "'");
-            Assert.AreEqual(ServiceMessageReplacements.Decode("||"), "|");
-            Assert.AreEqual(ServiceMessageReplacements.Decode("|x"), "\u0085");
-            Assert.AreEqual(ServiceMessageReplacements.Decode("|l"), "\u2028");
-            Assert.AreEqual(ServiceMessageReplacements.Decode("|p"), "\u2029");
-        }
+        // Invalid unicode
+        [TestCase("|0", "?")]
+        [TestCase("|0x", "?")]
+        [TestCase("|0x0", "?")]
+        [TestCase("|0x0b", "?")]
+        [TestCase("|0x00b", "?")]
+        [TestCase("|0x00bg", "?")]
+        [TestCase("aaa|0x00b", "aaa?")]
+        [TestCase("aaa|0x00fkccc", "aaa?ccc")]
 
-        [Test]
-        public void TestEncode_0()
+        public void ShouldDecodeWhenInvalidDecodedText(string textFormServiceMessage, string actualText)
         {
-            Assert.AreEqual("", ServiceMessageReplacements.Encode(""));
-        }
-
-        [Test]
-        public void TestEncode_1()
-        {
-            Assert.AreEqual("a", ServiceMessageReplacements.Encode("a"));
-        }
-
-        [Test]
-        public void TestEncode_1_special()
-        {
-            Assert.AreEqual("|n", ServiceMessageReplacements.Encode("\n"));
-            Assert.AreEqual("|r", ServiceMessageReplacements.Encode("\r"));
-            Assert.AreEqual("|]", ServiceMessageReplacements.Encode("]"));
-            Assert.AreEqual("|'", ServiceMessageReplacements.Encode("'"));
-            Assert.AreEqual("||", ServiceMessageReplacements.Encode("|"));
-            Assert.AreEqual("|x", ServiceMessageReplacements.Encode("\u0085"));
-            Assert.AreEqual("|l", ServiceMessageReplacements.Encode("\u2028"));
-            Assert.AreEqual("|p", ServiceMessageReplacements.Encode("\u2029"));
+            Assert.AreEqual(actualText, ServiceMessageReplacements.Decode(textFormServiceMessage));
         }
     }
 }
