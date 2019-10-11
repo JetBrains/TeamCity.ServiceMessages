@@ -17,6 +17,7 @@
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 {
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Service message updater that adds FlowId to service message according to
@@ -45,7 +46,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 
         public IServiceMessage UpdateServiceMessage(IServiceMessage message)
         {
-            return message.DefaultValue != null ? message : new PatchedServiceMessage(message) {{"flowId", FlowId}};
+            return message.DefaultValue != null || message.Keys.Contains("flowId") ? message : new PatchedServiceMessage(message) {{"flowId", FlowId}};
         }
     }
 }
