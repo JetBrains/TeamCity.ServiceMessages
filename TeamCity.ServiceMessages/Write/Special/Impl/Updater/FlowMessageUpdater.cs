@@ -45,7 +45,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
 
         public IServiceMessage UpdateServiceMessage(IServiceMessage message)
         {
-            return message.DefaultValue != null ? message : new PatchedServiceMessage(message) {{"flowId", FlowId}};
+            return message.DefaultValue != null || message.GetValue("flowId") != null ? message : new PatchedServiceMessage(message) { { "flowId", FlowId } };
         }
     }
 }
