@@ -12,7 +12,7 @@
     <GenerateAssemblyVersionAttribute>true</GenerateAssemblyVersionAttribute>
     <GenerateNeutralResourcesLanguageAttribute>true</GenerateNeutralResourcesLanguageAttribute>
 
-    <TargetFrameworks>netstandard1.3;net35;net40;net45;netcoreapp1.0;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;net35;net40;net45;netcoreapp1.0;netcoreapp2.0;netcoreapp3.0</TargetFrameworks>
     <AssemblyName>TeamCity.ServiceMessages</AssemblyName>
     <PackageId>TeamCity.ServiceMessages</PackageId>
     <RootNamespace>JetBrains.TeamCity.ServiceMessages</RootNamespace>
