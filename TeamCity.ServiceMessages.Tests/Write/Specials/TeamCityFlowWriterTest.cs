@@ -17,6 +17,8 @@
 namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
 {
     using System;
+    using System.Linq;
+    using Moq;
     using NUnit.Framework;
     using ServiceMessages.Write.Special;
     using ServiceMessages.Write.Special.Impl;
@@ -25,7 +27,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
     [TestFixture]
     public class TeamCityFlowWriterTest : TeamCityFlowWriterBaseTest<TeamCityFlowWriter<IDisposable>>
     {
-        protected override TeamCityFlowWriter<IDisposable> Create(IFlowServiceMessageProcessor proc)
+        protected override TeamCityFlowWriter<IDisposable> Create(IFlowAwareServiceMessageProcessor proc)
         {
             return new TeamCityFlowWriter<IDisposable>(proc, (x, _) => x, DisposableDelegate.Empty);
         }
@@ -42,6 +44,25 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
             DoTest(x => x.OpenFlow().Dispose(),
                 "##teamcity[flowStarted parent='1' flowId='2']",
                 "##teamcity[flowFinished flowId='2']");
+        }
+
+        [Test]
+        public void ShouldNotAddParentFlowAttributeToMessageAfterOpeningNewFlowIfThereIsNoParentFlow()
+        {
+            var parentFlowAwareProcessorMock = new Mock<IFlowAwareServiceMessageProcessor>();
+            var childFlowAwareProcessorMock = new Mock<IFlowAwareServiceMessageProcessor>();
+            parentFlowAwareProcessorMock.SetupGet(x => x.FlowId).Returns((string)null);
+            parentFlowAwareProcessorMock.Setup(x => x.ForNewFlow()).Returns(childFlowAwareProcessorMock.Object);
+            var teamCityFlowWriter = new TeamCityFlowWriter<IDisposable>(
+                parentFlowAwareProcessorMock.Object,
+                (handler, processor) => Mock.Of<IDisposable>(),
+                Mock.Of<IDisposable>());
+
+            teamCityFlowWriter.OpenFlow();
+
+            childFlowAwareProcessorMock.Verify(
+                x => x.AddServiceMessage(
+                    It.Is<IServiceMessage>(m => m.Keys.All(k => k != "parent"))));
         }
     }
 }

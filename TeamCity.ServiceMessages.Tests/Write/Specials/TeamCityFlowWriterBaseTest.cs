@@ -24,11 +24,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
 
     public abstract class TeamCityFlowWriterBaseTest<T> : TeamCityWriterBaseTest<T>
     {
-        protected abstract T Create(IFlowServiceMessageProcessor proc);
+        protected abstract T Create(IFlowAwareServiceMessageProcessor proc);
 
         protected sealed override T Create(IServiceMessageProcessor proc)
         {
-            return Create(new FlowServiceMessageWriter(proc, new DefaultFlowIdGenerator(), Enumerable.Empty<IServiceMessageUpdater>()));
+            var flowIdGenerator = new DefaultFlowIdGenerator();
+            return Create(new FlowAwareServiceMessageWriter(flowIdGenerator.NewFlowId(), proc, flowIdGenerator, Enumerable.Empty<IServiceMessageUpdater>()));
         }
 
         protected override ToStringProcessor CreateProcessor()

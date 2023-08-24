@@ -26,7 +26,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
     [TestFixture]
     public class TeamCityTestsWriterTest : TeamCityFlowWriterBaseTest<ITeamCityTestsWriter>
     {
-        protected override ITeamCityTestsWriter Create(IFlowServiceMessageProcessor proc)
+        protected override ITeamCityTestsWriter Create(IFlowAwareServiceMessageProcessor proc)
         {
             return new TeamCityTestSuiteBlock(proc, DisposableDelegate.Empty);
         }

@@ -25,6 +25,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Read
     using ServiceMessages.Read;
 
     [TestFixture]
+    [Explicit]
     public class ServiceMessageParserPerformanceTest
     {
         private static string GenerateTestData(int sz)

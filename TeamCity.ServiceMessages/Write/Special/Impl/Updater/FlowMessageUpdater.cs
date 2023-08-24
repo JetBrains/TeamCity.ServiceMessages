@@ -24,28 +24,20 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Updater
     /// </summary>
     public class FlowMessageUpdater : IServiceMessageUpdater
     {
+        [NotNull] private readonly string _flowId;
+
         /// <summary>
         /// Constructs updater
         /// </summary>
         /// <param name="flowId">flowId set to all messages</param>
         public FlowMessageUpdater([NotNull] string flowId)
         {
-            FlowId = flowId ?? throw new ArgumentNullException(nameof(flowId));
+            _flowId = flowId ?? throw new ArgumentNullException(nameof(flowId));
         }
-
-        /// <summary>
-        /// Creates flow id from given generator instance
-        /// </summary>
-        /// <param name="flowId"></param>
-        public FlowMessageUpdater([NotNull] IFlowIdGenerator flowId) : this(flowId.NewFlowId())
-        {
-        }
-
-        public string FlowId { [NotNull] get; }
 
         public IServiceMessage UpdateServiceMessage(IServiceMessage message)
         {
-            return message.DefaultValue != null || message.GetValue("flowId") != null ? message : new PatchedServiceMessage(message) { { "flowId", FlowId } };
+            return message.DefaultValue != null || message.GetValue("flowId") != null ? message : new PatchedServiceMessage(message) { { "flowId", _flowId } };
         }
     }
 }
