@@ -108,7 +108,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
             {
                 throw new InvalidOperationException($"TeamCity.ServiceMessages: Expected all test writers to be disposed, but found {_childTestsOpened.Count}: [{string.Join(", ", _childTestsOpened.ToArray())}] were not.");
             }
-            
+
             _flows.Dispose();
         }
     }
