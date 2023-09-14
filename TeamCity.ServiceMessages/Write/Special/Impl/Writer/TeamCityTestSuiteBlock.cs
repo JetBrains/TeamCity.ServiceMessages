@@ -19,13 +19,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     using System;
     using System.Collections.Generic;
 
-    public class TeamCityTestSuiteBlock : BaseDisposableWriter<IFlowServiceMessageProcessor>, ITeamCityTestsSubWriter, ISubWriter
+    public class TeamCityTestSuiteBlock : BaseDisposableWriter<IFlowAwareServiceMessageProcessor>, ITeamCityTestsSubWriter, ISubWriter
     {
         private readonly TeamCityFlowWriter<ITeamCityTestsSubWriter> _flows;
         private Stack<string> _childSuitesOpened = new Stack<string>();
         private Stack<string> _childTestsOpened = new Stack<string>();
 
-        public TeamCityTestSuiteBlock([NotNull] IFlowServiceMessageProcessor target, [NotNull] IDisposable disposableHandler)
+        public TeamCityTestSuiteBlock([NotNull] IFlowAwareServiceMessageProcessor target, [NotNull] IDisposable disposableHandler)
             : base(target, disposableHandler)
         {
             if (target == null) throw new ArgumentNullException(nameof(target));

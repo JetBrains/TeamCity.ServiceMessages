@@ -19,7 +19,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     /// <summary>
     /// FlowId aware implementation of ServiceMessagesProcessor
     /// </summary>
-    public interface IFlowServiceMessageProcessor : IServiceMessageProcessor
+    public interface IFlowAwareServiceMessageProcessor : IServiceMessageProcessor
     {
         /// <summary>
         /// Current flow Id
@@ -31,6 +31,6 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
         /// </summary>
         /// <returns></returns>
         [NotNull]
-        IFlowServiceMessageProcessor ForNewFlow();
+        IFlowAwareServiceMessageProcessor ForNewFlow();
     }
 }

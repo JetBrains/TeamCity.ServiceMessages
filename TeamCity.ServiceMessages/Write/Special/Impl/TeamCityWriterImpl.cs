@@ -25,7 +25,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
         private readonly IEnumerable<ISubWriter> _writeCheck;
 
         public TeamCityWriterImpl(
-            [NotNull] IFlowServiceMessageProcessor processor,
+            [NotNull] IFlowAwareServiceMessageProcessor processor,
             [NotNull] IDisposable dispose)
             : this(processor,
                 new TeamCityFlowWriter<ITeamCityWriter>(processor, (handler, writer) => new TeamCityWriterImpl(writer, handler), DisposableDelegate.Empty),

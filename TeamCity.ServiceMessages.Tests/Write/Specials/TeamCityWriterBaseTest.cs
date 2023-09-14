@@ -86,7 +86,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
 
     public abstract class TeamCityWriterBaseTest : TeamCityFlowWriterBaseTest<ITeamCityWriter>
     {
-        protected override ITeamCityWriter Create(IFlowServiceMessageProcessor proc)
+        protected override ITeamCityWriter Create(IFlowAwareServiceMessageProcessor proc)
         {
             return new TeamCityWriterImpl(proc, DisposableDelegate.Empty);
         }

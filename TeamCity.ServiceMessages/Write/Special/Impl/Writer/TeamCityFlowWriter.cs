@@ -19,20 +19,20 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     using System;
     using System.Threading;
 
-    public class TeamCityFlowWriter<TCloseBlock> : BaseDisposableWriter<IFlowServiceMessageProcessor>, ITeamCityFlowWriter<TCloseBlock>, ISubWriter
+    public class TeamCityFlowWriter<TCloseBlock> : BaseDisposableWriter<IFlowAwareServiceMessageProcessor>, ITeamCityFlowWriter<TCloseBlock>, ISubWriter
         where TCloseBlock : IDisposable
     {
-        public delegate TCloseBlock CreateWriter([NotNull] IDisposable disposeHandler, [NotNull] IFlowServiceMessageProcessor writer);
+        public delegate TCloseBlock CreateWriter([NotNull] IDisposable disposeHandler, [NotNull] IFlowAwareServiceMessageProcessor writer);
 
         private readonly CreateWriter _closeBlock;
-        private int _isChildFlowOpenned;
+        private int _isChildFlowOpened;
 
-        public TeamCityFlowWriter([NotNull] IFlowServiceMessageProcessor target, [NotNull] CreateWriter closeBlock, [NotNull] IDisposable disposableHander)
-            : base(target, disposableHander)
+        public TeamCityFlowWriter([NotNull] IFlowAwareServiceMessageProcessor target, [NotNull] CreateWriter closeBlock, [NotNull] IDisposable disposableHandler)
+            : base(target, disposableHandler)
         {
             if (target == null) throw new ArgumentNullException(nameof(target));
             if (closeBlock == null) throw new ArgumentNullException(nameof(closeBlock));
-            if (disposableHander == null) throw new ArgumentNullException(nameof(disposableHander));
+            if (disposableHandler == null) throw new ArgumentNullException(nameof(disposableHandler));
             _closeBlock = closeBlock;
         }
 
@@ -52,23 +52,29 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
             );
 
             //##teamcity[flowStarted flowId='%lt;new flow id>' parent='current flow id']
-            processor.AddServiceMessage(new ServiceMessage("flowStarted") {{"parent", myTarget.FlowId}});
-            Interlocked.Increment(ref _isChildFlowOpenned);
+            var flowStartedMessage = new ServiceMessage("flowStarted");
+            if (myTarget.FlowId != null)
+            {
+                flowStartedMessage.Add("parent", myTarget.FlowId);
+            }
+            processor.AddServiceMessage(flowStartedMessage);
+
+            Interlocked.Increment(ref _isChildFlowOpened);
             return block;
         }
 
         protected override void DisposeImpl()
         {
-            if (_isChildFlowOpenned != 0)
+            if (_isChildFlowOpened != 0)
                 throw new InvalidOperationException("Some of child block writers were not disposed");
         }
 
-        private void CloseBlock([NotNull] IFlowServiceMessageProcessor flowId)
+        private void CloseBlock([NotNull] IFlowAwareServiceMessageProcessor flowAwareServiceMessageProcessor)
         {
-            if (flowId == null) throw new ArgumentNullException(nameof(flowId));
-            Interlocked.Decrement(ref _isChildFlowOpenned);
+            if (flowAwareServiceMessageProcessor == null) throw new ArgumentNullException(nameof(flowAwareServiceMessageProcessor));
+            Interlocked.Decrement(ref _isChildFlowOpened);
             //##teamcity[flowFinished flowId='%lt;new flow id>']
-            flowId.AddServiceMessage(new ServiceMessage("flowFinished"));
+            flowAwareServiceMessageProcessor.AddServiceMessage(new ServiceMessage("flowFinished"));
         }
     }
 }

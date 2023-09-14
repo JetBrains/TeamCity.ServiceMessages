@@ -25,24 +25,20 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
     public interface ITeamCityServiceMessages
     {
         /// <summary>
-        /// Created writer that generates service messages to a Console.Out
+        /// Creates a writer that outputs service messages to Console.Out
         /// </summary>
-        /// <remarks>
-        /// Implementation does not support multiple-threads.
-        /// If you need to log more me
-        /// </remarks>
         /// <returns></returns>
         [NotNull]
         ITeamCityWriter CreateWriter();
 
         /// <summary>
-        /// Creates writer that translates service messages to the given
-        /// delegate.
+        /// Creates a writer that uses the provided delegate to output service messages
         /// </summary>
         /// <param name="destination">generated service messages processor</param>
+        /// <param name="addFlowIdsOnTopLevelMessages">specifies whether messages written without explicitly opening a flow should be marked with a common flow id</param>
         /// <returns></returns>
         [NotNull]
-        ITeamCityWriter CreateWriter(Action<string> destination);
+        ITeamCityWriter CreateWriter(Action<string> destination, bool addFlowIdsOnTopLevelMessages = true);
 
         /// <summary>
         /// Adds user-specific service message updater to the list of service message updaters.

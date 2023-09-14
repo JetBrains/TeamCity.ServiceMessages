@@ -65,15 +65,19 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
             Updaters = Updaters.Union(new[] {updater}).ToArray();
         }
 
-        public ITeamCityWriter CreateWriter()
-        {
-            return CreateWriter(Console.WriteLine);
-        }
+        public ITeamCityWriter CreateWriter() => CreateWriter(Console.WriteLine, true);
 
-        public ITeamCityWriter CreateWriter(Action<string> destination)
+        public ITeamCityWriter CreateWriter(Action<string> destination, bool addFlowIdsOnTopLevelMessages = true)
         {
             if (destination == null) throw new ArgumentNullException(nameof(destination));
-            var processor = new FlowServiceMessageWriter(new ServiceMessagesWriter(Formatter, destination), FlowIdGenerator, Updaters.ToList());
+
+            var rootServiceMessageFlowId = addFlowIdsOnTopLevelMessages ? FlowIdGenerator.NewFlowId() : null;
+            var processor = new FlowAwareServiceMessageWriter(
+                rootServiceMessageFlowId,
+                new ServiceMessagesWriter(Formatter, destination),
+                FlowIdGenerator,
+                Updaters.ToList());
+
             return new TeamCityWriterImpl(
                 processor,
                 DisposableDelegate.Empty
