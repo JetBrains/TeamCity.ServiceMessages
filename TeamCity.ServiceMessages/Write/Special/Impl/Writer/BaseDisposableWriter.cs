@@ -36,7 +36,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
         {
             if (_isDisposed)
             {
-                throw new ObjectDisposedException(GetType() + " was allready disaposed");
+                throw new ObjectDisposedException(GetType() + " was already disposed");
             }
 
             _isDisposed = true;
