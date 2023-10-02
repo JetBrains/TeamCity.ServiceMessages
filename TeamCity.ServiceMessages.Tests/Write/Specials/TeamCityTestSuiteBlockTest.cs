@@ -24,13 +24,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
     using ServiceMessages.Write.Special.Impl.Writer;
 
     [TestFixture]
-    public class TeamCityTestsWriterTest : TeamCityFlowWriterBaseTest<ITeamCityTestsWriter>
+    public class TeamCityTestSuiteBlockTest : TeamCityFlowWriterBaseTest<TeamCityTestSuiteBlock>
     {
-        protected override ITeamCityTestsWriter Create(IFlowAwareServiceMessageProcessor proc)
+        protected override TeamCityTestSuiteBlock Create(IFlowAwareServiceMessageProcessor proc)
         {
             return new TeamCityTestSuiteBlock(proc, DisposableDelegate.Empty);
         }
-
 
         private new void DoTest(Action<ITeamCityTestsWriter> action, params string[] data)
         {
@@ -38,34 +37,71 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
         }
 
         [Test]
-        public void TestDoNotLetOpenTwoSuites()
+        public void TestTwoSuitesCannotBeOpenSimultaneously()
         {
             Assert.Throws<InvalidOperationException>(() => DoTest(x =>
             {
-                x.OpenTestSuite("test1");
-                x.OpenTestSuite("test23");
+                x.OpenTestSuite("suite1");
+                x.OpenTestSuite("suite2");
             }));
         }
 
         [Test]
-        public void TestDoNotLetOpenTwoTestNSuites()
+        public void TestTestAndSuiteCannotBeOpenSimultaneously()
         {
             Assert.Throws<InvalidOperationException>(() => DoTest(x =>
             {
-                x.OpenTest("test1");
-                x.OpenTestSuite("test1").OpenTest("z3");
+                x.OpenTest("test");
+                x.OpenTestSuite("suite");
             }));
         }
 
+        [Test]
+        public void TestSuiteAndTestCannotBeOpenSimultaneously()
+        {
+            Assert.Throws<InvalidOperationException>(() => DoTest(x =>
+            {
+                x.OpenTestSuite("suite");
+                x.OpenTest("test");
+            }));
+        }
 
         [Test]
-        public void TestDoNotLetOpenTwoTests()
+        public void TestTwoTestsCannotBeOpenSimultaneously()
         {
             Assert.Throws<InvalidOperationException>(() => DoTest(x =>
             {
                 x.OpenTest("test1");
-                x.OpenTest("test23");
+                x.OpenTest("test2");
             }));
+        }
+
+        [Test]
+        public void TestDisposeThrowsExceptionIfAChildTestIsOpen()
+        {
+            var openTestName = "open_test";
+
+            var exception = Assert.Throws<InvalidOperationException>(() => DoTest(x =>
+            {
+                x.OpenTest(openTestName);
+                x.Dispose();
+            }));
+
+            Assert.IsTrue(exception.Message.Contains(openTestName));
+        }
+
+        [Test]
+        public void TestDisposeThrowsExceptionIfAChildTestSuiteIsOpen()
+        {
+            var openTestSuiteName = "open_suite";
+
+            var exception = Assert.Throws<InvalidOperationException>(() => DoTest(x =>
+            {
+                x.OpenTestSuite(openTestSuiteName);
+                x.Dispose();
+            }));
+
+            Assert.IsTrue(exception.Message.Contains(openTestSuiteName));
         }
 
         [Test]

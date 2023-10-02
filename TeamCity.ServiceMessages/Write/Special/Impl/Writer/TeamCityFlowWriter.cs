@@ -17,7 +17,8 @@
 namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 {
     using System;
-    using System.Threading;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class TeamCityFlowWriter<TCloseBlock> : BaseDisposableWriter<IFlowAwareServiceMessageProcessor>, ITeamCityFlowWriter<TCloseBlock>, ISubWriter
         where TCloseBlock : IDisposable
@@ -25,7 +26,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
         public delegate TCloseBlock CreateWriter([NotNull] IDisposable disposeHandler, [NotNull] IFlowAwareServiceMessageProcessor writer);
 
         private readonly CreateWriter _closeBlock;
-        private int _isChildFlowOpened;
+        private readonly HashSet<string> _openChildFlowIds = new HashSet<string>();
 
         public TeamCityFlowWriter([NotNull] IFlowAwareServiceMessageProcessor target, [NotNull] CreateWriter closeBlock, [NotNull] IDisposable disposableHandler)
             : base(target, disposableHandler)
@@ -59,20 +60,29 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
             }
             processor.AddServiceMessage(flowStartedMessage);
 
-            Interlocked.Increment(ref _isChildFlowOpened);
+            if (!_openChildFlowIds.Add(processor.FlowId))
+            {
+                var parentFlowMessagePart = myTarget.FlowId != null ? $" in parent flow '{myTarget.FlowId}'" : "";
+                throw new InvalidOperationException($"Cannot open a new child flow with id '{processor.FlowId}'" +
+                                                    $"{parentFlowMessagePart} because a child flow with the same id is already open");
+            }
+
             return block;
         }
 
         protected override void DisposeImpl()
         {
-            if (_isChildFlowOpened != 0)
-                throw new InvalidOperationException("Some of child block writers were not disposed");
+            if (_openChildFlowIds.Count != 0)
+                throw new InvalidOperationException(
+                    $"Expected no child flows to be open, but found {_openChildFlowIds.Count} open flows: '{string.Join("', '", _openChildFlowIds.ToArray())}'");
         }
 
         private void CloseBlock([NotNull] IFlowAwareServiceMessageProcessor flowAwareServiceMessageProcessor)
         {
             if (flowAwareServiceMessageProcessor == null) throw new ArgumentNullException(nameof(flowAwareServiceMessageProcessor));
-            Interlocked.Decrement(ref _isChildFlowOpened);
+
+            _openChildFlowIds.Remove(flowAwareServiceMessageProcessor.FlowId);
+
             //##teamcity[flowFinished flowId='%lt;new flow id>']
             flowAwareServiceMessageProcessor.AddServiceMessage(new ServiceMessage("flowFinished"));
         }

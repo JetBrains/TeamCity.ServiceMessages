@@ -21,8 +21,10 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
     public class TeamCityTestSuiteBlock : BaseDisposableWriter<IFlowAwareServiceMessageProcessor>, ITeamCityTestsSubWriter, ISubWriter
     {
         private readonly TeamCityFlowWriter<ITeamCityTestsSubWriter> _flows;
-        private int _isChildSuiteOpened;
-        private int _isChildTestOpened;
+        private bool _isChildSuiteOpened;
+        private bool _isChildTestOpened;
+        private string _childSuiteName;
+        private string _childTestName;
 
         public TeamCityTestSuiteBlock([NotNull] IFlowAwareServiceMessageProcessor target, [NotNull] IDisposable disposableHandler)
             : base(target, disposableHandler)
@@ -37,14 +39,14 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 
         public void AssertNoChildOpened()
         {
-            if (_isChildSuiteOpened != 0)
+            if (_isChildSuiteOpened)
             {
-                throw new InvalidOperationException("There is at least one child test suite opened");
+                throw new InvalidOperationException($"Expected no child test suites to be open, but a child test suite named '{_childSuiteName}' is open");
             }
 
-            if (_isChildTestOpened != 0)
+            if (_isChildTestOpened)
             {
-                throw new InvalidOperationException("There is at least one test suite opened");
+                throw new InvalidOperationException($"Expected no child tests to be open, but a child test named '{_childTestName}' is open");
             }
 
             _flows.AssertNoChildOpened();
@@ -59,8 +61,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
         public ITeamCityTestsSubWriter OpenTestSuite(string suiteName)
         {
             if (suiteName == null) throw new ArgumentNullException(nameof(suiteName));
+
             AssertNoChildOpened();
-            _isChildSuiteOpened++;
+
+            _isChildSuiteOpened = true;
+            _childSuiteName = suiteName;
+
             PostMessage(new ServiceMessage("testSuiteStarted") {{"name", suiteName}});
 
             return new TeamCityTestSuiteBlock(
@@ -68,31 +74,40 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
                 new DisposableDelegate(() =>
                 {
                     PostMessage(new ServiceMessage("testSuiteFinished") {{"name", suiteName}});
-                    _isChildSuiteOpened--;
+                    _isChildSuiteOpened = false;
+                    _childSuiteName = null;
                 }));
         }
 
         public ITeamCityTestWriter OpenTest(string testName)
         {
             if (testName == null) throw new ArgumentNullException(nameof(testName));
+
             AssertNoChildOpened();
 
-            _isChildTestOpened++;
-            var writer = new TeamCityTestWriter(myTarget, testName, new DisposableDelegate(() => { _isChildTestOpened--; }));
+            _isChildTestOpened = true;
+            _childTestName = testName;
+
+            var writer = new TeamCityTestWriter(myTarget, testName, new DisposableDelegate(() =>
+            {
+                _isChildTestOpened = false;
+                _childTestName = null;
+            }));
+
             writer.OpenTest();
             return writer;
         }
 
         protected override void DisposeImpl()
         {
-            if (_isChildTestOpened != 0)
+            if (_isChildSuiteOpened)
             {
-                throw new InvalidOperationException("Some child test writers were not disposed.");
+                throw new InvalidOperationException($"Expected all test suite writers to be disposed, but writer for suite '{_childSuiteName}' was not disposed");
             }
 
-            if (_isChildSuiteOpened != 0)
+            if (_isChildTestOpened)
             {
-                throw new InvalidOperationException("Some child test suite writers were not disposed.");
+                throw new InvalidOperationException($"Expected all test writers to be disposed, but writer for test '{_childTestName}' was not disposed");
             }
 
             _flows.Dispose();
