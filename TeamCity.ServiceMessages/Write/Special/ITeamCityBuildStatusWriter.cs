@@ -21,6 +21,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
         /// <summary>
         /// Generates build problem service message
         /// </summary>
+        /// <param name="description">problem message</param>
+        void WriteBuildProblem([NotNull] string description);
+
+        /// <summary>
+        /// Generates build problem service message
+        /// </summary>
         /// <param name="identity">problem unique identity, no more than 60 chars</param>
         /// <param name="description">problem message</param>
         void WriteBuildProblem([NotNull] string identity, [NotNull] string description);

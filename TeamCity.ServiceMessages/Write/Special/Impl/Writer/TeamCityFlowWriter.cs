@@ -38,7 +38,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
                 processor
             );
 
-            //##teamcity[flowStarted flowId='%lt;new flow id>' parent='current flow id']
+            //##teamcity[flowStarted flowId='<new flow id>' parent='current flow id']
             var flowStartedMessage = new ServiceMessage("flowStarted");
             if (myTarget.FlowId != null)
             {
@@ -69,7 +69,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
 
             _openChildFlowIds.Remove(flowAwareServiceMessageProcessor.FlowId);
 
-            //##teamcity[flowFinished flowId='%lt;new flow id>']
+            //##teamcity[flowFinished flowId='<new flow id>']
             flowAwareServiceMessageProcessor.AddServiceMessage(new ServiceMessage("flowFinished"));
         }
     }

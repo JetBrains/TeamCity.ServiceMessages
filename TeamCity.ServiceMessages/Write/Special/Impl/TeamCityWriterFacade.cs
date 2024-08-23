@@ -14,6 +14,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
         private readonly ITeamCityMessageWriter _messageWriter;
         private readonly IServiceMessageProcessor _processor;
         private readonly ITeamCityBuildStatusWriter _statusWriter;
+        private readonly ITeamCityProgressWriter _progressWriter;
         private readonly ITeamCityTestsWriter _testsWriter;
         private volatile bool _isDisposed;
 
@@ -26,6 +27,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
             [NotNull] ITeamCityArtifactsWriter artifactsWriter,
             [NotNull] ITeamCityBuildStatusWriter statusWriter,
             [NotNull] ITeamCityFlowWriter<ITeamCityWriter> flowWriter,
+            [NotNull] ITeamCityProgressWriter progressWriter,
             [NotNull] IDisposable disposeCallback)
         {
             if (processor == null) throw new ArgumentNullException(nameof(processor));
@@ -36,6 +38,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
             if (artifactsWriter == null) throw new ArgumentNullException(nameof(artifactsWriter));
             if (statusWriter == null) throw new ArgumentNullException(nameof(statusWriter));
             if (flowWriter == null) throw new ArgumentNullException(nameof(flowWriter));
+            if (progressWriter == null) throw new ArgumentNullException(nameof(progressWriter));
             if (disposeCallback == null) throw new ArgumentNullException(nameof(disposeCallback));
             _processor = processor;
             _blockWriter = blockWriter;
@@ -45,6 +48,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
             _artifactsWriter = artifactsWriter;
             _statusWriter = statusWriter;
             _flowWriter = flowWriter;
+            _progressWriter = progressWriter;
             _dispose = disposeCallback;
         }
 
@@ -59,6 +63,13 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
             if (buildNumber == null) throw new ArgumentNullException(nameof(buildNumber));
             CheckConsistency();
             _statusWriter.WriteBuildNumber(buildNumber);
+        }
+
+        public void WriteBuildProblem(string description)
+        {
+            if (description == null) throw new ArgumentNullException(nameof(description));
+            CheckConsistency();
+            _statusWriter.WriteBuildProblem(description);
         }
 
         public void WriteBuildProblem(string identity, string message)
@@ -104,6 +115,20 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
             if (text == null) throw new ArgumentNullException(nameof(text));
             CheckConsistency();
             _messageWriter.WriteError(text, errorDetails);
+        }
+
+        public void WriteProgress(string message)
+        {
+            if (message == null) throw new ArgumentNullException(nameof(message));
+            CheckConsistency();
+            _progressWriter.WriteProgress(message);
+        }
+
+        public IDisposable OpenProgress(string message)
+        {
+            if (message == null) throw new ArgumentNullException(nameof(message));
+            CheckConsistency();
+            return _progressWriter.OpenProgress(message);
         }
 
         public virtual void Dispose()

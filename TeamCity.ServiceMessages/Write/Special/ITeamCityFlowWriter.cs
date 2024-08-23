@@ -6,9 +6,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special
 
     /// <summary>
     /// Starts another flowId reporting starting. This call would emmit
-    /// <pre>##teamcity[flowStarted flowId='%lt;new flow id>' parent='current flow id']</pre>
+    /// <pre>##teamcity[flowStarted flowId='&lt;new flow id>' parent='current flow id']</pre>
     /// and
-    /// <pre>##teamcity[flowFinished flowId='%lt;new flow id>']</pre>
+    /// <pre>##teamcity[flowFinished flowId='&lt;new flow id>']</pre>
     /// on writer dispose
     /// </summary>
     /// <remarks>

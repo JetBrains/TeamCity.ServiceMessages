@@ -18,6 +18,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer
             PostMessage(new ValueServiceMessage("buildNumber", buildNumber));
         }
 
+        public void WriteBuildProblem(string description)
+        {
+            if (description == null) throw new ArgumentNullException(nameof(description));
+            PostMessage(new ServiceMessage("buildProblem") {{"description", description}});
+        }
+
         public void WriteBuildProblem(string identity, string message)
         {
             if (identity == null) throw new ArgumentNullException(nameof(identity));

@@ -21,6 +21,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
                 new TeamCityMessageWriter(processor),
                 new TeamCityArtifactsWriter(processor),
                 new TeamCityBuildStatusWriter(processor),
+                new TeamCityProgressWriter(processor),
                 dispose)
         {
             if (processor == null) throw new ArgumentNullException(nameof(processor));
@@ -36,8 +37,9 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
             [NotNull] ITeamCityMessageWriter messageWriter,
             [NotNull] ITeamCityArtifactsWriter artifactsWriter,
             [NotNull] ITeamCityBuildStatusWriter statusWriter,
+            [NotNull] ITeamCityProgressWriter progressWriter,
             [NotNull] IDisposable dispose)
-            : base(processor, blockWriter, compilationWriter, testsWriter, messageWriter, artifactsWriter, statusWriter, flowWriter, dispose)
+            : base(processor, blockWriter, compilationWriter, testsWriter, messageWriter, artifactsWriter, statusWriter, flowWriter,  progressWriter, dispose)
         {
             if (processor == null) throw new ArgumentNullException(nameof(processor));
             if (flowWriter == null) throw new ArgumentNullException(nameof(flowWriter));
@@ -47,6 +49,7 @@ namespace JetBrains.TeamCity.ServiceMessages.Write.Special.Impl
             if (messageWriter == null) throw new ArgumentNullException(nameof(messageWriter));
             if (artifactsWriter == null) throw new ArgumentNullException(nameof(artifactsWriter));
             if (statusWriter == null) throw new ArgumentNullException(nameof(statusWriter));
+            if (progressWriter == null) throw new ArgumentNullException(nameof(progressWriter));
             if (dispose == null) throw new ArgumentNullException(nameof(dispose));
             _writeCheck = new ISubWriter[] {blockWriter, compilationWriter, testsWriter, flowWriter};
         }

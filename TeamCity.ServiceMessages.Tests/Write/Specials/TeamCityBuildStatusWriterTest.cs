@@ -21,6 +21,12 @@ namespace JetBrains.TeamCity.ServiceMessages.Tests.Write.Specials
         }
 
         [Test]
+        public void TestBuildProblemWithoutIdentity()
+        {
+            DoTest(x => x.WriteBuildProblem("aaaa"), "##teamcity[buildProblem description='aaaa']");
+        }
+
+        [Test]
         public void TestBuildProblem()
         {
             DoTest(x => x.WriteBuildProblem("id5", "aaaa"), "##teamcity[buildProblem identity='id5' description='aaaa']");
